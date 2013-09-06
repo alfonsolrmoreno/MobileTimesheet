@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>projeto_alf</title>
+
+  <link href="css/codiqa.ext.min.css" rel="stylesheet">
+  <link href="css/jquery.mobile.theme-1.3.1.min.css" rel="stylesheet">
+  <link href="css/theme.css" rel="stylesheet">
+  <link href="css/jquery.mobile.structure-1.3.1.min.css" rel="stylesheet">
+  <link href="css/projeto_alf.css" rel="stylesheet">
+
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/jquery.mobile-1.3.1.min.js"></script>
+  <script src="js/codiqa.ext.min.js"></script>
+  <script src="js/projeto_alf.js"></script>
+</head>
+<body>
+  <div data-role="page" data-control-title="Home" id="page1">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Header
+          </h3>
+      </div>
+      <div data-role="content">
+          <a data-role="button" href="#page2">
+              ir p p1
+          </a>
+          <a data-role="button" href="#page3">
+              ir p p2
+          </a>
+          <div>
+              <a href="" data-transition="fade">
+                  Link
+              </a>
+          </div>
+          <div style="" data-controltype="image">
+              <img style="width: 288px; height: 200px" src="images/PROMOO 3.jpg">
+          </div>
+      </div>
+      <div data-role="tabbar" data-iconpos="top" data-theme="a">
+          <ul>
+              <li>
+                  <a href="#page1" data-transition="fade" data-theme="" data-icon="home"
+                  class="ui-btn-active ui-state-persist">
+                      One
+                  </a>
+              </li>
+              <li>
+                  <a href="#page3" data-transition="fade" data-theme="" data-icon="star">
+                      Dois
+                  </a>
+              </li>
+              <li>
+                  <a href="#" data-transition="fade" data-theme="" data-icon="info">
+                      Three
+                  </a>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="pagina 1" id="page2">
+      <div data-role="content">
+          <a id="botao_voltar_p1" data-role="button" href="#page1">
+              voltar
+          </a>
+          <ul data-role="listview" data-divider-theme="b" data-inset="true">
+              <li data-role="list-divider" role="heading">
+                  Divider
+              </li>
+              <li data-theme="c">
+                  <a href="" data-transition="slide">
+                      Button
+                  </a>
+              </li>
+              <li data-theme="c">
+                  <a href="#page1" data-transition="slide">
+                      Button2
+                  </a>
+              </li>
+          </ul>
+          <div data-role="fieldcontain" data-controltype="selectmenu">
+              <label for="selectmenu1">
+                  Choose:
+              </label>
+              <select id="selectmenu1" name="">
+                  <option value="option1">
+                      Option 1
+                  </option>
+                  <option value="value">
+                      Option 2
+                  </option>
+                  <option value="value">
+                      Option 3
+                  </option>
+              </select>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="pagina 2" id="page3">
+      <div data-role="content">
+          <a data-role="button" href="#page1">
+              voltar
+          </a>
+          <hr style="height:3px; background-color:#ccc; border:0; margin-top:12px; margin-bottom:12px;">
+          <div class="ui-grid-b">
+              <div class="ui-block-a">
+              </div>
+              <div class="ui-block-b">
+              </div>
+              <div class="ui-block-c">
+              </div>
+              <div class="ui-block-a">
+              </div>
+              <div class="ui-block-b">
+              </div>
+              <div class="ui-block-c">
+              </div>
+              <div class="ui-block-a">
+              </div>
+              <div class="ui-block-b">
+              </div>
+              <div class="ui-block-c">
+              </div>
+          </div>
+      </div>
+  </div>
+</body>
+</html>
