@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <title>projeto_alf</title>
+
+  <link href="css/codiqa.ext.min.css" rel="stylesheet">
+  <link href="css/jquery.mobile.theme-1.3.1.min.css" rel="stylesheet">
+  <link href="css/theme.css" rel="stylesheet">
+  <link href="css/jquery.mobile.structure-1.3.1.min.css" rel="stylesheet">
+  <link href="css/projeto_alf.css" rel="stylesheet">
+
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/jquery.mobile-1.3.1.min.js"></script>
+  <script src="js/codiqa.ext.min.js"></script>
+  <script src="js/projeto_alf.js"></script>
+</head>
+<body>
+  <div data-role="page" data-control-title="Alf Celular" id="page1">
+      <div data-theme="a" data-role="header">
+          <h3 id="cab">
+              MultidadosTI
+          </h3>
+      </div>
+      <div data-role="content">
+          <div style="" data-controltype="image">
+              <img style="width: 290px; height: 77px" src="images/logo-multi.jpg">
+          </div>
+          <a data-role="button" href="#page1">
+              TimeSheet
+          </a>
+          <a data-role="button" href="#page1">
+              Despesas
+          </a>
+          <a data-role="button" href="#page1">
+              Service-Desk
+          </a>
+          <a data-role="button" href="#page1">
+              Call-Center
+          </a>
+      </div>
+      <div data-role="tabbar" data-iconpos="top" data-theme="a">
+          <ul>
+              <li>
+                  <a href="#page1" data-transition="fade" data-theme="" data-icon="star">
+                      Fotos
+                  </a>
+              </li>
+              <li>
+                  <a href="#page2" data-transition="fade" data-theme="" data-icon="star">
+                      Mapa
+                  </a>
+              </li>
+              <li>
+                  <a href="#page3" data-transition="fade" data-theme="" data-icon="alert">
+                      Youtube
+                  </a>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Mapa" id="page2">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Mapa
+          </h3>
+          <div id="googlemapsjs1" class="google-map" style="width: 288px; height: 400px; margin-left: auto; margin-right: auto">
+          </div>
+          <script type="text/javascript">
+                  window.CodiqaControls && window.CodiqaControls.register('googlemaps', 'googlemapsjs1', {
+              ready: function(control) {
+  
+                  control.options = {
+                      zoom: 14,
+                      mapTypeId: google.maps.MapTypeId.ROADMAP
+                  };
+  
+                  control.el = document.getElementById(control._id);
+                  control.map = new google.maps.Map(control.el, control.options);
+  
+                  var geocoder = new google.maps.Geocoder();
+                  geocoder.geocode({
+                      'address': 'av santo albano, 409 - sao paulo, sp'
+                  }, function(results, status) {
+                      if (status == google.maps.GeocoderStatus.OK) {
+  
+                          var marker = new google.maps.Marker({
+                              map: control.map,
+                              position: results[0].geometry.location
+                          });
+                          control.center = results[0].geometry.location;
+                          control.map.setCenter(control.center);
+                      }
+                  });
+  
+              }
+          });
+          </script>
+      </div>
+      <div data-role="content">
+          <a id="botao_voltar_p1" data-role="button" href="#page1">
+              voltar
+          </a>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Youtube" id="page3">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Videos no Celular
+          </h3>
+          <div data-role="fieldcontain" data-controltype="textinput">
+              <label for="textinput1">
+                  Digite o ID do seu vídeo no Youtóba
+              </label>
+              <input name="id-video" id="textinput1" placeholder="" value="NZb0XKHgtjo"
+              type="text">
+          </div>
+      </div>
+      <div data-role="content">
+          <iframe id="youtube1" type="text/html" src="http://www.youtube.com/embed/NZb0XKHgtjo"
+          frameborder="0" height="216px" width="288px">
+          </iframe>
+          <a data-role="button" href="#page1">
+              voltar
+          </a>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Fotos" id="page5">
+      <div data-theme="a" data-role="header">
+          <h3>
+              Fotos Cabeçalho
+          </h3>
+      </div>
+      <div data-role="content">
+          <div data-role="fieldcontain">
+              <label for="id-foto">
+                  Carregue ou tire a sua foto
+              </label>
+              <input name="" id="id-foto" accept="image/*" capture="camera" type="file">
+          </div>
+      </div>
+      <div data-role="tabbar" data-iconpos="top" data-theme="a">
+          <ul>
+              <li>
+                  <a href="#page1" data-transition="fade" data-theme="" data-icon="star">
+                      Fotos
+                  </a>
+              </li>
+              <li>
+                  <a href="#page2" data-transition="fade" data-theme="" data-icon="star">
+                      Mapa
+                  </a>
+              </li>
+              <li>
+                  <a href="#page3" data-transition="fade" data-theme="" data-icon="alert">
+                      Youtube
+                  </a>
+              </li>
+          </ul>
+      </div>
+      <div data-theme="a" data-role="footer" data-position="fixed">
+          <h3>
+              Fotos Rodapé
+          </h3>
+      </div>
+  </div>
+</body>
+</html>
