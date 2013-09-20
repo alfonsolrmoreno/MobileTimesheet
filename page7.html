@@ -23,7 +23,7 @@
           </h3>
       </div>
       <div data-role="content">
-          <div data-role="fieldcontain" data-controltype="radiobuttons">
+          <div id="sexo" data-role="fieldcontain" data-controltype="radiobuttons">
               <fieldset data-role="controlgroup" data-type="vertical">
                   <legend>
                       Sexo
@@ -42,24 +42,37 @@
                   </label>
               </fieldset>
           </div>
-          <div id="checkboxes1" data-role="fieldcontain" data-controltype="checkboxes">
+          <div id="ferrari" data-role="fieldcontain" data-controltype="checkboxes">
               <fieldset data-role="controlgroup" data-type="vertical">
                   <legend>
                       Quer ganhar uma Ferrari ?
                   </legend>
-                  <input id="checkbox1" name="" type="checkbox"/>
+                  <input id="checkbox1" name="ferrari" type="checkbox"/>
                   <label for="checkbox1">
                       Sim
                   </label>
               </fieldset>
           </div>
+          <div data-role="fieldcontain" data-controltype="toggleswitch">
+              <label for="on-off">
+                  Happy-hour ?
+              </label>
+              <select name="toggleswitch2" id="on-off" data-theme="" data-role="slider">
+                  <option value="off">
+                      Off
+                  </option>
+                  <option value="on">
+                      On
+                  </option>
+              </select>
+          </div>
           <div>
-              <a href="www.multidadosti.com.br" target="_blank" data-transition="fade">
+              <a id="m1" href="www.multidaadosti.com.br" target="_blank" data-transition="fade">
                   www.multidadosti.com.br
               </a>
           </div>
       </div>
-      <div data-role="tabbar" data-iconpos="top" data-theme="a">
+      <div id="v6" data-role="tabbar" data-iconpos="top" data-theme="a">
           <ul>
               <li>
                   <a href="page10.html" data-transition="fade" data-theme="" data-icon="arrow-l">
@@ -67,12 +80,12 @@
                   </a>
               </li>
               <li>
-                  <a href="#" data-transition="fade" data-theme="" data-icon="home">
+                  <a href="index.html" data-transition="fade" data-theme="" data-icon="home">
                       Home
                   </a>
               </li>
               <li>
-                  <a href="index.html" data-transition="fade" data-theme="" data-icon="refresh">
+                  <a href="page7.html" data-transition="fade" data-theme="" data-icon="refresh">
                       Refresh
                   </a>
               </li>
