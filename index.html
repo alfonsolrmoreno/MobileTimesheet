@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Alf Celular | projeto_alf</title>
+  <title>Mobile - Multidados</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -13,53 +13,225 @@
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/jquery.mobile-1.3.1.min.js"></script>
   <script src="js/codiqa.ext.min.js"></script>
-  <script src="js/projeto_alf.js"></script>
+  <script src="js/mobile-multidados.js"></script>
+
+  <!-- Código padrão Multidados -->
+  <link href="default/css/css.css" rel="stylesheet">
+  <script src="default/js/default.js"></script>
+
 </head>
 <body>
-  <div data-role="page" data-control-title="Alf Celular" id="page1">
-      <div data-theme="a" data-role="header">
-          <h3 id="cab">
-              MultidadosTI
+  <div data-role="page" data-control-title="Login Multidados" data-theme="b"
+  id="page_login" style="background: url('img/bg_app.jpg') no-repeat"
+  class="class_page">
+      <div data-role="content" style="padding: 0px">
+          <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
+              <p>
+                  &nbsp;
+              </p>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_usuario">
+              <label for="usuario">
+                  Usuário
+              </label>
+              <input name="usuario" id="usuario" placeholder="" value="" type="text">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_senha">
+              <label for="senha">
+                  Senha
+              </label>
+              <input name="senha" id="senha" placeholder="" value="" type="password">
+          </div>
+          <a id="botao_entrar" data-role="button" href="#page_home" data-icon="arrow-r"
+          data-iconpos="right" class="box_btentrar">
+              Entrar
+          </a>
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Página em Construção" data-theme="b"
+  id="page5" style="background: url('img/bg_app.jpg') no-repeat"
+  class="class_page">
+      <div data-role="content" style="padding: 0px">
+          <div data-controltype="htmlblock" class="box_logotipo">
+              <p>
+                  &nbsp;
+              </p>
+          </div>
+          <div id="box_pagina_construcao" data-controltype="htmlblock" class="box_pagina_construcao">
+              <p>
+                  <strong>
+                      Página em Construção
+                  </strong>
+              </p>
+          </div>
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Home Page Multidados" data-theme="b"
+  id="page_home" style="background: url('img/bg_app.jpg') no-repeat"
+  class="class_page">
+      <div data-role="content" style="padding: 0px">
+          <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
+              <p>
+                  &nbsp;
+              </p>
+          </div>
+          <div id="grid_icones" class="ui-grid-b grid_icones">
+              <div class="ui-block-a">
+                  <a id="icon_timesheet" data-role="button" href="#page_timesheet" class="icon_timesheet">
+                      Timesheet
+                  </a>
+              </div>
+              <div class="ui-block-b">
+                  <a id="icon_despesa" data-role="button" href="#page5" class="icon_despesa">
+                      Despesas
+                  </a>
+              </div>
+              <div class="ui-block-c">
+                  <a id="icon_ocorrencia" data-role="button" href="#page5" class="icon_ocorrencia">
+                      Ocorrências
+                  </a>
+              </div>
+              <div class="ui-block-a">
+                  <a id="icon_contato" data-role="button" href="#page5" class="icon_contato">
+                      Contatos
+                  </a>
+              </div>
+              <div class="ui-block-b">
+                  <a id="icon_scheduler" data-role="button" href="#page5" class="icon_scheduler">
+                      Scheduler
+                  </a>
+              </div>
+              <div class="ui-block-c">
+                  <a id="icon_dashboard" data-role="button" href="#page5" class="icon_dashboard">
+                      Dashboard
+                  </a>
+              </div>
+              <div class="ui-block-a">
+              </div>
+              <div class="ui-block-b">
+              </div>
+              <div class="ui-block-c">
+              </div>
+          </div>
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Timesheet" data-theme="b" id="page_timesheet">
+      <div id="header_default" data-theme="b" data-role="header" class="header_default">
+          <a data-role="button" data-theme="a" href="#page_timesheet" data-icon="check"
+          data-iconpos="left" class="ui-btn-right">
+              Salvar
+          </a>
+          <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
+          data-iconpos="left" class="ui-btn-left">
+              Voltar
+          </a>
+          <h3 id="header" class="header">
+              Multidados
           </h3>
       </div>
-      <div data-role="content">
-          <div style="" data-controltype="image">
-              <img style="width: 290px; height: 77px" src="img/logo-multi.jpg"/>
+      <div data-role="content" style="padding: 0px">
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="codigo_cliente">
+                  Cliente
+              </label>
+              <input name="codigo_cliente" id="codigo_cliente" placeholder="" value=""
+              type="search">
           </div>
-          <a data-role="button" href="page10.html">
-              TimeSheet
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="codigo_projeto">
+                  Projeto
+              </label>
+              <input name="codigo_projeto" id="codigo_projeto" placeholder="" value=""
+              type="search">
+          </div>
+          <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
+              <label for="codigo_fase">
+                  Fase
+              </label>
+              <select id="codigo_fase" name="codigo_fase" data-theme="c">
+                  <option value="option1">
+                      Option 1
+                  </option>
+              </select>
+          </div>
+          <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
+              <label for="codigo_atividade">
+                  Atividade
+              </label>
+              <select id="codigo_atividade" name="codigo_atividade" data-theme="c">
+                  <option value="option1">
+                      Option 1
+                  </option>
+              </select>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="data_trabalhada">
+                  Data
+              </label>
+              <input name="data_trabalhada" id="data_trabalhada" placeholder="" value=""
+              type="date">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="hora_inicial">
+                  Hora Inicial
+              </label>
+              <input name="hora_inicial" id="hora_inicial" placeholder="" value="" type="time">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="hora_final">
+                  Hora Final
+              </label>
+              <input name="hora_final" id="hora_final" placeholder="" value="" type="time">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
+              <label for="narrativa_principal">
+                  Narrativa
+              </label>
+              <textarea name="narrativa_principal" id="narrativa_principal" placeholder=""></textarea>
+          </div>
+          <a id="box_form" data-role="button" href="#page_timesheet" data-icon="check"
+          data-iconpos="right" class="box_form">
+              Salvar
           </a>
-          <a data-role="button" href="page6.html">
-              Despesas
-          </a>
-          <a data-role="button" href="index.html">
-              Service-Desk
-          </a>
-          <a data-role="button" data-transition="pop" href="page7.html" data-icon="ios-pack-color-grid" data-iconpos="left" data-iconsize="26">
-              Diversos UM
-          </a>
-          <ul id="Sub-menu" data-role="listview" data-divider-theme="b" data-inset="true">
-              <li data-role="list-divider" role="heading">
-                  Sub-Menu
-              </li>
-              <li data-theme="c">
-                  <a href="page2.html" data-transition="slide">
-                      Mapa
-                  </a>
-              </li>
-              <li data-theme="c">
-                  <a href="page3.html" data-transition="slide">
-                      Youtube
-                  </a>
-              </li>
-          </ul>
-          <a id="fone" data-role="button" href="tel:0151125798789" data-icon="ios-pack-color-info" data-iconpos="left" data-iconsize="26">
-              Ligue DJÁ !
-          </a>
-          <div>
-              <a id="link" href="http://www.multidadosti.com.br" target="_blank" data-transition="fade">
-                  (c) Powered by Multidadosti.com.br
-              </a>
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
           </div>
       </div>
   </div>

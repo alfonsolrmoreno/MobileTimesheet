@@ -1,0 +1,85 @@
+.box_form, .box_usuario, .box_senha, .box_btentrar
+{
+	margin:0px 30px 0px 30px;
+}
+
+#page_home
+{
+	padding:0px;
+	padding-bottom:50px;
+}
+
+.class_page
+{
+	background-position:top;
+	background-size:cover !important;
+}
+
+.box_logotipo
+{
+	height:90px !important;
+}
+
+.box_pagina_construcao
+{
+	text-align:center;
+	font-size:23px;
+	letter-spacing:-1px;
+}
+
+.icon_timesheet
+{
+	width:90px;
+	height:90px;
+	background: url('../../default/img/icon_timesheet.png') no-repeat center;
+	border:0px;
+	display:block;
+	text-indent:-5000px;
+}
+
+.icon_despesa
+{
+	width:90px;
+	height:90px;
+	background: url('../../default/img/icon_despesa.png') no-repeat center;
+	border:0px;
+	display:block;
+	text-indent:-5000px;
+}
+
+.icon_ocorrencias, .icon_ocorrencia
+{
+	width:90px;
+	height:90px;
+	background: url('../../default/img/icon_ocorrencia.png') no-repeat center;
+	border:0px;
+	display:block;
+	text-indent:-5000px;
+}
+.icon_scheduler
+{
+	width:90px;
+	height:90px;
+	background: url('../../default/img/icon_scheduler.png') no-repeat center;
+	border:0px;
+	display:block;
+	text-indent:-5000px;
+}
+.icon_contato
+{
+	width:90px;
+	height:90px;
+	background: url('../../default/img/icon_contato.png') no-repeat center;
+	border:0px;
+	display:block;
+	text-indent:-5000px;
+}
+.icon_dashboard
+{
+	width:90px;
+	height:90px;
+	background: url('../../default/img/icon_dashboard.png') no-repeat center;
+	border:0px;
+	display:block;
+	text-indent:-5000px;
+}

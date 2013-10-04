@@ -1,0 +1,5 @@
+
+
+  <!-- Código padrão Multidados -->
+  <link href="default/css/css.css" rel="stylesheet">
+  <script src="default/js/default.js"></script>
