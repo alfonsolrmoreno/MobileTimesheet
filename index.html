@@ -147,7 +147,7 @@
   </div>
   <div data-role="page" data-control-title="Timesheet" data-theme="b" id="page_timesheet">
       <div id="header_default" data-theme="b" data-role="header" class="header_default">
-          <a data-role="button" data-theme="a" href="#page_timesheet" data-icon="check"
+          <a data-role="button" data-theme="a" href="javascript:salvar_timesheet();" data-icon="check"
           data-iconpos="left" class="ui-btn-right">
               Salvar
           </a>
@@ -164,23 +164,23 @@
               <label for="codigo_cliente">
                   Cliente
               </label>
-              <input name="codigo_cliente" id="codigo_cliente" placeholder="" value=""
-              type="search">
+              <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>
+    		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" />
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="codigo_projeto">
                   Projeto
               </label>
-              <input name="codigo_projeto" id="codigo_projeto" placeholder="" value=""
-              type="search">
+				<ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul>
+				<input type="hidden" name="codigo" id="codigo" />
           </div>
           <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_fase">
                   Fase
               </label>
-              <select id="codigo_fase" name="codigo_fase" data-theme="c">
-                  <option value="option1">
-                      Option 1
+				<select id="utbms_fase" name="codigo_fase" data-theme="c">
+	                  <option value="">
+	                      Escolha uma fase
                   </option>
               </select>
           </div>
@@ -188,9 +188,9 @@
               <label for="codigo_atividade">
                   Atividade
               </label>
-              <select id="codigo_atividade" name="codigo_atividade" data-theme="c">
-                  <option value="option1">
-                      Option 1
+				<select id="utbms_atividade" name="codigo_fase" data-theme="c">
+		                  <option value="">
+		                      Escolha uma atividade
                   </option>
               </select>
           </div>
@@ -219,8 +219,10 @@
               </label>
               <textarea name="narrativa_principal" id="narrativa_principal" placeholder=""></textarea>
           </div>
-          <a id="box_form" data-role="button" href="#page_timesheet" data-icon="check"
-          data-iconpos="right" class="box_form">
+          
+             
+          <a data-role="button" href="javascript:salvar_timesheet();" data-icon="check" data-iconpos="right"
+          class="box_form">
               Salvar
           </a>
           <div data-controltype="htmlblock" class="footer_powered">
