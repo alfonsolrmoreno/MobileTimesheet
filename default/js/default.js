@@ -1,4 +1,4 @@
-var COMMON_URL_MOBILE = 'http://multidadosti.com/fgv/mobile/';
+var COMMON_URL_MOBILE = 'http://www.multidadosti.com/fgv/mobile/';
 
 function salvar_timesheet()
 {
