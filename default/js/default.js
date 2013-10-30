@@ -4,8 +4,6 @@ function salvar_timesheet()
 {
 	var dados = new Object();
 
-	alert('ssssssss');
-
 	dados['USUARIO_WS'] 				= 'multidados';
 	dados['SENHA_WS'] 					= 'multi';
 	dados['CNPJ_EMPRESA'] 				= '00.000.000/0000-00';
@@ -25,9 +23,6 @@ function salvar_timesheet()
 
 	var ajax_file = COMMON_URL_MOBILE+'client.php';
 
-
-	alert('zzazazazazazaza');
-
 	$.ajax({
 		type : 'POST',
 		url: ajax_file,
@@ -42,7 +37,6 @@ function salvar_timesheet()
 	})
 	.then( function ( response )
 	{
-		alert(response);
 		if(response == 'T')
 		{
 			alert("Registro gravado com sucesso!");
