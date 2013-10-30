@@ -15,10 +15,10 @@
   <script src="js/codiqa.ext.min.js"></script>
   <script src="js/mobile-multidados.js"></script>
 
-  <!-- CÃ³digo padrÃ£o Multidados -->
+  <!-- configuracoes Multidados -->
   <link href="default/css/css.css" rel="stylesheet">
   <script src="default/js/default.js"></script>
-
+  <!-- fim configuracoes Multidados -->
 </head>
 <body>
   <div data-role="page" data-control-title="Login Multidados" data-theme="b"
@@ -32,7 +32,7 @@
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_usuario">
               <label for="usuario">
-                  UsuÃ¡rio
+                  Usuário
               </label>
               <input name="usuario" id="usuario" placeholder="" value="" type="text">
           </div>
@@ -44,21 +44,21 @@
           </div>
           <a id="botao_entrar" data-role="button" href="#page_home" data-icon="arrow-r"
           data-iconpos="right" class="box_btentrar">
-              Entrar - HOJE
+              Entrar
           </a>
           <div data-controltype="htmlblock" class="footer_powered">
               <div>
                   <br>
                   <br>
                   <p style="text-align:center; font-size:10px">
-                      Powered by MultidadosTI Â©
+                      Powered by MultidadosTI ©
                   </p>
                   <br>
               </div>
           </div>
       </div>
   </div>
-  <div data-role="page" data-control-title="PÃ¡gina em ConstruÃ§Ã£o" data-theme="b"
+  <div data-role="page" data-control-title="Página em Construção" data-theme="b"
   id="page5" style="background: url('img/bg_app.jpg') no-repeat"
   class="class_page">
       <div data-role="content" style="padding: 0px">
@@ -70,20 +70,20 @@
           <div id="box_pagina_construcao" data-controltype="htmlblock" class="box_pagina_construcao">
               <p>
                   <strong>
-                      PÃ¡gina em ConstruÃ§Ã£o
+                      Página em Construção
                   </strong>
               </p>
-          <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
-          data-iconpos="left" class="ui-btn-left">
-              Voltar
-          </a>
           </div>
+          <a id="bt_voltar" data-role="button" href="#page_home" data-icon="home"
+          data-iconpos="left" class="bt_voltar">
+              Voltar para a home
+          </a>
           <div data-controltype="htmlblock" class="footer_powered">
               <div>
                   <br>
                   <br>
                   <p style="text-align:center; font-size:10px">
-                      Powered by MultidadosTI Â©
+                      Powered by MultidadosTI ©
                   </p>
                   <br>
               </div>
@@ -112,7 +112,7 @@
               </div>
               <div class="ui-block-c">
                   <a id="icon_ocorrencia" data-role="button" href="#page5" class="icon_ocorrencia">
-                      OcorrÃªncias
+                      Ocorrências
                   </a>
               </div>
               <div class="ui-block-a">
@@ -133,6 +133,10 @@
               <div class="ui-block-a">
               </div>
               <div class="ui-block-b">
+                  <a id="icon_sair" data-role="button" href="#page_login" data-icon="arrow-l"
+                  data-iconpos="left" class="icon_sair">
+                      Sair
+                  </a>
               </div>
               <div class="ui-block-c">
               </div>
@@ -142,7 +146,7 @@
                   <br>
                   <br>
                   <p style="text-align:center; font-size:10px">
-                      Powered by MultidadosTI Â©
+                      Powered by MultidadosTI ©
                   </p>
                   <br>
               </div>
@@ -151,8 +155,8 @@
   </div>
   <div data-role="page" data-control-title="Timesheet" data-theme="b" id="page_timesheet">
       <div id="header_default" data-theme="b" data-role="header" class="header_default">
-          <a data-role="button" data-theme="a" href="javascript:salvar_timesheet();" data-icon="check"
-          data-iconpos="left" class="ui-btn-right">
+          <a id="save_timecard_top" data-role="button" data-theme="a" href="#page_timesheet"
+          data-icon="check" data-iconpos="left" class="ui-btn-right">
               Salvar
           </a>
           <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
@@ -165,26 +169,35 @@
       </div>
       <div data-role="content" style="padding: 0px">
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="data_trabalhada">
+                  Data
+              </label>
+              <input name="data_trabalhada" id="data_trabalhada" placeholder="" value=""
+              type="date">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="codigo_cliente">
                   Cliente
               </label>
+              <div style="margin: 15px 5px">
               <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>
-    		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" />
+    		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" /></div>
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="codigo_projeto">
                   Projeto
               </label>
+				<div style="margin: 15px 5px">
 				<ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul>
-				<input type="hidden" name="codigo" id="codigo" />
+				<input type="hidden" name="codigo" id="codigo" /></div>
           </div>
           <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_fase">
                   Fase
               </label>
-				<select id="utbms_fase" name="codigo_fase" data-theme="c">
-	                  <option value="">
-	                      Escolha uma fase
+              <select id="codigo_fase" name="codigo_fase" data-theme="c">
+                  <option value="">
+                      Selecione uma fase
                   </option>
               </select>
           </div>
@@ -192,18 +205,11 @@
               <label for="codigo_atividade">
                   Atividade
               </label>
-				<select id="utbms_atividade" name="codigo_atividade" data-theme="c">
-		                  <option value="">
-		                      Escolha uma atividade
+              <select id="codigo_atividade" name="codigo_atividade" data-theme="c">
+                  <option value="">
+                      Selecione uma atividade
                   </option>
               </select>
-          </div>
-          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-              <label for="data_trabalhada">
-                  Data
-              </label>
-              <input name="data_trabalhada" id="data_trabalhada" placeholder="" value=""
-              type="date">
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="hora_inicial">
@@ -223,10 +229,8 @@
               </label>
               <textarea name="narrativa_principal" id="narrativa_principal" placeholder=""></textarea>
           </div>
-          
-             
-          <a data-role="button" href="javascript:salvar_timesheet();" data-icon="check" data-iconpos="right"
-          class="box_form">
+          <a id="save_timecard_bottom" data-role="button" href="#page_timesheet" data-icon="check"
+          data-iconpos="right" class="box_form">
               Salvar
           </a>
           <div data-controltype="htmlblock" class="footer_powered">
@@ -234,7 +238,7 @@
                   <br>
                   <br>
                   <p style="text-align:center; font-size:10px">
-                      Powered by MultidadosTI Â©
+                      Powered by MultidadosTI ©
                   </p>
                   <br>
               </div>
