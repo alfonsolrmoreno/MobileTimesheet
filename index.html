@@ -14,11 +14,10 @@
   <script src="js/jquery.mobile-1.3.1.min.js"></script>
   <script src="js/codiqa.ext.min.js"></script>
   <script src="js/mobile-multidados.js"></script>
-
   <!-- configuracoes Multidados -->
   <link href="default/css/css.css" rel="stylesheet">
   <script src="default/js/default.js"></script>
-  <!-- fim configuracoes Multidados -->
+  <!-- fim configuracoes Multidados -->  
 </head>
 <body>
   <div data-role="page" data-control-title="Login Multidados" data-theme="b"
@@ -30,9 +29,15 @@
                   &nbsp;
               </p>
           </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_url">
+              <label for="url">
+                  URL do Sistema
+              </label>
+              <input name="url" id="url" placeholder="" value="" type="text">
+          </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_usuario">
               <label for="usuario">
-                  Usuário
+                  Usu&aacute;rio 
               </label>
               <input name="usuario" id="usuario" placeholder="" value="" type="text">
           </div>
@@ -42,7 +47,7 @@
               </label>
               <input name="senha" id="senha" placeholder="" value="" type="password">
           </div>
-          <a id="botao_entrar" data-role="button" href="#page_home" data-icon="arrow-r"
+          <a id="botao_entrar" data-role="button" href="javascript:;" data-icon="arrow-r"
           data-iconpos="right" class="box_btentrar">
               Entrar
           </a>
@@ -58,7 +63,7 @@
           </div>
       </div>
   </div>
-  <div data-role="page" data-control-title="Página em Construção" data-theme="b"
+  <div data-role="page" data-control-title="PÃ¡gina em ConstruÃ§Ã£o" data-theme="b"
   id="page5" style="background: url('img/bg_app.jpg') no-repeat"
   class="class_page">
       <div data-role="content" style="padding: 0px">
@@ -70,7 +75,7 @@
           <div id="box_pagina_construcao" data-controltype="htmlblock" class="box_pagina_construcao">
               <p>
                   <strong>
-                      Página em Construção
+                      P&aacute;gina em constru&ccedil;&atilde;o
                   </strong>
               </p>
           </div>
@@ -94,25 +99,25 @@
   id="page_home" style="background: url('img/bg_app.jpg') no-repeat"
   class="class_page">
       <div data-role="content" style="padding: 0px">
-          <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
+          <div data-controltype="htmlblock" class="box_logotipo">
               <p>
                   &nbsp;
               </p>
           </div>
           <div id="grid_icones" class="ui-grid-b grid_icones">
               <div class="ui-block-a">
-                  <a id="icon_timesheet" data-role="button" href="#page_timesheet" class="icon_timesheet">
+                  <a id="icon_timesheet" data-role="button" href="#page_relatorio" class="icon_timesheet">
                       Timesheet
                   </a>
               </div>
               <div class="ui-block-b">
-                  <a id="icon_despesa" data-role="button" href="#page5" class="icon_despesa">
+                  <a id="icon_despesa" data-role="button" href="#page8" class="icon_despesa">
                       Despesas
                   </a>
               </div>
               <div class="ui-block-c">
                   <a id="icon_ocorrencia" data-role="button" href="#page5" class="icon_ocorrencia">
-                      Ocorrências
+                      OcorrÃªncias
                   </a>
               </div>
               <div class="ui-block-a">
@@ -159,15 +164,16 @@
           data-icon="check" data-iconpos="left" class="ui-btn-right">
               Salvar
           </a>
-          <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
+          <a data-role="button" data-theme="a" href="#page_relatorio" data-icon="arrow-l"
           data-iconpos="left" class="ui-btn-left">
               Voltar
           </a>
           <h3 id="header" class="header">
-              Multidados
+              MultidadosTI
           </h3>
       </div>
       <div data-role="content" style="padding: 0px">
+          <input type='hidden' name='idtimecard' id='idtimecard' />
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="data_trabalhada">
                   Data
@@ -179,17 +185,19 @@
               <label for="search_cliente">
                   Cliente
               </label>
-              <div style="margin: 15px 5px">
+             <div style="margin: 15px 5px">
               <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>
-    		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" /></div>
+    		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" />
+             </div>
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="codigo_projeto">
                   Projeto
               </label>
-				<div style="margin: 15px 5px">
-				<ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul>
-				<input type="hidden" name="codigo" id="codigo" /></div>
+              <div style="margin: 15px 5px">
+                    <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul>
+                    <input type="hidden" name="codigo" id="codigo" />
+              </div>
           </div>
           <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_fase">
@@ -231,6 +239,212 @@
           </div>
           <a id="save_timecard_bottom" data-role="button" href="#page_timesheet"
           data-icon="check" data-iconpos="right" class="box_form">
+              Salvar
+          </a>
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Relatório Timesheet" data-theme="b"
+  id="page_relatorio">
+      <div data-theme="b" data-role="header" class="header_default">
+          <a id="novo_timecard_top" data-role="button" data-theme="a" href="#page_timesheet"
+          data-icon="add" data-iconpos="left" class="ui-btn-right">
+              Novo
+          </a>          
+          <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
+          data-iconpos="left" class="ui-btn-left">
+              Voltar
+          </a>
+          <h3 class="header">
+              MultidadosTI
+          </h3>
+          <div data-role="fieldcontain" data-controltype="dateinput">
+              <label for="filtro_data_trabalhada">
+                  Filtro de Data
+              </label>
+              <input name="filtro_data_trabalhada" id="filtro_data_trabalhada" placeholder="" value="" type="date" >
+          </div>
+      </div>
+      <div data-role="content" style="padding: 0px">
+            <div role="main" class="ui-content">
+                <ul id="list" data-role="listview" data-divider-theme="b"  data-split-icon="delete" style="margin-top: auto;">
+
+                </ul>
+            </div><!-- /content -->
+            <div id="confirm" class="ui-content" data-role="popup" data-theme="a">
+                <p id="question">Confirma a exclusÃ£o ?</p>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Sim</a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">NÃ£o</a>
+                    </div>
+                </div>
+            </div><!-- /popup -->
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Relatório Despesas" data-theme="b"
+  id="page8">
+      <div data-theme="b" data-role="header" class="header_default">
+          <a id="novo_despesa_top" data-role="button" data-theme="a" href="#page6"
+          data-icon="add" data-iconpos="left" class="ui-btn-right">
+              Novo
+          </a>           
+          <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
+          data-iconpos="left" class="ui-btn-left">
+              Voltar
+          </a>
+          <h3 class="header">
+              MultidadosTI
+          </h3>
+          <div data-role="fieldcontain" data-controltype="dateinput">
+              <label for="dateinput2">
+                  Filtro de Data
+              </label>
+              <input name="filtro_data_trabalhada" id="dateinput2" placeholder="" value=""
+              type="date">
+          </div>
+      </div>
+      <div data-role="content" style="padding: 0px">
+          <ul id="list_despesa" data-role="listview" data-divider-theme="b" data-inset="true" data-split-icon="delete">
+              
+          </ul>
+          <div data-controltype="htmlblock" class="footer_powered">
+              <div>
+                  <br>
+                  <br>
+                  <p style="text-align:center; font-size:10px">
+                      Powered by MultidadosTI ©
+                  </p>
+                  <br>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div data-role="page" data-control-title="Despesas" data-theme="b" id="page6">
+      <div data-theme="b" data-role="header" class="header_default">
+          <a id="save_despesa_top" data-role="button" data-theme="a" href="javascript:;" data-icon="check"
+          data-iconpos="left" class="ui-btn-right">
+              Salvar
+          </a>
+          <a data-role="button" data-theme="a" href="#page8" data-icon="arrow-l"
+          data-iconpos="left" class="ui-btn-left">
+              Voltar
+          </a>
+          <h3 class="header">
+              MultidadosTI
+          </h3>
+      </div>
+      <div data-role="content" style="padding: 0px">
+          <input type='hidden' name='idtabpreco' id='idtabpreco' />
+          <input type='hidden' name='idlctodespesa' id='idlctodespesa' />
+          <input type='hidden' name='arquivo_md5' id='arquivo_md5' >
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="textinput8">
+                  Data
+              </label>
+              <input name="data_lcto" id="data_lcto" placeholder="" value=""
+              type="date">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="textinput9">
+                  Cliente
+              </label>
+             <div style="margin: 15px 5px">
+              <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente...." data-filter-theme="c"></ul>
+    		<input type="hidden" name="idcliente_despesa" id="idcliente_despesa" />
+                
+             </div>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="textinput13">
+                  Projeto
+              </label>
+              <div style="margin: 15px 5px">
+                    <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto...." data-filter-theme="p"></ul>
+                    <input type="hidden" name="idclienteprojeto_despesa" id="idclienteprojeto_despesa" />
+              </div>
+          </div>
+          <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
+              <label for="codigo_despesa">
+                  Despesa
+              </label>
+              <select id="codigo_despesa" name="codigo_despesa" data-theme="c">
+                  <option value="">
+                      Selecione uma despesa
+                  </option>
+              </select>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="vlr_unitario">
+                  Valor Unitário
+              </label>
+              <input name="vlr_unitario" id="vlr_unitario" placeholder="" value="" type="number">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="qtde_despesa">
+                  Qtde.
+              </label>
+              <input name="qtde_despesa" id="qtde_despesa" placeholder="" value="" type="number" >
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="valor_total">
+                  Valor Total
+              </label>
+              <input name="valor_total" id="valor_total" placeholder="" value="" type="number" readonly="true" />
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="local_despesa">
+                  Local da Despesa
+              </label>
+              <input name="local_despesa" id="local_despesa" placeholder="" value=""
+              type="text">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="num_documento">
+                  Nº do documento
+              </label>
+              <input name="num_documento" id="num_documento" placeholder="" value=""
+              type="text">
+          </div>
+          <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+              <label for="arq_despesa">
+                  Documento Fiscal
+              </label>
+              <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
+                <div id="upload_arquivos">
+                  <input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" >
+                </div>
+              </form>
+          </div>
+          <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
+              <label for="textarea2">
+                  Narrativa
+              </label>
+              <textarea name="narrativa_principal_despesa" id="narrativa_principal_despesa" placeholder=""></textarea>
+          </div>
+          <a id="save_despesa_bottom" data-role="button" href="javascript:;" data-icon="check" data-iconpos="right"
+          class="box_form">
               Salvar
           </a>
           <div data-controltype="htmlblock" class="footer_powered">
