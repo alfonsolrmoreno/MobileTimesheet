@@ -56,7 +56,7 @@ function mobile_login() {
     if(dados['URL']!="")
     {   
         var ajax_file_url = 'verifica_url.php';
-    
+
         //Verifica se existe http:// e se existe "/" no final
         if((dados['URL'].substr(0,7))!='http://'){
             dados['URL'] = 'http://'+dados['URL'];
@@ -68,10 +68,18 @@ function mobile_login() {
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
-     
-        $.post(ajax_file_url, {url: COMMON_URL_MOBILE},
-        function(data)
-        {   
+        
+        $.ajax({
+        type: 'POST',
+        url: 'http://www.multidadosti.com/teste_mobile/mobile/'+ajax_file_url,
+        dataType: "jsonp",
+        crossDomain: true,
+        data: {
+            url: COMMON_URL_MOBILE
+        }
+        }).then(function(data) 
+        {
+           
             if(data=='F')
             {
                 loading('hide'); 
@@ -110,7 +118,8 @@ function mobile_login() {
                         var Objeto_real = localStorage['mobile_login'];
                         var Objeto_json = JSON.parse(Objeto_real);
 
-                        window.location.href = COMMON_URL_MOBILE+'/#page_home';
+                        window.location.href = '#page_home';
+                        window.location.reload();
                     }
                 });
             }
@@ -123,7 +132,7 @@ function mobile_login() {
 
 function mobile_logout() {
     localStorage.clear();
-    window.location.href = '#page_home';
+    window.location.href = '#page_login';
 }
 
 function verifica_logado() {
@@ -136,7 +145,7 @@ function verifica_logado() {
         var urlArray = urlString.split("/");
 
         if (urlArray[5] != '') {
-            window.location.href = COMMON_URL_MOBILE+"/#page_login";
+            window.location.href = "#page_login";
         }
         
         //window.location.href = COMMON_URL_MOBILE;
@@ -228,6 +237,8 @@ function selecionaValor(valor, tipo, id, id2, nome2)
 
     $("ul").empty();
 }
+
+
 
 //#############################################################################
 //######################## FIM TIMESHEET ######################################
@@ -456,7 +467,7 @@ function salvar_despesa()
 }
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
-    var ajax_file = COMMON_URL_MOBILE + 'busca_despesa.php';
+    var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
     
     $.ajax({
         type: 'POST',
