@@ -971,8 +971,8 @@ a.ui-link-inherit {
 		background-image: url(images/icons-36-black.png);
 		-moz-background-size: 864px 18px;
 		-o-background-size: 864px 18px;
-		-webkit-background-size: 864px 18px;
-		background-size: 864px 18px;
+		//-webkit-background-size: 864px 18px;
+		//background-size: 864px 18px;
 	}
   .ui-btn .ui-icon {
     background-image: url(images/icons-36-white.png);
@@ -1083,7 +1083,7 @@ a.ui-link-inherit {
 }
 .ui-checkbox-on .ui-icon,
 .ui-radio-on .ui-icon {
-	background-color: #/*{global-active-background-color}*/; /* NOTE: this hex should match the active state color. It's repeated here for cascade */
+	background-color: #ffffff; /* NOTE: this hex should match the active state color. It's repeated here for cascade */
 }
 /* loading icon */
 .ui-icon-loading {
