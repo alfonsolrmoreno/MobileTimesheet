@@ -82,7 +82,7 @@
                   <br>
                   <br>
                   <p style="text-align:center; font-size:10px">
-                      Powered by MultidadosTI ©
+                      Powered by MultidadosTI ©<br /> v.1.0.0
                   </p>
                   <br>
               </div>
@@ -238,7 +238,7 @@
               </div>
               <button class="ui-btn ui-mini" id="selecione_projeto" data-theme="c">Buscar Projeto</button>
           </div>
-          <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
+          <div id="fase_task" data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_fase">
                   Fase
               </label>
@@ -248,7 +248,7 @@
                   </option>
               </select>
           </div>
-          <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
+          <div id="atividade_task" data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_atividade">
                   Atividade
               </label>
@@ -257,6 +257,11 @@
                       Selecione uma atividade
                   </option>
               </select>
+          </div>
+          
+          <div id="porcentagem_conclusao" data-role="fieldcontain" class="box_form">
+                <label for="slider-fill">Conclusão %:</label>
+                <input type="range" name="porc_conclusao_atividade" id="slider-fill" class="porc_conclusao_atividade" data-mini="true" min="0" max="100" step="5" value="0" >
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="hora_inicial">

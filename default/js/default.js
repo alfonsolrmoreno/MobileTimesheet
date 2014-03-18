@@ -4,6 +4,7 @@ var Objeto_real = localStorage['mobile_login'];
 if (Objeto_real) {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url+'/mobile/';
+    alert(Objeto_json.url+"  "+Objeto_json.usuario_nome+" "+Objeto_json.senha);
 }else{
     if(typeof $("#url").val()!='undefined'){
         var COMMON_URL_MOBILE = $("#url").val()+'/mobile/';
@@ -232,6 +233,7 @@ function mobile_logout() {
 function verifica_logado() {
     
     var Objeto_real = localStorage['mobile_login'];
+    
     if (!Objeto_real) {
         
         var url = window.location;
@@ -244,6 +246,7 @@ function verifica_logado() {
         
         //window.location.href = COMMON_URL_MOBILE;
     }else{
+        
         return 'ok';
     }
 }
@@ -271,11 +274,16 @@ function salvar_timesheet()
     dados['idcliente'] = $("#codigo_auxiliar").val();
     dados['idclienteprojeto'] = $("#codigo").val();
 
-    dados['hora'] = $("#hora_inicial").val();
-    dados['hora_fim'] = $("#hora_final").val();
+    dados['hora']       = $("#hora_inicial").val();
+    dados['hora_fim']   = $("#hora_final").val();
     
-    dados['idtarefa_utbms'] = $("#codigo_fase").val();
-    dados['idatividade_utbms'] = $("#codigo_atividade").val();
+    dados['idtarefa_utbms']     = $("#codigo_fase").val();
+    dados['idatividade_utbms']  = $("#codigo_atividade").val();
+    
+    dados['idtask_parent']    = $("#task_parent").val();
+    dados['idtask']           = $("#task").val(); 
+    
+    dados['porc_conclusao_atividade'] = $(".porc_conclusao_atividade").val();
 
     dados['narrativa_principal'] = $("#narrativa_principal").val();
 
@@ -294,7 +302,7 @@ function salvar_timesheet()
     { 
         alert(data);
         loading('hide');
-        if(data=='Timesheet salvo com sucesso.'){
+        if(data=='Timesheet salvo com sucesso'){
             $("#filtro_data_trabalhada").val($("#data_trabalhada").val());
             $('#filtro_data_trabalhada').trigger('change');
             window.location.href = "#page_relatorio"; 
@@ -304,7 +312,7 @@ function salvar_timesheet()
  
 }
 
-function selecionaValor(valor, tipo, id, id2, nome2)
+function selecionaValor(valor, tipo, id, id2, nome2,tipo_projeto)
 {
     //$(".ui-body-" + tipo).val(valor);
     
@@ -325,8 +333,17 @@ function selecionaValor(valor, tipo, id, id2, nome2)
             $("#codigo_auxiliar").val(id2);
             //$(".ui-body-c").val(nome2);
             $("#busca_cliente_timesheet").val(nome2);
+            if(tipo_projeto=='P'){
+                seleciona_task_parent($("#codigo_auxiliar").val(),id,0);
+            }else{
+                seleciona_fase($("#codigo_auxiliar").val(),id,0,0);
+            }
         }else{
-            changeCodigo($("#codigo_auxiliar").val(),id,0,0);
+            if(tipo_projeto=='P'){
+                seleciona_task_parent($("#codigo_auxiliar").val(),id,0);
+            }else{
+                seleciona_fase($("#codigo_auxiliar").val(),id,0,0);
+            }
         }
     }
     else if (tipo == 't')
@@ -340,181 +357,7 @@ function selecionaValor(valor, tipo, id, id2, nome2)
 
     $("ul").empty();
 }
-/*
-$("#selecione_cliente").click(function ()
-{  
-    alert('f');
-    $.ajax({
-        type: 'GET',
-        url: COMMON_URL_MOBILE + "search.php",
-        dataType: "jsonp",
-        crossDomain: true,
-        data: {
-            q: $input.val(),
-            tipo: 'c',
-            codigo: codigo_cliente
-        }
-    })
-    .then(function(response) {
-        $.each(response, function(i, val) {
-            html += "<li><a href='javascript:selecionaValor(\"" + val['nome'] + "\",\"c\",\"" + val['idcliente'] + "\");'>" + val['nome'] + "</a></li>";
-        });
-        $("#page_timesheet_clientes").html(html);
-        $("#page_timesheet_clientes").listview("refresh");
-        $("#page_timesheet_clientes").trigger("updatelayout");
-    });
-});
-*/
-//#############################################################################
-//######################## FIM TIMESHEET ######################################
-//#############################################################################
 
-
-//###### AUTO COMPLETE ######################################
-/*
- * 
- $(document).on("pageinit", "#page_timesheet", function()
-{
-    
-    // CLIENTE TIMESHEET
-    $("#page_timesheet #autocomplete_cliente").on("listviewbeforefilter", function(e, data)
-    {
-        var $ul = $(this),
-                $input = $(data.input),
-                value = $input.val(),
-                html = "";
-        $ul.html("");
-
-        if (value && value.length > 0) {
-            codigo_cliente = $("#codigo_cliente").val();
-
-            $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-            $ul.listview("refresh");
-            $.ajax({
-                type: 'GET',
-                url: COMMON_URL_MOBILE + "search.php?tipo=c&codigo=" + codigo_cliente,
-                dataType: "jsonp",
-                crossDomain: true,
-                data: {
-                    q: $input.val()
-                }
-            })
-                    .then(function(response) {
-                        $.each(response, function(i, val) {
-                            html += "<li><a href='javascript:selecionaValor(\"" + val['nome'] + "\",\"c\",\"" + val['idcliente'] + "\");'>" + val['nome'] + "</a></li>";
-                        });
-                        $ul.html(html);
-                        $ul.listview("refresh");
-                        $ul.trigger("updatelayout");
-                    });
-        }
-    });
-
-    // PROJETO TIMESHEET
-    $("#page_timesheet #autocomplete_projeto").on("listviewbeforefilter", function(e, data) {
-        var $ul = $(this),
-                $input = $(data.input),
-                value = $input.val(),
-                html = "";
-        $ul.html("");
-        if (value && value.length > 0) {
-            idcliente = $("#codigo_auxiliar").val();
-            $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-            $ul.listview("refresh");
-            $.ajax({
-                type: 'GET',
-                url: COMMON_URL_MOBILE + "search.php?tipo=p&idcliente=" + idcliente,
-                dataType: "jsonp",
-                //dataType: "json", // quando for interno deve habilitar este e ocultar datatype e crossDomain
-                crossDomain: true,
-                data: {
-                    q: $input.val()
-                }
-            })
-                    .then(function(response) {
-                        $.each(response, function(i, val) {
-                            html += "<li><a href='javascript:selecionaValor(\"" + val['nome_projeto'] + "\",\"p\",\"" + val['idclienteprojeto'] + "\",\"" + val['idcliente'] + "\",\"" + val['nome'] + "\");'>" + val['nome_projeto'] + "</a></li>";
-                        });
-                        $ul.html(html);
-                        $ul.listview("refresh");
-                        $ul.trigger("updatelayout");
-                    });
-        }
-    });
-});
-
-
-//AUTO COMPLETE DESPESA########################################################
-$(document).on("pageinit", "#page6", function()
-{
-    // CLIENTE DESPESA
-    $("#page6 #autocomplete_cliente").on("listviewbeforefilter", function(e, data)
-    {
-        var $ul = $(this),
-                $input = $(data.input),
-                value = $input.val(),
-                html = "";
-        $ul.html("");
-
-        if (value && value.length > 0)
-        {
-            codigo_cliente = $("#codigo_cliente").val();
-
-            $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-            $ul.listview("refresh");
-            $.ajax({
-                type: 'GET',
-                url: COMMON_URL_MOBILE + "search.php?tipo=c&codigo=" + codigo_cliente,
-                dataType: "jsonp",
-                crossDomain: true,
-                data: {
-                    q: $input.val()
-                }
-            })
-                    .then(function(response) {
-                        $.each(response, function(i, val) {
-                            html += "<li><a href='javascript:selecionaValorDespesa(\"" + val['nome'] + "\",\"c\",\"" + val['idcliente'] + "\");'>" + val['nome'] + "</a></li>";
-                        });
-                        $ul.html(html);
-                        $ul.listview("refresh");
-                        $ul.trigger("updatelayout");
-                    });
-        }
-    });
-
-    // PROJETO DESPESA
-    $("#page6 #autocomplete_projeto").on("listviewbeforefilter", function(e, data) {
-        var $ul = $(this),
-                $input = $(data.input),
-                value = $input.val(),
-                html = "";
-        $ul.html("");
-        if (value && value.length > 0) {
-            codigo_auxiliar = $("#idcliente_despesa").val();
-            $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-            $ul.listview("refresh");
-            $.ajax({
-                type: 'GET',
-                url: COMMON_URL_MOBILE + "search.php?tipo=p&idcliente=" + codigo_auxiliar,
-                dataType: "jsonp",
-                crossDomain: true,
-                data: {
-                    q: $input.val()
-                }
-            })
-                    .then(function(response) {
-                        
-                        $.each(response, function(i, val) {
-                            html += "<li ><a href='javascript:selecionaValorDespesa(\"" + val['nome_projeto'] + "\",\"p\",\"" + val['idclienteprojeto'] + "\",\"" + val['codigo_auxiliar'] + "\",\"" + val['nome'] + "\");'>" + val['nome_projeto'] + "</a></li>";
-                        });
-                        $ul.html(html);
-                        $ul.listview("refresh");
-                        $ul.trigger("updatelayout");
-                        
-                    });
-      }
-    });
-});*/
 
 
 
@@ -603,7 +446,7 @@ function salvar_despesa()
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
     var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
-    
+    loading('show');
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -617,7 +460,8 @@ function buscar_despesa(data) {
     }).then(function(data) 
     { 
         $("#list_despesa").html(data); 
-        $("#list_despesa").listview("refresh");                
+        $("#list_despesa").listview("refresh");        
+        loading('hide');
     }); 
     
     
@@ -628,8 +472,8 @@ dados_servicos =new Object();
 
 //Pega valores para editar despesa
 $( document ).delegate( '#list_despesa .btn-despesa', 'click', function() { 
+    loading('show');
    idlctosdespesa = $(this).attr('id'); 
-   loading('show');
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
     
     $.ajax({
@@ -666,7 +510,7 @@ $( document ).delegate( '#list_despesa .btn-despesa', 'click', function() {
             $("#arquivo_md5").val('');
             $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" >');
         }
-        geraDespesa(data.idclienteprojeto,data.idservicos);  
+        geraDespesa(data.idclienteprojeto,data.idservicos);
         loading('hide');
     });     
     
@@ -703,7 +547,10 @@ function deletaArquivo(){
 function geraDespesa(idclienteprojeto,selecionado){
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
     
-    
+    if(selecionado==0 || typeof selecionado=='undefined'){
+        selecionado = "";
+        var selected_first = "selected='selected'";
+    }      
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -718,7 +565,7 @@ function geraDespesa(idclienteprojeto,selecionado){
         //console.dir(data);
         dados_servicos = data.data;
         
-        var options = '<option value="">Selecione uma despesa</option>';
+        var options = '<option value="" '+selected_first+'>Selecione uma despesa</option>';
         
         $("#idtabpreco").val(data['idtabpreco']);
         
@@ -735,13 +582,7 @@ function geraDespesa(idclienteprojeto,selecionado){
 
         $("#codigo_despesa").html(options);
         
-        if(idclienteprojeto!=0){    
-            $('#codigo_despesa option').each(function(){
-                if($(this).val() == selecionado){
-                    $('select#codigo_despesa').trigger('change');            
-                }
-            });   
-        }
+        $( "select#codigo_despesa" ).selectmenu( "refresh" );  
     }); 
     
 }
@@ -829,7 +670,7 @@ $( document ).delegate( '#page6 #selecione_cliente', 'click', function() {
         q       : $('#busca_cliente_despesa').val(),
         idempresa   : Objeto_json.idempresa_vendedor,
         idsenha   : Objeto_json.usuario_id,
-        url     : COMMON_URL_MOBILE + 'search_teste.php',
+        url     : COMMON_URL_MOBILE + 'search.php',
         tipo    : 'c'
         
     });  
@@ -853,11 +694,13 @@ $( document ).delegate( "#page6 [id^='idcliente_']", 'click', function()
     selecionaValorDespesa($(this).text(),"c",idcliente[1]);
     $("#page_despesa_clientes").html('');
     $("#page_despesa_sub").show();
+    
 });
 
 
 //LISTA PROJETOS DESPESA
 $( document ).delegate( '#page6 #selecione_projeto', 'click', function() { 
+    
     $("#page_despesa_sub").hide();
     //$('#page_timesheet_clientes').html('<input type="search" name="search-1" id="search-1" >');
     $('#page_despesa_projetos').scrollPagination({
@@ -870,7 +713,7 @@ $( document ).delegate( '#page6 #selecione_projeto', 'click', function() {
         scroll  : true, // The main bit, if set to false posts will not load as the user scrolls. 
                        // but will still load if the user clicks.
         q       : $('#busca_projeto_despesa').val(),
-        url     : COMMON_URL_MOBILE + 'search_teste.php',
+        url     : COMMON_URL_MOBILE + 'search.php',
         tipo    : 'p',
         idcliente   : $("#idcliente_despesa").val(),
         idempresa   : Objeto_json.idempresa_vendedor,
@@ -910,6 +753,7 @@ $( document ).delegate( "[id^='idclienteprojeto_']", 'click', function()
 
 //Buscar timesheet conforme as datas
 function buscar_timesheet(data) {
+    loading('show');
     var ajax_file = COMMON_URL_MOBILE + 'busca_timesheet.php';
     
     $.ajax({
@@ -925,16 +769,16 @@ function buscar_timesheet(data) {
     }).then(function(data) 
     { 
         $("#list").html(data); 
-        $( "#list" ).listview( "refresh" );            
+        $( "#list" ).listview( "refresh" );  
+        loading('hide');
     });    
     
 }
 
 
-//Pega dados do idtimecard que foi clicado na lista faz select e envia pra outra página
+//Editar: Pega dados do idtimecard que foi clicado na lista faz select e envia pra outra página
 $( document ).delegate( '#list .btn-timesheet', 'click', function() { 
    idtimecard = $(this).attr('id'); 
-    loading('show');
     //var args = {cm: 'Timesheet->getTimecard', idtimecard: idtimecard};
     var ajax_file = COMMON_URL_MOBILE + 'retorna_timecard.php';
  
@@ -953,7 +797,17 @@ $( document ).delegate( '#list .btn-timesheet', 'click', function() {
         if(data.idtimecard!=''){
             $("#idtimecard").val(data.idtimecard);
         }
-        changeCodigo(data.idcliente,data.idclienteprojeto,data.idtarefa_utbms,codigo_atividade);
+        
+        //Verifica se é project
+        if(data.idtask!=''){
+            $( "#porcentagem_conclusao" ).show();
+            $(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
+            $('.porc_conclusao_atividade').slider('refresh');
+            seleciona_task_parent(data.idcliente,data.idclienteprojeto,data.idtask);
+        }else{
+            $( "#porcentagem_conclusao" ).hide();
+            seleciona_fase(data.idcliente,data.idclienteprojeto,data.idtarefa_utbms,codigo_atividade);
+        }
         $("#data_trabalhada").val(data.data_trabalhada);
         $("#codigo_auxiliar").val(data.idcliente);
         $('#busca_cliente_timesheet').val(data.nome_cliente);
@@ -964,7 +818,7 @@ $( document ).delegate( '#list .btn-timesheet', 'click', function() {
         $("#hora_inicial").val(hora_inicial);
         $("#hora_final").val(hora_final);
         $("#narrativa_principal").val(data.narrativa_principal);  
-        loading('hide');
+        
     });    
        
     
@@ -985,7 +839,7 @@ $( document ).delegate( '#page_timesheet #selecione_cliente', 'click', function(
         scroll  : true, // The main bit, if set to false posts will not load as the user scrolls. 
                        // but will still load if the user clicks.
         q       : $('#busca_cliente_timesheet').val(),
-        url     : COMMON_URL_MOBILE + 'search_teste.php',
+        url     : COMMON_URL_MOBILE + 'search.php',
         tipo    : 'c',
         idempresa   : Objeto_json.idempresa_vendedor,
         idsenha   : Objeto_json.usuario_id
@@ -1011,6 +865,7 @@ $( document ).delegate( "[id^='idcliente_']", 'click', function()
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
 });
 
+//Seleciona o projeto
 $( document ).delegate( '#page_timesheet #selecione_projeto', 'click', function() { 
     $("#page_timesheet_sub").hide();
     //$('#page_timesheet_clientes').html('<input type="search" name="search-1" id="search-1" >');
@@ -1024,7 +879,7 @@ $( document ).delegate( '#page_timesheet #selecione_projeto', 'click', function(
         scroll  : true, // The main bit, if set to false posts will not load as the user scrolls. 
                        // but will still load if the user clicks.
         q       : $('#busca_projeto_timesheet').val(),
-        url     : COMMON_URL_MOBILE + 'search_teste.php',
+        url     : COMMON_URL_MOBILE + 'search.php',
         tipo    : 'p',
         idcliente: $("#codigo_auxiliar").val(),
         idempresa   : Objeto_json.idempresa_vendedor,
@@ -1047,11 +902,16 @@ $( document ).delegate( "[id^='idclienteprojeto_']", 'click', function()
     var idclienteprojeto = id.split('_');
     var idcliente = $(this).attr('data-idcliente');
     var nomecliente = $(this).attr('data-nomecliente');
+    var lawps_utbms_project = $(this).attr('data-utbms-project');
     
-    selecionaValor($(this).text(),"p",idclienteprojeto[1],idcliente,nomecliente);
+    selecionaValor($(this).text(),"p",idclienteprojeto[1],idcliente,nomecliente,lawps_utbms_project);
     $("#page_timesheet_projetos").html('');
     $("#page_timesheet_sub").show();
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
+    if(lawps_utbms_project=='P')
+        $( "#porcentagem_conclusao" ).show();
+    else
+        $( "#porcentagem_conclusao" ).hide();
 });
 
 //Pega dados do idtimecard que foi clicado e deleta
@@ -1087,7 +947,17 @@ $( document ).delegate( '#list .delete_timesheet', 'click', function() {
 
 
 //Exibe fase conforme idprojeto
-    function changeCodigo(idcliente,idprojeto,selecionado_fase,selecionado_atividade){
+    function seleciona_fase(idcliente,idprojeto,selecionado_fase,selecionado_atividade){
+        loading('show');
+        if($("input#codigo_fase").attr('type')=='hidden'){
+            $("input#codigo_fase").remove();
+            $("input#codigo_atividade").remove();
+        }
+        
+        $("#task_parent").attr('id','codigo_fase');
+        $("#codigo_fase").attr('name','codigo_fase');
+        $("#task").attr('id','codigo_atividade');
+        $("#codigo_atividade").attr('name','codigo_atividade');          
         $.ajax({
             type: 'GET',
             url: COMMON_URL_MOBILE + 'search.php?tipo=t&idcliente='+idcliente+'&idprojeto='+idprojeto+'&idsenha='+Objeto_json.usuario_id,
@@ -1096,7 +966,11 @@ $( document ).delegate( '#list .delete_timesheet', 'click', function() {
         })
         .then(function(response)
         {
-            var options = '<option value="">Selecione uma fase</option>';
+            if(selecionado_fase==0 || typeof selecionado_fase=='undefined'){
+                selecionado_fase = "";
+                var selected_first = "selected='selected'";
+            }            
+            var options = '<option value="" '+selected_first+'>Selecione uma fase</option>';
             
             $.each(response, function(key, val) {
                 selected = '';
@@ -1107,21 +981,24 @@ $( document ).delegate( '#list .delete_timesheet', 'click', function() {
 
             $("#codigo_fase").html(options);
             
-            $('#codigo_fase option').each(function(){
-                if($(this).val() == selecionado_fase){
-                    $('select#codigo_fase').trigger('change');            
-                }
-            });   
-            
+            $( "select#codigo_fase" ).selectmenu( "refresh" );  
+            loading('hide');
             if(selecionado_atividade!=0)
                 seleciona_atividade(selecionado_atividade);
             
         });
     }
     
+
+   
  function seleciona_atividade(selecionado)
 {
-    var options = '<option value="">Selecione uma atividade</option>';
+    loading('show');
+    if(selecionado==0 || typeof selecionado=='undefined'){
+        selecionado = "";
+        var selected_first = "selected='selected'";
+    }        
+    var options = '<option value="" '+selected_first+'>Selecione uma atividade</option>';
     $("#codigo_atividade").html(options);
     val_idutbms_fase = $("#codigo_fase").val();
     idcliente = $("#codigo_auxiliar").val();
@@ -1150,16 +1027,113 @@ $( document ).delegate( '#list .delete_timesheet', 'click', function() {
 
                     $("#codigo_atividade").html(options);
                     
-                    $('#codigo_atividade option').each(function(){
-                        if($(this).val() == selecionado){
-                            $('select#codigo_atividade').trigger('change');            
-                        }
-                    });                     
+                    $( "select#codigo_atividade" ).selectmenu( "refresh" );
+                    
+                    loading('hide');
                 });
     }
 }
 
+//Exibe TAREFA PRINCIPAL conforme idprojeto se for PROJECT
+function seleciona_task_parent(idcliente,idprojeto,selecionado){
+        loading('show');
+        $.ajax({
+            type: 'GET',
+            url: COMMON_URL_MOBILE + 'search.php?tipo=task_parent&idcliente='+idcliente+'&idprojeto='+idprojeto+'&idsenha='+Objeto_json.usuario_id+'&idempresa='+Objeto_json.idempresa_vendedor+'&idtask='+selecionado,
+            dataType: "jsonp",
+            crossDomain: true
+        })
+        .then(function(response)
+        {
+            selecionado_parent = response.selecionado;
+            if(selecionado_parent==0  || typeof selecionado_parent=='undefined'){
+                selecionado_parent  = "";
+                var selected_first = "selected='selected'";
+            }
+            var options = '<option value="" '+selected_first+' >Selecione uma tarefa</option>';
+            $.each(response.select_tarefas, function(key, val) {
+                selected = '';
+                if(selecionado_parent==key){
+                    selected = "selected='selected'";
+                }
+                options += '<option value="' + key + '" '+selected+'>' + val + '</option>';
+            });
+            
+            
+            //$('#atividade_task').html(response.select_atividades);
+            if(!$("#task_parent").length){
+                $("#codigo_fase").attr("id","task_parent");
+                $("#task_parent").attr("name","task_parent");  
+            }
+            $("#task_parent").html(options);
 
+            if($("input#codigo_fase").attr('type')!='hidden'){
+                $('#fase_task').append('<input type="hidden" name="codigo_fase" id="codigo_fase" >');
+            }
+            $('#codigo_fase').val(response.select_tarefas_hidden);
+            
+            $( "select#task_parent" ).selectmenu( "refresh" );   
+            loading('hide');
+            if(selecionado!='')
+                seleciona_task(idcliente,idprojeto,selecionado_parent,selecionado);
+        });
+} 
+
+//Exibe TAREFA FILHO conforme idprojeto se for PROJECT
+function seleciona_task(idcliente,idprojeto,idtarefa_principal,selecionado){
+        loading('show');
+        $.ajax({
+            type: 'GET',
+            url: COMMON_URL_MOBILE + 'search.php?tipo=task&idcliente='+idcliente+'&idprojeto='+idprojeto+'&idsenha='+Objeto_json.usuario_id+'&idempresa='+Objeto_json.idempresa_vendedor+'&idtarefa_principal='+idtarefa_principal,
+            dataType: "jsonp",
+            crossDomain: true
+        })
+        .then(function(response)
+        {
+            if(selecionado==0 || typeof selecionado=='undefined'){
+                selecionado = "";
+                var selected_first = "selected='selected'";
+            }            
+            var options = '<option value="" '+selected_first+'>Selecione uma atividade</option>';
+            $.each(response.select_atividades, function(key, val) {
+                selected = '';
+                
+                if(selecionado==key){
+                    selected = "selected='selected'";
+                }                
+                options += '<option value="' + key + '" '+selected+'>' + val + '</option>';
+            });
+            
+            
+            //$('#atividade_task').html(response.select_atividades);
+            if(!$("#task").length){
+                $("#codigo_atividade").attr("id","task");
+                $("#task").attr("name","task");            
+            }
+            $("#task").html(options);
+
+            if($("input#codigo_atividade").attr('type')!='hidden'){
+                $('#atividade_task').append('<input type="hidden" name="codigo_atividade" id="codigo_atividade" >');
+            }
+            $('#codigo_atividade').val(response.select_atividades_hidden);            
+            
+            $( "select#task" ).selectmenu( "refresh" );   
+            loading('hide');
+        });
+} 
+
+$( document ).delegate( '#task_parent', 'change', function() { 
+    seleciona_task($('#codigo_auxiliar').val(),$('#codigo').val(),$('#task_parent').val());
+ });
+
+
+$(document).on("pageinit","#page_login", function()
+{
+   $resposta = verifica_logado();
+   if($resposta == 'ok'){
+       window.location.href = "#page_home";
+   }
+}); 
 
 $(document).ready(function()
 {
@@ -1169,13 +1143,7 @@ $(document).ready(function()
        $resposta = verifica_logado();
       
     }); 
-    $(document).on("pageinit","#page_login", function()
-    {
-       $resposta = verifica_logado();
-       if($resposta == 'ok'){
-           window.location.href = "#page_home";
-       }
-    });     
+    
     
    
     $("#botao_entrar").click(function()
@@ -1218,9 +1186,7 @@ $(document).ready(function()
        buscar_despesa($("#dateinput2").val());
     });    
     
-
-    $("#codigo_fase").change(function ()
-    {
+    $( document ).delegate( '#codigo_fase', 'change', function() { 
         seleciona_atividade(0);
     }); 
     
@@ -1313,6 +1279,7 @@ $(document).ready(function()
 	}
     
     });
+
 });
 
 
