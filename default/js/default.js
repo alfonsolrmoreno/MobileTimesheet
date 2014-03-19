@@ -4,7 +4,6 @@ var Objeto_real = localStorage['mobile_login'];
 if (Objeto_real) {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url+'/mobile/';
-    alert(Objeto_json.url+"  "+Objeto_json.usuario_nome+" "+Objeto_json.senha);
 }else{
     if(typeof $("#url").val()!='undefined'){
         var COMMON_URL_MOBILE = $("#url").val()+'/mobile/';
@@ -508,7 +507,7 @@ $( document ).delegate( '#list_despesa .btn-despesa', 'click', function() {
             $("#upload_arquivos").html("<a href='javascript:;' onclick='deletaArquivo();' id='del_arquivo'>"+data.nome_arquivo+" X</a>"+arquivo_edit);
         }else{
             $("#arquivo_md5").val('');
-            $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" >');
+            $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c" >');
         }
         geraDespesa(data.idclienteprojeto,data.idservicos);
         loading('hide');
@@ -539,7 +538,7 @@ function deletaArquivo(){
             $("#arquivo_md5").val('');
         });
         $("#arquivo_md5").val('');
-        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" >');
+        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
     }
 }
 
@@ -581,7 +580,7 @@ function geraDespesa(idclienteprojeto,selecionado){
 
 
         $("#codigo_despesa").html(options);
-        
+        loading('hide');
         $( "select#codigo_despesa" ).selectmenu( "refresh" );  
     }); 
     
