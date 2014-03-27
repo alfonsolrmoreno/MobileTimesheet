@@ -9,7 +9,7 @@
 
   <link href="css/jqm-neue.css" rel="stylesheet">
   <link href="css/codiqa.ext.min.css" rel="stylesheet">
-  
+  <link href="css/jquery.toastmessage.css" rel="stylesheet">
 
   <script src="js/jquery-1.9.1.min.js"></script>
   <script src="js/jquery.mobile-1.3.1.min.js"></script>
@@ -18,8 +18,10 @@
 
   <!-- configuracoes Multidados -->
   <link href="default/css/css.css" rel="stylesheet">
-  <script src="default/js/default.js"></script>
   <script src="js/infinity-scroll.js"> </script>
+  <script src="js/jquery.toastmessage.js"> </script>
+  <script src="default/js/default.js"></script>
+
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>  
   <!-- fim configuracoes Multidados -->  
   <style>
@@ -43,9 +45,17 @@
       .lista-infinity li:hover, lista-infinity li:active{
         background: #eee;  
       }
+      #form_arquivo{
+          width:100%;
+          display: inline-block;
+      }
+      #busca_cliente_despesa, #busca_projeto_despesa, #busca_cliente_timesheet, #busca_projeto_timesheet{
+          display: none;
+      }
   </style>
 </head>
 <body>
+
   <div data-role="page" data-control-title="Login Multidados" data-theme="b"
   id="page_login" style="background: url('img/bg_app.jpg') no-repeat"
   class="class_page">
@@ -82,7 +92,7 @@
                   <br>
                   <br>
                   <p style="text-align:center; font-size:10px">
-                      Powered by MultidadosTI ©<br /> v.1.0.0
+                      Powered by MultidadosTI ©<br /> v.1.0.1
                   </p>
                   <br>
               </div>
@@ -143,7 +153,7 @@
               </div>
               <div class="ui-block-c">
                   <a id="icon_ocorrencia" data-role="button" href="#page5" class="icon_ocorrencia">
-                      OcorrÃªncias
+                      Ocorrências
                   </a>
               </div>
               <div class="ui-block-a">
@@ -163,22 +173,22 @@
               </div>
               <div class="ui-block-a">
               </div>
-              <div class="ui-block-b">
-                  <a id="icon_sair" data-role="button" href="#page_login" data-icon="arrow-l"
-                  data-iconpos="left" class="icon_sair">
-                      Sair
-                  </a>
-              </div>
+              
               <div class="ui-block-c">
               </div>
           </div>
           <div data-controltype="htmlblock" class="footer_powered">
               <div>
                   <br>
-                  <br>
+                  <br>                   
                   <p style="text-align:center; font-size:10px">
                       Powered by MultidadosTI ©
                   </p>
+                  <p align="center">
+                  <a href="#page_login" id="icon_sair"  class="icon_sair"  data-mini="true" data-inline="true" data-iconpos="left">
+                      <img src="img/icon_desconnect.png"  />
+                  </a>
+                  </p>                   
                   <br>
               </div>
           </div>
@@ -219,24 +229,19 @@
                   Cliente
               </label>
              
-             <div style="margin: 15px 5px">
-                 <input type="search" name="busca_cliente_timesheet" value="" id="busca_cliente_timesheet" placeholder="Digite o nome do cliente...">
-              <!--<ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>-->
+          <!--<ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>-->
     		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" />
-             </div>
-              
-              <button class="ui-btn ui-mini" id="selecione_cliente" data-theme="c">Buscar Cliente</button>
+             
+              <a href="javascript:;" id="selecione_cliente" data-role="button" data-icon="search" data-theme="c">Buscar Cliente</a>
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="codigo_projeto">
                   Projeto
               </label>
-              <div style="margin: 15px 5px">
-                    <input type="search" name="busca_projeto_timesheet" value="" id="busca_projeto_timesheet" placeholder="Digite o nome do projeto...">
+                    
                    <!-- <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul> -->
                     <input type="hidden" name="codigo" id="codigo" />
-              </div>
-              <button class="ui-btn ui-mini" id="selecione_projeto" data-theme="c">Buscar Projeto</button>
+              <a href="javascript:;" id="selecione_projeto" data-role="button" data-icon="search" data-theme="c">Buscar Projeto</a>
           </div>
           <div id="fase_task" data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_fase">
@@ -411,34 +416,30 @@
           <input type='hidden' name='idlctodespesa' id='idlctodespesa' />
           <input type='hidden' name='arquivo_md5' id='arquivo_md5' >
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-              <label for="textinput8">
+              <label for="textinput8" class="ui-input-text" >
                   Data
               </label>
               <input name="data_lcto" id="data_lcto" placeholder="" value=""
               type="date">
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-              <label for="textinput9">
+              <label for="textinput9" >
                   Cliente
               </label>
-             <div style="margin: 15px 5px">
-                 <input type="search" name="busca_cliente_despesa" value="" id="busca_cliente_despesa" placeholder="Digite o nome do cliente...">
               <!-- <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente...." data-filter-theme="c"></ul>-->
     		<input type="hidden" name="idcliente_despesa" id="idcliente_despesa" />
                 
-             </div>
-              <button class="ui-btn ui-mini" id="selecione_cliente" data-theme="c">Buscar Cliente</button>
+              <a href="javascript:;" id="selecione_cliente" data-role="button" data-icon="search" data-theme="c">Buscar Cliente</a>
           </div>
           <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
               <label for="textinput13">
                   Projeto
               </label>
-              <div style="margin: 15px 5px">
-                  <input type="search" name="busca_projeto_despesa" value="" id="busca_projeto_despesa" placeholder="Digite o nome do projeto...">
-                   <!--  <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto...." data-filter-theme="p"></ul>-->
-                    <input type="hidden" name="idclienteprojeto_despesa" id="idclienteprojeto_despesa" />
-              </div>
-              <button class="ui-btn ui-mini" id="selecione_projeto" data-theme="c">Buscar Projeto</button>
+              
+            <!--  <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto...." data-filter-theme="p"></ul>-->
+             <input type="hidden" name="idclienteprojeto_despesa" id="idclienteprojeto_despesa" />
+              
+              <a href="javascript:;" id="selecione_projeto" data-role="button" data-icon="search" data-theme="c">Buscar Projeto</a>
           </div>
           <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
               <label for="codigo_despesa">
@@ -486,14 +487,15 @@
               <label for="arq_despesa">
                   Documento Fiscal
               </label>
+              
               <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
-                <div id="upload_arquivos">
-                  <input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c" >
+                <div id="upload_arquivos" >
+                  <input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">
                 </div>
               </form>
           </div>
           <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
-              <label for="textarea2">
+              <label for="textarea2" class="ui-input-text">
                   Narrativa
               </label>
               <textarea name="narrativa_principal_despesa" id="narrativa_principal_despesa" placeholder=""></textarea>
