@@ -17,7 +17,7 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<widget version='1.0.0' id='br.com.bragancapta.ibraganca' xmlns='http://www.w3.org/ns/widgets' xmlns:gap = "http://phonegap.com/ns/1.0">
+<widget version='1.0.0' id='multidadosti' xmlns='http://www.w3.org/ns/widgets' xmlns:gap = "http://phonegap.com/ns/1.0">
     <name>
         MultidadosTI
     </name>
@@ -31,7 +31,7 @@
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
     <!-- Preferences for iOS -->
-	<preference name="Orientation" value="portrait" />
+	<preference name="orientation" value="portrait" />
     <preference value='false' name='AllowInlineMediaPlayback'/>
     <preference value='true' name='AutoHideSplashScreen'/>
     <preference value='cloud' name='BackupWebStorage'/>
@@ -56,6 +56,10 @@
     <feature name='LocalStorage'>
         <param value='CDVLocalStorage' name='ios-package'/>
     </feature>
+	
+	<activity   android:name=".SomeActivity"
+				android:label="@string/app_name"
+				android:screenOrientation="portrait">
 	
 	<icon src="icon.png" />
 	<icon src="icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />	
