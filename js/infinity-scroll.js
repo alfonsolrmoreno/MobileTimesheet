@@ -36,7 +36,11 @@
 			$this.append('<ul data-role="listview" data-filter="true" data-filter-placeholder="Selecione" data-divider-theme="b" class="lista-infinity"></ul><div class="loading-bar">'+$initmessage+'</div>');
 			
 			function getData() {
-				
+				 $.mobile.loading('show', {
+                                    text: 'Carregando...',
+                                    textVisible: true,
+                                    theme: 'b'
+                                });
 				// Post data to ajax.php
                                 $.ajax({
                                     type: 'GET',
@@ -74,7 +78,7 @@
 						// No longer busy!	
 						busy = false;
 					}
-						
+					$.mobile.loading('hide');	
 				});
 					
 			}	

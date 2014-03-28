@@ -523,6 +523,7 @@ $( document ).delegate( '#list_despesa .btn-despesa', 'click', function() {
         
         var COMMON_URL = COMMON_URL_MOBILE.substr(0,COMMON_URL_MOBILE.length-7);
         if(data.id_arquivo){
+            
             arquivo_edit = "<input type='hidden' name='idarquivo' id='idarquivo' value='"+data.id_arquivo+"' >";
             
             var filename = COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F";
@@ -530,8 +531,11 @@ $( document ).delegate( '#list_despesa .btn-despesa', 'click', function() {
             var popup = '<div data-role="popup" id="popupPhoto" data-overlay-theme="a" data-theme="d" data-corners="false"><a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><img class="popphoto" src="' + filename + '" ></div>';
             var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
 
-            $("#upload_arquivos").empty().append('<div data-mini="true" data-role="controlgroup" data-type="horizontal">'+markup+apagar+'</div>');
-            $("#page6").append(popup+arquivo_edit).trigger('create');
+            $( "#popupPhoto" ).popup( "destroy" );
+            $("#upload_arquivos").empty().append('<div data-mini="true" data-role="controlgroup" data-type="horizontal">'+markup+apagar+'</div>'+arquivo_edit);
+            $("#popup_imagem").html(popup);
+            $("#page6").trigger('create');
+            
             
             
             //$("#upload_arquivos").html("<a href='javascript:;' onclick='window.open(\""+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F\")' id='del_arquivo'><img src='"+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F' width='100px'></a>\n\
@@ -575,6 +579,7 @@ function deletaArquivo(){
             }
         }).then(function(data) 
         {        
+            console.dir(data);
             $("#arquivo_md5").val('');
         });
         $("#arquivo_md5").val('');
@@ -833,6 +838,7 @@ $( document ).delegate( '#list .btn-timesheet', 'click', function() {
         }
     }).then(function(data) 
     { 
+        
         codigo_atividade = data.idatividade_utbms; 
          
         if(data.idtimecard!=''){
@@ -1303,6 +1309,9 @@ $(document).ready(function()
     $("#novo_despesa_top").click(function ()
     {  
         clearInputs();
+        $("#arquivo_md5").val('');
+        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
+        
         $("#page6 #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page6 #selecione_projeto .ui-btn-text").text('Buscar Projeto');         
         $("#data_lcto").val(data_hoje);
