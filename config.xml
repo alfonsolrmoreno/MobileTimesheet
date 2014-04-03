@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='iso-8859-1'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
@@ -17,48 +17,95 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<widget version='1.0.0' 
-	    id='br.com.multidadosti.mobile' 
-		xmlns='http://www.w3.org/ns/widgets' 
-		xmlns:gap = "http://phonegap.com/ns/1.0" >
+<widget id='io.cordova.helloCordova' xmlns='http://www.w3.org/ns/widgets' version='2.0.0'>
     <name>
-        MultidadosTI
+        Hello Cordova
     </name>
     <description>
-        O aplicativo MultidadosTI.
+         A sample Apache Cordova application that responds to the deviceready
+        event. 
     </description>
-    <author href='http://www.multidadosti.com.br' email='alfonso@multidadosti.com.br'>
-         MultidadosTI Team 
+    <author href='http://cordova.io' email='dev@cordova.apache.org'>
+         Apache Cordova Team 
     </author>
     <access origin='*'/>
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
-	
     <!-- Preferences for iOS -->
-	<preference name="orientation" value="portrait" />
-    <preference value='false' name='AllowInlineMediaPlayback'/>
-    <preference value='true' name='AutoHideSplashScreen'/>
-    <preference value='cloud' name='BackupWebStorage'/>
-    <preference value='false' name='DisallowOverscroll'/>
-    <preference value='false' name='EnableViewportScale'/>
-    <preference value='true' name='FadeSplashScreen'/>
-    <preference value='.25' name='FadeSplashScreenDuration'/>
-    <preference value='false' name='HideKeyboardFormAccessoryBar'/>
-    <preference value='true' name='KeyboardDisplayRequiresUserAction'/>
-    <preference value='false' name='KeyboardShrinksView'/>
-    <preference value='false' name='MediaPlaybackRequiresUserAction'/>
-    <preference value='true' name='ShowSplashScreenSpinner'/>
-    <preference value='false' name='SuppressesIncrementalRendering'/>
-    <preference value='gray' name='TopActivityIndicator'/>
-    <preference value='0' name='GapBetweenPages'/>
-    <preference value='0' name='PageLength'/>
-    <preference value='page' name='PaginationBreakingMode'/>
-    <!-- page, column -->
-    <preference value='unpaginated' name='PaginationMode'/>
-	
-	<!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
-    <feature name='LocalStorage'>
-        <param value='CDVLocalStorage' name='ios-package'/>
+    <preference name='AllowInlineMediaPlayback' value='false'/>
+    <preference name='AutoHideSplashScreen' value='true'/>
+    <preference name='BackupWebStorage' value='cloud'/>
+    <preference name='DisallowOverscroll' value='false'/>
+    <preference name='EnableLocation' value='false'/>
+    <!-- DEPRECATED -->
+    <preference name='EnableViewportScale' value='false'/>
+    <preference name='FadeSplashScreen' value='true'/>
+    <preference name='FadeSplashScreenDuration' value='.25'/>
+    <preference name='HideKeyboardFormAccessoryBar' value='false'/>
+    <preference name='KeyboardDisplayRequiresUserAction' value='true'/>
+    <preference name='KeyboardShrinksView' value='false'/>
+    <preference name='MediaPlaybackRequiresUserAction' value='false'/>
+    <preference name='ShowSplashScreenSpinner' value='true'/>
+    <preference name='SuppressesIncrementalRendering' value='false'/>
+    <preference name='TopActivityIndicator' value='gray'/>
+    <feature name='Geolocation'>
+        <param name='ios-package' value='CDVLocation'/>
     </feature>
-	
+    <feature name='Device'>
+        <param name='ios-package' value='CDVDevice'/>
+    </feature>
+    <feature name='Accelerometer'>
+        <param name='ios-package' value='CDVAccelerometer'/>
+    </feature>
+    <feature name='Compass'>
+        <param name='ios-package' value='CDVLocation'/>
+    </feature>
+    <feature name='Media'>
+        <param name='ios-package' value='CDVSound'/>
+    </feature>
+    <feature name='Camera'>
+        <param name='ios-package' value='CDVCamera'/>
+    </feature>
+    <feature name='Contacts'>
+        <param name='ios-package' value='CDVContacts'/>
+    </feature>
+    <feature name='File'>
+        <param name='ios-package' value='CDVFile'/>
+    </feature>
+    <feature name='NetworkStatus'>
+        <param name='ios-package' value='CDVConnection'/>
+    </feature>
+    <feature name='Notification'>
+        <param name='ios-package' value='CDVNotification'/>
+    </feature>
+    <feature name='FileTransfer'>
+        <param name='ios-package' value='CDVFileTransfer'/>
+    </feature>
+    <feature name='Capture'>
+        <param name='ios-package' value='CDVCapture'/>
+    </feature>
+    <feature name='Battery'>
+        <param name='ios-package' value='CDVBattery'/>
+    </feature>
+    <feature name='SplashScreen'>
+        <param name='ios-package' value='CDVSplashScreen'/>
+    </feature>
+    <feature name='Echo'>
+        <param name='ios-package' value='CDVEcho'/>
+    </feature>
+    <feature name='Globalization'>
+        <param name='ios-package' value='CDVGlobalization'/>
+    </feature>
+    <feature name='InAppBrowser'>
+        <param name='ios-package' value='CDVInAppBrowser'/>
+    </feature>
+    <feature name='Logger'>
+        <param name='ios-package' value='CDVLogger'/>
+    </feature>
+    <feature name='LocalStorage'>
+        <param name='ios-package' value='CDVLocalStorage'/>
+    </feature>
+    <!-- Deprecated plugins element. REmove in 3.0 -->
+    <plugins>
+    </plugins>
 </widget>
