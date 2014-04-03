@@ -17,12 +17,11 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<widget version='1.0.2' 
-		versionCode='218'
+<widget version='1.0.3' 
+		versionCode='219'
 	    id='br.com.multidadosti.mobile' 
 		xmlns='http://www.w3.org/ns/widgets' 
-		xmlns:gap = "http://phonegap.com/ns/1.0" 
-		xmlns:android = "http://schemas.android.com/apk/res/android">
+		xmlns:gap = "http://phonegap.com/ns/1.0" >
     <name>
         MultidadosTI
     </name>
@@ -35,9 +34,6 @@
     <access origin='*'/>
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
-    <!-- Preferences for Android -->
-	<preference  name="android-minSdkVersion" value="16" />
-	<preference  name="android:name" value="android.permission.CAMERA" />
 	
     <!-- Preferences for iOS -->
 	<preference name="orientation" value="portrait" />
