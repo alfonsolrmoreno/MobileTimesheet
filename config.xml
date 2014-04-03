@@ -35,6 +35,7 @@
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
 	
+	<preference name="permissions" value="none"/>
     <!-- Preferences for iOS -->
 	<preference name="orientation" value="portrait" />
     <preference value='false' name='AllowInlineMediaPlayback'/>
