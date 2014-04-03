@@ -17,12 +17,10 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<widget version='1.0.3' 
-		versionCode='219'
+<widget version='1.0.0' 
 	    id='br.com.multidadosti.mobile' 
 		xmlns='http://www.w3.org/ns/widgets' 
-		xmlns:gap = "http://phonegap.com/ns/1.0"
-		xmlns:android = "http://schemas.android.com/apk/res/android">
+		xmlns:gap = "http://phonegap.com/ns/1.0">
     <name>
         MultidadosTI
     </name>
@@ -35,9 +33,6 @@
     <access origin='*'/>
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
-	
-    <!-- Preferences for Android -->
-	<preference  name="android-minSdkVersion" value="16" />
     
 	<!-- Preferences for iOS -->
 	<preference name="orientation" value="portrait" />
@@ -62,61 +57,7 @@
     <preference value='unpaginated' name='PaginationMode'/>
 	
 	<!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
-    <feature name='Geolocation'>
-        <param name='ios-package' value='CDVLocation'/>
-    </feature>
-    <feature name='Device'>
-        <param name='ios-package' value='CDVDevice'/>
-    </feature>
-    <feature name='Accelerometer'>
-        <param name='ios-package' value='CDVAccelerometer'/>
-    </feature>
-    <feature name='Compass'>
-        <param name='ios-package' value='CDVLocation'/>
-    </feature>
-    <feature name='Media'>
-        <param name='ios-package' value='CDVSound'/>
-    </feature>
-    <feature name='Camera'>
-        <param name='ios-package' value='CDVCamera'/>
-    </feature>
-    <feature name='Contacts'>
-        <param name='ios-package' value='CDVContacts'/>
-    </feature>
-    <feature name='File'>
-        <param name='ios-package' value='CDVFile'/>
-    </feature>
-    <feature name='NetworkStatus'>
-        <param name='ios-package' value='CDVConnection'/>
-    </feature>
-    <feature name='Notification'>
-        <param name='ios-package' value='CDVNotification'/>
-    </feature>
-    <feature name='FileTransfer'>
-        <param name='ios-package' value='CDVFileTransfer'/>
-    </feature>
-    <feature name='Capture'>
-        <param name='ios-package' value='CDVCapture'/>
-    </feature>
-    <feature name='Battery'>
-        <param name='ios-package' value='CDVBattery'/>
-    </feature>
-    <feature name='SplashScreen'>
-        <param name='ios-package' value='CDVSplashScreen'/>
-    </feature>
-    <feature name='Echo'>
-        <param name='ios-package' value='CDVEcho'/>
-    </feature>
-    <feature name='Globalization'>
-        <param name='ios-package' value='CDVGlobalization'/>
-    </feature>
-    <feature name='InAppBrowser'>
-        <param name='ios-package' value='CDVInAppBrowser'/>
-    </feature>
-    <feature name='Logger'>
-        <param name='ios-package' value='CDVLogger'/>
-    </feature>
-	<feature name='LocalStorage'>
+    <feature name='LocalStorage'>
         <param value='CDVLocalStorage' name='ios-package'/>
     </feature>
 	
