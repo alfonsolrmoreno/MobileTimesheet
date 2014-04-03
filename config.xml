@@ -17,8 +17,8 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<widget version='1.0.1' 
-		versionCode='217'
+<widget version='1.0.2' 
+		versionCode='218'
 	    id='br.com.multidadosti.mobile' 
 		xmlns='http://www.w3.org/ns/widgets' 
 		xmlns:gap = "http://phonegap.com/ns/1.0" 
@@ -37,6 +37,7 @@
     <content src='index.html'/>
     <!-- Preferences for Android -->
 	<preference  name="android-minSdkVersion" value="16" />
+	<preference  name="android:name" value="android.permission.CAMERA" />
 	
     <!-- Preferences for iOS -->
 	<preference name="orientation" value="portrait" />
