@@ -38,7 +38,6 @@
 	
     <!-- Preferences for Android -->
 	<preference  name="android-minSdkVersion" value="16" />
-	<preference  name="android:name" value="android.permission.CAMERA" />
     
 	<!-- Preferences for iOS -->
 	<preference name="orientation" value="portrait" />
