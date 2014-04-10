@@ -37,7 +37,6 @@
     <content src='index.html'/>
 	
     <!-- Preferences for Android -->
-	<preference  name="android-minSdkVersion" value="16" />
     
 	<!-- Preferences for iOS -->
 	<preference name="orientation" value="portrait" />
