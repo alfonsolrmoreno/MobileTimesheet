@@ -15,7 +15,8 @@ if (Objeto_real) {
 //Configuração jquery.datebox
 jQuery.extend(jQuery.mobile.datebox.prototype.options, {
     'overrideDateFormat': '%d/%m/%Y',
-    'overrideHeaderFormat': '%d/%m/%Y'
+    'overrideHeaderFormat': '%d/%m/%Y',
+    dateFieldOrder: ['d', 'm', 'y']
 });
 
 if (!supports_html5_storage) {
@@ -773,7 +774,7 @@ $(document).delegate('#page6 #selecione_cliente', 'click', function() {
     $('#page_despesa_clientes').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: '', // When the user reaches the end this is the message that is
+        error: 'Nenhum cliente encontrado', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -818,7 +819,7 @@ $(document).delegate('#page6 #selecione_projeto', 'click', function() {
     $('#page_despesa_projetos').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: '', // When the user reaches the end this is the message that is
+        error: 'Nenhum projeto encontrado', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -949,7 +950,7 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
     $('#page_timesheet_clientes').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: '...', // When the user reaches the end this is the message that is
+        error: 'Nenhum cliente encontrado', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -989,7 +990,7 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
     $('#page_timesheet_projetos').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: '...', // When the user reaches the end this is the message that is
+        error: 'Nenhum projeto encontrado', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -1259,16 +1260,43 @@ $(document).on("pageinit", "#page_login", function()
 $(document).ready(function()
 {
 
+    //Pega data do dia ########################################################
+    var data = new Date();
+    mes = data.getMonth() + 1;
+
+    if (mes < 10)
+        mes = "0" + mes;
+
+    if (data.getDate() < 10)
+        dia = "0" + data.getDate();
+    else
+        dia = data.getDate();
+
+    data_hoje = dia + "/" + mes + "/" + data.getFullYear();
+
+    //#########################################################################
+
     //Configuração alert
     $().toastmessage({
         position: 'middle-center',
         type: 'success'
     });
 
+    //Define footer para todas as páginas
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.1.0.0');
+
+
     $(document).on("pageinit", function()
     {
         $resposta = verifica_logado();
-
+        $("#data_lcto").val(data_hoje);
+        $("#data_trabalhada").val(data_hoje);
+        if ($("#filtro_data_trabalhada").val() == '') {
+            $("#filtro_data_trabalhada").val(data_hoje);
+        }
+        if ($("#dateinput2").val() == '') {
+            $("#dateinput2").val(data_hoje);
+        }
     });
 
 
@@ -1305,7 +1333,6 @@ $(document).ready(function()
 
     ua = navigator.userAgent.toLowerCase();
 
-
     //verifica se é ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
         $("#filtro_data_trabalhada").blur(function()
@@ -1330,7 +1357,10 @@ $(document).ready(function()
         }
     }
 
-    if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
+    if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
+        $(".pagina").css("margin-top", "20px");
+        $("body").css("background-color", "#1C1C1C");
+
         $("#dateinput2").blur(function()
         {
             buscar_despesa($("#dateinput2").val());
@@ -1364,29 +1394,11 @@ $(document).ready(function()
         calcula_total_despesa();
     });
 
-    //Pega data do dia ########################################################
-    var data = new Date();
-    mes = data.getMonth() + 1;
-
-    if (mes < 10)
-        mes = "0" + mes;
-
-    if (data.getDate() < 10)
-        dia = "0" + data.getDate();
-    else
-        dia = data.getDate();
-
-    data_hoje = dia + "/" + mes + "/" + data.getFullYear();
-
-    //#########################################################################
-
     $("#novo_timecard_top").click(function()
     {
         clearInputs();
         $("#page_timesheet #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
-
-        $("#data_trabalhada").val(data_hoje);
     });
 
     $("#novo_despesa_top").click(function()
@@ -1399,7 +1411,7 @@ $(document).ready(function()
         });
         $("#page6 #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page6 #selecione_projeto .ui-btn-text").text('Buscar Projeto');
-        $("#data_lcto").val(data_hoje);
+
     });
 
     $("#icon_timesheet").click(function()
