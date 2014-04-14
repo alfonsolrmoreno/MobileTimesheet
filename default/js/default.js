@@ -608,7 +608,9 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                     }
 
                     geraDespesa(data.idclienteprojeto, data.idservicos);
-                    loading('hide');
+                    $(document).on("pageshow", "#page6", function() { //Loading de página despesa
+                        loading('hide');
+                    });
                 },
                 data: {
                     idlctosdespesa: idlctosdespesa,
@@ -617,6 +619,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
             })).then(function() {
 
     });
+
 });
 
 $(document).on("pagecreate", function() {
@@ -774,7 +777,7 @@ $(document).delegate('#page6 #selecione_cliente', 'click', function() {
     $('#page_despesa_clientes').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: 'Nenhum cliente encontrado', // When the user reaches the end this is the message that is
+        error: '<center>Nenhum cliente encontrado</center>', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -819,7 +822,7 @@ $(document).delegate('#page6 #selecione_projeto', 'click', function() {
     $('#page_despesa_projetos').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: 'Nenhum projeto encontrado', // When the user reaches the end this is the message that is
+        error: '<center>Nenhum projeto encontrado</center>', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -950,7 +953,7 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
     $('#page_timesheet_clientes').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: 'Nenhum cliente encontrado', // When the user reaches the end this is the message that is
+        error: '<center>Nenhum cliente encontrado</center>', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -990,7 +993,7 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
     $('#page_timesheet_projetos').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
         offset: 1, // Initial offset, begins at 0 in this case
-        error: 'Nenhum projeto encontrado', // When the user reaches the end this is the message that is
+        error: '<center>Nenhum projeto encontrado</center>', // When the user reaches the end this is the message that is
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
@@ -1335,7 +1338,7 @@ $(document).ready(function()
 
     //verifica se é ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
-        $("#filtro_data_trabalhada").blur(function()
+        $("#filtro_data_trabalhada").change(function()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
@@ -1356,20 +1359,21 @@ $(document).ready(function()
             }
         }
     }
-	
+
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
         $(".pagina").css("margin-top", "20px");
-		$("#barra_status_ios").css("position", "fixed");
-		$("#barra_status_ios").css("top", "0%");
-		$("#barra_status_ios").css("height", "20px");
-		$("#barra_status_ios").css("width", "100%");
-		$("#barra_status_ios").css("background", "#EAEAEA");
+        $("#barra_status_ios").css("position", "fixed");
+        $("#barra_status_ios").css("z-index", "99");
+        $("#barra_status_ios").css("top", "0%");
+        $("#barra_status_ios").css("height", "20px");
+        $("#barra_status_ios").css("width", "100%");
+        $("#barra_status_ios").css("background", "#EAEAEA");
 
-        $("#dateinput2").blur(function()
+        $("#dateinput2").change(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
-		
+
     } else {
         $("#dateinput2").change(function()
         {
