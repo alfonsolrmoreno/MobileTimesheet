@@ -1283,7 +1283,7 @@ $(document).ready(function()
     });
 
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.1.0.0');
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.0');
 
 
     $(document).on("pageinit", function()
@@ -1356,15 +1356,20 @@ $(document).ready(function()
             }
         }
     }
-
+	
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
         $(".pagina").css("margin-top", "20px");
-        $("body").css("background-color", "#1C1C1C");
+		$("#barra_status_ios").css("position", "fixed");
+		$("#barra_status_ios").css("top", "0%");
+		$("#barra_status_ios").css("height", "20px");
+		$("#barra_status_ios").css("width", "100%");
+		$("#barra_status_ios").css("background", "#EAEAEA");
 
         $("#dateinput2").blur(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
+		
     } else {
         $("#dateinput2").change(function()
         {
