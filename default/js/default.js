@@ -1408,6 +1408,7 @@ $(document).ready(function()
         clearInputs();
         $("#page_timesheet #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
+        $("#data_trabalhada").val(data_hoje);
     });
 
     $("#novo_despesa_top").click(function()
@@ -1420,6 +1421,7 @@ $(document).ready(function()
         });
         $("#page6 #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page6 #selecione_projeto .ui-btn-text").text('Buscar Projeto');
+        $("#data_lcto").val(data_hoje);
 
     });
 
