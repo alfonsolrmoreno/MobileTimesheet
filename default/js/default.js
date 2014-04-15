@@ -704,7 +704,8 @@ function geraDespesa(idclienteprojeto, selecionado) {
 
 //Calcula Total Despesa
 function calcula_total_despesa() {
-    vlr_total = $("#vlr_unitario").val() * $("#qtde_despesa").val();
+    vlr_unitario = parseFloat($("#vlr_unitario").val().replace(',', '.'));
+    vlr_total = vlr_unitario * $("#qtde_despesa").val();
     $("#valor_total").val(formatNumber(vlr_total, '.', 2, 2));
 }
 
@@ -1392,8 +1393,7 @@ $(document).ready(function()
                 $("#qtde_despesa").val(1);
             }
             calcula_total_despesa();
-            valor_unitario = $("#vlr_unitario").val();
-            valor_unitario = formatNumber(valor_unitario, '.', 2, 2);
+            valor_unitario = parseFloat($("#vlr_unitario").val().replace(',', '.'));
             $("#vlr_unitario").val(valor_unitario);
         }
     });
