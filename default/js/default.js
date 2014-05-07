@@ -18,7 +18,6 @@ jQuery.extend(jQuery.mobile.datebox.prototype.options, {
     'overrideHeaderFormat': '%d/%m/%Y',
     dateFieldOrder: ['d', 'm', 'y']
 });
-
 if (!supports_html5_storage) {
     alert("Infelizmente, seu navegador não suporta IndexedDB");
 }
@@ -44,7 +43,6 @@ function unformatNumber(n, num_grp_sep, dec_sep)
 {
     var x = unformatNumberNoParse(n, num_grp_sep, dec_sep);
     x = x.toString();
-
     if (x.length > 0)
     {
         return parseFloat(x);
@@ -57,11 +55,9 @@ function unformatNumber(n, num_grp_sep, dec_sep)
 function dateFormatDisplayToTimestamp(date) {
     if (date == "" || typeof date == "undefined")
         return "";
-
     if (date.indexOf(' ') != -1) {
         var data_hora = date.split(' ');
         var ex = data_hora[0].split("/");
-
         return ex[2] + "-" + ex[1] + "-" + ex[0] + " " + data_hora[1];
     } else {
         var ex = date.split("/");
@@ -72,10 +68,8 @@ function dateFormatDisplayToTimestamp(date) {
 function dateFormatTimestampToDisplay(date, cfg) {
     if (date == "" || typeof date == "undefined")
         return "";
-
     if (date.indexOf(' ') != -1) {
         var data_hora = date.split(' ');
-
         if (cfg && cfg.strip_seconds) {
             var dh = data_hora[1].substring(0, 5);
         } else {
@@ -108,7 +102,6 @@ function unformatNumberNoParse(n, num_grp_sep, dec_sep)
     if (typeof num_grp_sep == 'undefined' || typeof dec_sep == 'undefined')
         return n;
     n = n.toString();
-
     if (n.length > 0)
     {
         n = n.replace(new RegExp(RegExp.escape(num_grp_sep), 'g'), '').replace(new RegExp(RegExp.escape(dec_sep)), '.');
@@ -130,20 +123,15 @@ RegExp.escape = function(text)
 function formatNumber(n, dec_sep, round, precision)
 {
     precision = Math.round(VR_DECIMAIS);
-
     if (typeof dec_sep == 'undefined')
         return n;
     n = n.toString();
-
     if (n.split)
         n = n.split('.');
-
     else
         return n;
-
     if (n.length > 2)
         return n.join('.');
-
     if (typeof round != 'undefined')
     {
         if (round > 0 && n.length > 1)
@@ -164,10 +152,8 @@ function formatNumber(n, dec_sep, round, precision)
     {
         if (n.length > 1 && typeof n[1] != 'undefined')
             n[1] = n[1].substring(0, precision);
-
         else
             n[1] = '';
-
         if (n[1].length < precision)
         {
             for (var wp = n[1].length; wp < precision; wp++)
@@ -175,7 +161,6 @@ function formatNumber(n, dec_sep, round, precision)
         }
     }
     regex = /(\d+)(\d{3})/;
-
     return n[0] + (n.length > 1 && n[1] != '' ? dec_sep + n[1] : '');
 }
 //############# FIM FORMATAR VALOR ############################################
@@ -195,17 +180,12 @@ function loading(showOrHide) {
 function mobile_login() {
 
     loading('show');
-
     var dados = new Object();
-
     dados['USUARIO'] = $("#usuario").val();
     dados['SENHA'] = $("#senha").val();
     dados['URL'] = $("#url").val();
-
-    if (dados['URL'] != "")
-    {
+    if (dados['URL'] != "") {
         var ajax_file_url = 'verifica_url.php';
-
         //Verifica se existe http:// e se existe "/" no final
         if ((dados['URL'].substr(0, 7)) != 'http://') {
             dados['URL'] = 'http://' + dados['URL'];
@@ -215,69 +195,60 @@ function mobile_login() {
         }
 
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
-
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
-
         $.ajax({
             type: 'POST',
-            url: 'http://www.multidadosti.com/teste_mobile/mobile/' + ajax_file_url,
+            url: dados['URL'] + '/mobile/' + ajax_file_url,
             dataType: "jsonp",
+            timeout: 5000,
             crossDomain: true,
             data: {
                 url: COMMON_URL_MOBILE
-            }
-        }).then(function(data)
-        {
-
-            if (data == 'F')
-            {
+            },
+            error: function() {
                 loading('hide');
-                $().toastmessage('showErrorToast', 'URL incorreta ou versão incompatível');
-                window.location.href = '#page_login';
-            }
-            else
-            {
+                $().toastmessage('showErrorToast', 'Falha de comunica&ccedil;&atilde;o com o servidor. Verifique sua conex&atilde;o e se a URL est&aacute; correta');
+            },
+            success: function(data) {
                 $.ajax({
                     type: 'POST',
                     url: ajax_file,
                     dataType: "jsonp",
+                    timeout: 5000,
                     crossDomain: true,
                     data: {
                         usuario: dados['USUARIO'],
                         senha: dados['SENHA'],
                         url: dados['URL']
-                    }
-                }).then(function(data)
-                {
-                    if (data['erro'])
-                    {
+                    },
+                    error: function() {
                         loading('hide');
-                        $().toastmessage('showErrorToast', data['erro']);
-
+                        $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
                         window.location.href = '#page_login';
-
-                    } else {
-                        var Objeto = {'usuario_id': data['idsenha'],
-                            'usuario_nome': data['usuario'],
-                            'senha': data['senha'],
-                            'url': data['url'],
-                            'idempresa_vendedor': data ['idempresa_vendedor'],
-                            'codigo_auxiliar': data['codigo_auxiliar'],
-                            'cnpj': data['cnpj']};
-                        localStorage.setItem('mobile_login', JSON.stringify(Objeto));
-                        var Objeto_real = localStorage['mobile_login'];
-                        var Objeto_json = JSON.parse(Objeto_real);
-
-                        window.location.href = '#page_home';
-                        window.location.reload();
+                    },
+                    success: function(data) {
+                        if (data['erro']) {
+                            loading('hide');
+                            $().toastmessage('showErrorToast', data['erro']);
+                            window.location.href = '#page_login';
+                        } else {
+                            var Objeto = {'usuario_id': data['idsenha'],
+                                'usuario_nome': data['usuario'],
+                                'senha': data['senha'],
+                                'url': data['url'],
+                                'idempresa_vendedor': data ['idempresa_vendedor'],
+                                'codigo_auxiliar': data['codigo_auxiliar'],
+                                'cnpj': data['cnpj']};
+                            localStorage.setItem('mobile_login', JSON.stringify(Objeto));
+                            var Objeto_real = localStorage['mobile_login'];
+                            var Objeto_json = JSON.parse(Objeto_real);
+                            window.location.href = '#page_home';
+                            window.location.reload();
+                        }
                     }
                 });
             }
         });
-    } else {
-        loading('hide');
-        $().toastmessage('showErrorToast', 'Favor preencher os dados corretamente');
-        window.location.href = '#page_login';
     }
 }
 
@@ -289,13 +260,11 @@ function mobile_logout() {
 function verifica_logado() {
 
     var Objeto_real = localStorage['mobile_login'];
-
     if (!Objeto_real) {
 
         var url = window.location;
         var urlString = url.toString();
         var urlArray = urlString.split("/");
-
         if (urlArray[5] != '') {
             window.location.href = "#page_login";
         }
@@ -319,7 +288,6 @@ function salvar_timesheet()
 {
     loading('show');
     var dados = new Object();
-
     dados['idvendedor'] = Objeto_json.usuario_id;
     dados['idvendedor_dig'] = Objeto_json.usuario_id;
     dados['idtimecard'] = $("#idtimecard").val();
@@ -328,25 +296,17 @@ function salvar_timesheet()
     //dados['CNPJ_EMPRESA'] = Objeto_json.cnpj;
     //dados['CODIGO_AUXILIAR_PREST'] = Objeto_json.codigo_auxiliar;
     dados['data'] = dateFormatDisplayToTimestamp($("#data_trabalhada").val());
-
     dados['idcliente'] = $("#codigo_auxiliar").val();
     dados['idclienteprojeto'] = $("#codigo").val();
-
     dados['hora'] = $("#hora_inicial").val();
     dados['hora_fim'] = $("#hora_final").val();
-
     dados['idtarefa_utbms'] = $("#codigo_fase").val();
     dados['idatividade_utbms'] = $("#codigo_atividade").val();
-
     dados['idtask_parent'] = $("#task_parent").val();
     dados['idtask'] = $("#task").val();
-
     dados['porc_conclusao_atividade'] = $(".porc_conclusao_atividade").val();
-
     dados['narrativa_principal'] = $("#narrativa_principal").val();
-
     var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
-
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -373,7 +333,6 @@ function salvar_timesheet()
         }
 
     });
-
 }
 
 function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto)
@@ -480,13 +439,9 @@ function salvar_despesa()
     dados['local_despesa'] = $("#local_despesa").val();
     dados['num_despesa'] = $("#num_documento").val();
     dados['arq_despesa'] = $("#arq_despesa").val();
-
     dados['narrativa_principal'] = $("#narrativa_principal_despesa").val();
-
     arquivo_md5 = $("#arquivo_md5").val();
-
     var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
-
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -511,7 +466,6 @@ function salvar_despesa()
             $().toastmessage('showErrorToast', data);
         }
     });
-
 }
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
@@ -534,24 +488,17 @@ function buscar_despesa(data) {
         $("#list_despesa").listview("refresh");
         loading('hide');
     });
-
-
-
 }
 
 dados_servicos = new Object();
-
-
 //Pega valores para editar despesa
 $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
 
     $(document).on("pageshow", "#page6", function() { //Loading de página despesa
         loading('show');
     });
-
     idlctosdespesa = $(this).attr('id');
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
-
     $.when(
             $.ajax({
                 type: 'POST',
@@ -575,30 +522,22 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                     $("#local_despesa").val(data.local_despesa);
                     $("#num_documento").val(data.num_despesa);
                     $("#narrativa_principal_despesa").val(data.narrativa_principal);
-
                     $("#idcliente_despesa").val(data.idcliente);
                     $("#page6 #selecione_cliente .ui-btn-text").text(data.nome_cliente);
-
                     $("#idclienteprojeto_despesa").val(data.idclienteprojeto);
                     $("#page6 #selecione_projeto .ui-btn-text").text(data.nome_projeto);
-
                     var COMMON_URL = COMMON_URL_MOBILE.substr(0, COMMON_URL_MOBILE.length - 7);
                     if (data.id_arquivo) {
 
                         arquivo_edit = "<input type='hidden' name='idarquivo' id='idarquivo' value='" + data.id_arquivo + "' >";
-
                         var filename = COMMON_URL_MOBILE + "open_files_mobile.php?ss=arq_despesas&id=" + data.id_arquivo + "&dw=F";
                         var markup = '<a href="#popupPhoto" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="fade">' + data.nome_arquivo + '</a>';
                         var popup = '<div data-role="popup" id="popupPhoto" data-overlay-theme="a" data-theme="d" data-corners="false"><a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><img class="popphoto" src="' + filename + '" ></div>';
                         var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
-
                         $("#popupPhoto").popup("destroy");
                         $("#upload_arquivos").empty().append('<div data-mini="true" data-role="controlgroup" data-type="horizontal">' + markup + apagar + '</div>' + arquivo_edit);
                         $("#popup_imagem").html(popup);
                         $("#page6").trigger('create');
-
-
-
                         //$("#upload_arquivos").html("<a href='javascript:;' onclick='window.open(\""+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F\")' id='del_arquivo'><img src='"+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F' width='100px'></a>\n\
                         //   &nbsp;<button onclick='deletaArquivo();' data-mini=\"true\" id='del_arquivo' >Excluir</button>"+arquivo_edit);
 
@@ -619,9 +558,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
             })).then(function() {
 
     });
-
 });
-
 $(document).on("pagecreate", function() {
     $(".photopopup").on({
         popupbeforeposition: function() {
@@ -636,7 +573,6 @@ function deletaArquivo() {
     if (ok == true) {
         var ajax_file = COMMON_URL_MOBILE + 'arquivo_despesa.php';
         idarquivo = $("#idarquivo").val();
-
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -660,7 +596,6 @@ function deletaArquivo() {
 function geraDespesa(idclienteprojeto, selecionado) {
 
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
-
     if (selecionado == 0 || typeof selecionado == 'undefined') {
         selecionado = "";
         var selected_first = "selected='selected'";
@@ -678,28 +613,18 @@ function geraDespesa(idclienteprojeto, selecionado) {
     {
         //console.dir(data);
         dados_servicos = data.data;
-
         var options = '<option value="" ' + selected_first + '>Selecione uma despesa</option>';
-
         $("#idtabpreco").val(data['idtabpreco']);
-
         jQuery.each(data.select, function(i, val) {
             selected = '';
-
             if (i == selecionado)
                 selected = 'selected="selected"';
-
             options += '<option value="' + i + '" ' + selected + '>' + val + '</option>';
-
         });
-
-
         $("#codigo_despesa").html(options);
         loading('hide');
         $("#codigo_despesa").selectmenu("refresh");
-
     });
-
 }
 
 //Calcula Total Despesa
@@ -715,7 +640,6 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function() {
     loading('show');
     if (confirm('Deseja excluir esta despesa?')) {
         var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
-
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -736,10 +660,8 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function() {
             }
             loading('hide');
         });
-
     }
 });
-
 function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 {
 
@@ -754,7 +676,6 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
     {
         $("#idclienteprojeto_despesa").val(id);
         $("#page6 #selecione_projeto .ui-btn-text").text(valor);
-
         if ($("#idcliente_despesa").val() == '')
         {
             geraDespesa(id, 0);
@@ -799,9 +720,7 @@ $(document).delegate('#page6 #selecione_cliente', 'click', function() {
             $("#page6 #voltar_despesa").attr("href", "#page8");
         });
     });
-
 });
-
 //pega click ao listar clientes despesa
 $(document).delegate("#page6 [id^='idcliente_']", 'click', function()
 {
@@ -811,10 +730,7 @@ $(document).delegate("#page6 [id^='idcliente_']", 'click', function()
     selecionaValorDespesa($(this).text(), "c", idcliente[1]);
     $("#page_despesa_clientes").html('');
     $("#page_despesa_sub").show();
-
 });
-
-
 //LISTA PROJETOS DESPESA
 $(document).delegate('#page6 #selecione_projeto', 'click', function() {
 
@@ -845,7 +761,6 @@ $(document).delegate('#page6 #selecione_projeto', 'click', function() {
         });
     });
 });
-
 //pega click ao listar projetos
 $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
 {
@@ -854,12 +769,10 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
     var idclienteprojeto = id.split('_');
     var idcliente = $(this).attr('data-idcliente');
     var nomecliente = $(this).attr('data-nomecliente');
-
     selecionaValorDespesa($(this).text(), "p", idclienteprojeto[1], idcliente, nomecliente);
     $("#page_despesa_projetos").html('');
     $("#page_despesa_sub").show();
 });
-
 //################# FIM DESPESA ###############################################
 //#############################################################################
 
@@ -873,7 +786,6 @@ function buscar_timesheet(data) {
     loading('show');
     data = dateFormatDisplayToTimestamp(data);
     var ajax_file = COMMON_URL_MOBILE + 'busca_timesheet.php';
-
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -890,7 +802,6 @@ function buscar_timesheet(data) {
         $("#list").listview("refresh");
         loading('hide');
     });
-
 }
 
 
@@ -899,7 +810,6 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
     idtimecard = $(this).attr('id');
     //var args = {cm: 'Timesheet->getTimecard', idtimecard: idtimecard};
     var ajax_file = COMMON_URL_MOBILE + 'retorna_timecard.php';
-
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -912,7 +822,6 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
     {
         loading('show');
         codigo_atividade = data.idatividade_utbms;
-
         if (data.idtimecard != '') {
             $("#idtimecard").val(data.idtimecard);
         }
@@ -928,24 +837,17 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
             seleciona_fase(data.idcliente, data.idclienteprojeto, data.idtarefa_utbms, codigo_atividade);
         }
         $("#data_trabalhada").val(dateFormatTimestampToDisplay((data.data_trabalhada)));
-
         $("#codigo_auxiliar").val(data.idcliente);
         $("#page_timesheet #selecione_cliente .ui-btn-text").text(data.nome_cliente);
-
         $("#codigo").val(data.idclienteprojeto);
         $("#page_timesheet #selecione_projeto .ui-btn-text").text(data.nome_projeto);
-
         hora_inicial = (data.dt_hr_inicial.substr(11, 5));
         hora_final = (data.dt_hr_final.substr(11, 5));
         $("#hora_inicial").val(hora_inicial);
         $("#hora_final").val(hora_final);
         $("#narrativa_principal").val(data.narrativa_principal);
-
     });
-
-
 });
-
 //Lista clientes no timesheet
 $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
     $("#page_timesheet_sub").hide();
@@ -975,7 +877,6 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
         });
     });
 });
-
 //pega click ao listar clientes
 $(document).delegate("[id^='idcliente_']", 'click', function()
 {
@@ -986,7 +887,6 @@ $(document).delegate("[id^='idcliente_']", 'click', function()
     $("#page_timesheet_sub").show();
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
 });
-
 //Seleciona o projeto
 $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
     $("#page_timesheet_sub").hide();
@@ -1016,7 +916,6 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
         });
     });
 });
-
 //pega click ao listar projetos
 $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
 {
@@ -1025,7 +924,6 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
     var idcliente = $(this).attr('data-idcliente');
     var nomecliente = $(this).attr('data-nomecliente');
     var lawps_utbms_project = $(this).attr('data-utbms-project');
-
     selecionaValor($(this).text(), "p", idclienteprojeto[1], idcliente, nomecliente, lawps_utbms_project);
     $("#page_timesheet_projetos").html('');
     $("#page_timesheet_sub").show();
@@ -1035,14 +933,11 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
     else
         $("#porcentagem_conclusao").hide();
 });
-
 //Pega dados do idtimecard que foi clicado e deleta
 $(document).delegate('#list .delete_timesheet', 'click', function() {
     idtimecard = $(this).attr('id');
     if (confirm('Deseja apagar esse Timecard ?')) {
         var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
-
-
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -1062,12 +957,8 @@ $(document).delegate('#list .delete_timesheet', 'click', function() {
                 $().toastmessage('showErrorToast', data);
             }
         });
-
-
     }
 });
-
-
 //Exibe fase conforme idprojeto
 function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_atividade) {
     loading('show');
@@ -1093,21 +984,17 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
                     var selected_first = "selected='selected'";
                 }
                 var options = '<option value="" ' + selected_first + '>Selecione uma fase</option>';
-
                 $.each(response, function(key, val) {
                     selected = '';
                     if (val.idutbms == selecionado_fase)
                         selected = 'selected="selected"';
                     options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
                 });
-
                 $("#codigo_fase").html(options);
-
                 $("select#codigo_fase").selectmenu("refresh");
                 loading('hide');
                 if (selecionado_atividade != 0)
                     seleciona_atividade(selecionado_atividade);
-
             });
 }
 
@@ -1125,7 +1012,6 @@ function seleciona_atividade(selecionado)
     val_idutbms_fase = $("#codigo_fase").val();
     idcliente = $("#codigo_auxiliar").val();
     idclienteprojeto = $("#codigo").val();
-
     if ($("#codigo_fase").val() != '')
     {
         $.ajax({
@@ -1138,7 +1024,6 @@ function seleciona_atividade(selecionado)
                 {
                     var items = [];
                     var options = '<option value="">Escolha uma atividade</option>';
-
                     $.each(response, function(key, val) {
                         selected = '';
                         if (selecionado == val.idutbms) {
@@ -1146,11 +1031,8 @@ function seleciona_atividade(selecionado)
                         }
                         options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
                     });
-
                     $("#codigo_atividade").html(options);
-
                     $("select#codigo_atividade").selectmenu("refresh");
-
                     loading('hide');
                 });
     }
@@ -1180,20 +1062,16 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                     }
                     options += '<option value="' + key + '" ' + selected + '>' + val + '</option>';
                 });
-
-
                 //$('#atividade_task').html(response.select_atividades);
                 if (!$("#task_parent").length) {
                     $("#codigo_fase").attr("id", "task_parent");
                     $("#task_parent").attr("name", "task_parent");
                 }
                 $("#task_parent").html(options);
-
                 if ($("input#codigo_fase").attr('type') != 'hidden') {
                     $('#fase_task').append('<input type="hidden" name="codigo_fase" id="codigo_fase" >');
                 }
                 $('#codigo_fase').val(response.select_tarefas_hidden);
-
                 $("select#task_parent").selectmenu("refresh");
                 loading('hide');
                 if (selecionado != '')
@@ -1219,26 +1097,21 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
                 var options = '<option value="" ' + selected_first + '>Selecione uma atividade</option>';
                 $.each(response.select_atividades, function(key, val) {
                     selected = '';
-
                     if (selecionado == key) {
                         selected = "selected='selected'";
                     }
                     options += '<option value="' + key + '" ' + selected + '>' + val + '</option>';
                 });
-
-
                 //$('#atividade_task').html(response.select_atividades);
                 if (!$("#task").length) {
                     $("#codigo_atividade").attr("id", "task");
                     $("#task").attr("name", "task");
                 }
                 $("#task").html(options);
-
                 if ($("input#codigo_atividade").attr('type') != 'hidden') {
                     $('#atividade_task').append('<input type="hidden" name="codigo_atividade" id="codigo_atividade" >');
                 }
                 $('#codigo_atividade').val(response.select_atividades_hidden);
-
                 $("select#task").selectmenu("refresh");
                 loading('hide');
             });
@@ -1250,8 +1123,6 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 $(document).delegate('#task_parent', 'change', function() {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
-
-
 $(document).on("pageinit", "#page_login", function()
 {
     $resposta = verifica_logado();
@@ -1259,25 +1130,18 @@ $(document).on("pageinit", "#page_login", function()
         window.location.href = "#page_home";
     }
 });
-
-
-$(document).ready(function()
-{
+$(document).ready(function() {
 
     //Pega data do dia ########################################################
     var data = new Date();
     mes = data.getMonth() + 1;
-
     if (mes < 10)
         mes = "0" + mes;
-
     if (data.getDate() < 10)
         dia = "0" + data.getDate();
     else
         dia = data.getDate();
-
     data_hoje = dia + "/" + mes + "/" + data.getFullYear();
-
     //#########################################################################
 
     //Configuração alert
@@ -1285,11 +1149,8 @@ $(document).ready(function()
         position: 'middle-center',
         type: 'success'
     });
-
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.0');
-
-
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.1');
     $(document).on("pageinit", function()
     {
         $resposta = verifica_logado();
@@ -1302,58 +1163,44 @@ $(document).ready(function()
             $("#dateinput2").val(data_hoje);
         }
     });
-
-
-
     $("#botao_entrar").click(function()
     {
         mobile_login();
     });
-
     $("#icon_sair").click(function()
     {
         mobile_logout();
     });
-
     $("#save_timecard_top").click(function()
     {
         salvar_timesheet();
     });
-
     $("#save_timecard_bottom").click(function()
     {
         salvar_timesheet();
     });
-
     $("#save_despesa_top").click(function()
     {
         salvar_despesa();
     });
-
     $("#save_despesa_bottom").click(function()
     {
         salvar_despesa();
     });
-
     ua = navigator.userAgent.toLowerCase();
-
     //verifica se é ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
         $("#filtro_data_trabalhada").change(function()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
-
-
     } else {
         $("#filtro_data_trabalhada").change(function()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
-
         if (ua.indexOf('android') != -1) {
             var version = ua.match(/android\s+([\d\.]+)/)[1];
-
             //Se versão android for maior 4.3 desabilita upload despesa
             if (parseFloat(version) > 4.3) {
                 $('#upload_despesa').hide();
@@ -1369,12 +1216,10 @@ $(document).ready(function()
         $("#barra_status_ios").css("height", "20px");
         $("#barra_status_ios").css("width", "100%");
         $("#barra_status_ios").css("background", "#EAEAEA");
-
         $("#dateinput2").change(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
-
     } else {
         $("#dateinput2").change(function()
         {
@@ -1385,7 +1230,6 @@ $(document).ready(function()
     $(document).delegate('#codigo_fase', 'change', function() {
         seleciona_atividade(0);
     });
-
     $("#vlr_unitario").blur(function()
     {
         if ($("#vlr_unitario").val() != '') {
@@ -1397,12 +1241,10 @@ $(document).ready(function()
             $("#vlr_unitario").val(valor_unitario);
         }
     });
-
     $("#qtde_despesa").blur(function()
     {
         calcula_total_despesa();
     });
-
     $("#novo_timecard_top").click(function()
     {
         clearInputs();
@@ -1410,7 +1252,6 @@ $(document).ready(function()
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_trabalhada").val(data_hoje);
     });
-
     $("#novo_despesa_top").click(function()
     {
         clearInputs();
@@ -1422,9 +1263,7 @@ $(document).ready(function()
         $("#page6 #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page6 #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_lcto").val(data_hoje);
-
     });
-
     $("#icon_timesheet").click(function()
     {
         $('#filtro_data_trabalhada').val(data_hoje);
@@ -1447,10 +1286,7 @@ $(document).ready(function()
         idservico = $("#codigo_despesa option:selected").val();
         var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
         dados_despesa = (dados_servicos[idservico]);
-
         var valor_despesa_digitado = formatNumber(dados_despesa['preco_venda'], '.', 2, 2);
-
-
         if (dados_despesa['valor_bloqueado_alt'] == 'T')
         {
             $('#vlr_unitario').val(valor_despesa_digitado);
@@ -1469,8 +1305,4 @@ $(document).ready(function()
         }
 
     });
-
-
 });
-
-
