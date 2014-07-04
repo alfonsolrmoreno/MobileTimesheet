@@ -207,7 +207,7 @@ function mobile_login() {
             },
             error: function() {
                 loading('hide');
-                $().toastmessage('showErrorToast', 'Falha de comunica&ccedil;&atilde;o com o servidor. Verifique sua conex&atilde;o e se a URL est&aacute; correta');
+                $().toastmessage('showErrorToast', 'Falha de comunicação com o servidor. Verifique sua conexão e se a URL está correta');
             },
             success: function(data) {
                 $.ajax({
@@ -223,7 +223,7 @@ function mobile_login() {
                     },
                     error: function() {
                         loading('hide');
-                        $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
+                        $().toastmessage('showErrorToast', 'URL incorreta ou versão incompatível');
                         window.location.href = '#page_login';
                     },
                     success: function(data) {
@@ -304,8 +304,9 @@ function salvar_timesheet()
     dados['idatividade_utbms'] = $("#codigo_atividade").val();
     dados['idtask_parent'] = $("#task_parent").val();
     dados['idtask'] = $("#task").val();
-    dados['porc_conclusao_atividade'] = $(".porc_conclusao_atividade").val();
+    dados['porc_conclusao_atividade'] = $("#porc_conclusao_atividade").val();
     dados['narrativa_principal'] = $("#narrativa_principal").val();
+    
     var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
     $.ajax({
         type: 'POST',
@@ -584,7 +585,6 @@ function deletaArquivo() {
             }
         }).then(function(data)
         {
-            console.dir(data);
             $("#arquivo_md5").val('');
         });
         $("#arquivo_md5").val('');
@@ -829,8 +829,19 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         //Verifica se é project
         if (data.idtask != '') {
             $("#porcentagem_conclusao").show();
-            $(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
-            $('.porc_conclusao_atividade').slider('refresh');
+            seleciona_porcentagem_conclusao(data.porc_conclusao_atividade);
+            //Andre Renovato - 24-06-2014
+            //NOVO USANDO SELECTBOX
+            $("#porc_conclusao_atividade").val();
+            $("select#porc_conclusao_atividade").selectmenu("refresh");
+            
+            
+            //ANTIGO USANDO SLIDER
+            //$(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
+            //$('.porc_conclusao_atividade').slider('refresh');
+            
+            
+
             seleciona_task_parent(data.idcliente, data.idclienteprojeto, data.idtask);
         } else {
             $("#porcentagem_conclusao").hide();
@@ -928,11 +939,15 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
     $("#page_timesheet_projetos").html('');
     $("#page_timesheet_sub").show();
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
-    if (lawps_utbms_project == 'P')
+    if (lawps_utbms_project == 'P'){
         $("#porcentagem_conclusao").show();
-    else
+        //carrega lista com porcentagens
+        seleciona_porcentagem_conclusao();
+    }else{
         $("#porcentagem_conclusao").hide();
+    }
 });
+
 //Pega dados do idtimecard que foi clicado e deleta
 $(document).delegate('#list .delete_timesheet', 'click', function() {
     idtimecard = $(this).attr('id');
@@ -998,10 +1013,38 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
             });
 }
 
+//Andre Renovato - 26/06/2014 - oc:13190
+//Exibe lista de porcentagem conclusao
+function seleciona_porcentagem_conclusao(item_selected) {
+    loading('show');
+
+    $.ajax({
+        type: 'GET',
+        url: COMMON_URL_MOBILE + 'search.php?tipo=percent_conclusao',
+        dataType: "jsonp",
+        crossDomain: true
+    })
+    
+    .then(function(response){
+        var options = '';
+        $.each(response, function(key, val) {
+            selected = item_selected ? item_selected : '';
+
+            selected = val == selected ? 'selected="selected"' : '';
+
+            options += '<option value="' + val + '" ' + selected + '>' + val + '</option>';
+        });
+        
+        $("#porc_conclusao_atividade").html(options);
+        $("select#porc_conclusao_atividade").selectmenu("refresh");
+        loading('hide');
+    });
+}
+
 
 
 function seleciona_atividade(selecionado)
-{
+{	
     loading('show');
     if (selecionado == 0 || typeof selecionado == 'undefined') {
         selecionado = "";
@@ -1040,6 +1083,7 @@ function seleciona_atividade(selecionado)
 
 //Exibe TAREFA PRINCIPAL conforme idprojeto se for PROJECT
 function seleciona_task_parent(idcliente, idprojeto, selecionado) {
+	
     loading('show');
     $.ajax({
         type: 'GET',
@@ -1050,6 +1094,9 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
             .then(function(response)
             {
                 selecionado_parent = response.selecionado;
+				
+				if((typeof selecionado == 'undefined' || selecionado == '') && selecionado_parent != '') selecionado = selecionado_parent;
+
                 if (selecionado_parent == 0 || typeof selecionado_parent == 'undefined') {
                     selecionado_parent = "";
                     var selected_first = "selected='selected'";
@@ -1074,6 +1121,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                 $('#codigo_fase').val(response.select_tarefas_hidden);
                 $("select#task_parent").selectmenu("refresh");
                 loading('hide');
+				
                 if (selecionado != '')
                     seleciona_task(idcliente, idprojeto, selecionado_parent, selecionado);
             });
@@ -1150,7 +1198,7 @@ $(document).ready(function() {
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.1');
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.2');
     $(document).on("pageinit", function()
     {
         $resposta = verifica_logado();
@@ -1209,14 +1257,18 @@ $(document).ready(function() {
     }
 
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
-        $(".pagina").css("margin-top", "20px");
+        
+		/*
+		$(".pagina").css("margin-top", "20px");
         $("#barra_status_ios").css("position", "fixed");
         $("#barra_status_ios").css("z-index", "99");
         $("#barra_status_ios").css("top", "0%");
         $("#barra_status_ios").css("height", "20px");
         $("#barra_status_ios").css("width", "100%");
         $("#barra_status_ios").css("background", "#EAEAEA");
-        $("#dateinput2").change(function()
+        */
+			
+		$("#dateinput2").change(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
