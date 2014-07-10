@@ -200,7 +200,7 @@ function mobile_login() {
             type: 'POST',
             url: dados['URL'] + '/mobile/' + ajax_file_url,
             dataType: "jsonp",
-            timeout: 5000,
+            timeout: 10000,
             crossDomain: true,
             data: {
                 url: COMMON_URL_MOBILE
