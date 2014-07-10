@@ -207,7 +207,7 @@ function mobile_login() {
             },
             error: function() {
                 loading('hide');
-                $().toastmessage('showErrorToast', 'Falha de comunicação com o servidor. Verifique sua conexão e se a URL está correta');
+                $().toastmessage('showErrorToast', 'Falha de comunica&ccedil;&atilde;o com o servidor. Verifique sua conex&atilde;o e se a URL est&aacute; correta');
             },
             success: function(data) {
                 $.ajax({
@@ -223,7 +223,7 @@ function mobile_login() {
                     },
                     error: function() {
                         loading('hide');
-                        $().toastmessage('showErrorToast', 'URL incorreta ou versão incompatível');
+                        $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
                         window.location.href = '#page_login';
                     },
                     success: function(data) {
