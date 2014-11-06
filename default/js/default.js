@@ -194,8 +194,16 @@ function mobile_login() {
             }
         }
 
+        //Remove "/login.php" caso enviado no campo URL
+        if ((dados['URL'].substr(-10)) == '/login.php') {
+            var count_url = dados['URL'].length;
+            count_url = count_url - 10;
+            dados['URL'] = dados['URL'].substr(0, count_url);
+        }
+
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
+        //alert(COMMON_URL_MOBILE);
         $.ajax({
             type: 'POST',
             url: dados['URL'] + '/mobile/' + ajax_file_url,
@@ -306,7 +314,7 @@ function salvar_timesheet()
     dados['idtask'] = $("#task").val();
     dados['porc_conclusao_atividade'] = $("#porc_conclusao_atividade").val();
     dados['narrativa_principal'] = $("#narrativa_principal").val();
-    
+
     var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
     $.ajax({
         type: 'POST',
@@ -834,13 +842,13 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
             //NOVO USANDO SELECTBOX
             $("#porc_conclusao_atividade").val();
             $("select#porc_conclusao_atividade").selectmenu("refresh");
-            
-            
+
+
             //ANTIGO USANDO SLIDER
             //$(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
             //$('.porc_conclusao_atividade').slider('refresh');
-            
-            
+
+
 
             seleciona_task_parent(data.idcliente, data.idclienteprojeto, data.idtask);
         } else {
@@ -939,11 +947,11 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
     $("#page_timesheet_projetos").html('');
     $("#page_timesheet_sub").show();
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
-    if (lawps_utbms_project == 'P'){
+    if (lawps_utbms_project == 'P') {
         $("#porcentagem_conclusao").show();
         //carrega lista com porcentagens
         seleciona_porcentagem_conclusao();
-    }else{
+    } else {
         $("#porcentagem_conclusao").hide();
     }
 });
@@ -1024,27 +1032,27 @@ function seleciona_porcentagem_conclusao(item_selected) {
         dataType: "jsonp",
         crossDomain: true
     })
-    
-    .then(function(response){
-        var options = '';
-        $.each(response, function(key, val) {
-            selected = item_selected ? item_selected : '';
 
-            selected = val == selected ? 'selected="selected"' : '';
+            .then(function(response) {
+                var options = '';
+                $.each(response, function(key, val) {
+                    selected = item_selected ? item_selected : '';
 
-            options += '<option value="' + val + '" ' + selected + '>' + val + '</option>';
-        });
-        
-        $("#porc_conclusao_atividade").html(options);
-        $("select#porc_conclusao_atividade").selectmenu("refresh");
-        loading('hide');
-    });
+                    selected = val == selected ? 'selected="selected"' : '';
+
+                    options += '<option value="' + val + '" ' + selected + '>' + val + '</option>';
+                });
+
+                $("#porc_conclusao_atividade").html(options);
+                $("select#porc_conclusao_atividade").selectmenu("refresh");
+                loading('hide');
+            });
 }
 
 
 
 function seleciona_atividade(selecionado)
-{	
+{
     loading('show');
     if (selecionado == 0 || typeof selecionado == 'undefined') {
         selecionado = "";
@@ -1083,7 +1091,7 @@ function seleciona_atividade(selecionado)
 
 //Exibe TAREFA PRINCIPAL conforme idprojeto se for PROJECT
 function seleciona_task_parent(idcliente, idprojeto, selecionado) {
-	
+
     loading('show');
     $.ajax({
         type: 'GET',
@@ -1094,8 +1102,9 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
             .then(function(response)
             {
                 selecionado_parent = response.selecionado;
-				
-				if((typeof selecionado == 'undefined' || selecionado == '') && selecionado_parent != '') selecionado = selecionado_parent;
+
+                if ((typeof selecionado == 'undefined' || selecionado == '') && selecionado_parent != '')
+                    selecionado = selecionado_parent;
 
                 if (selecionado_parent == 0 || typeof selecionado_parent == 'undefined') {
                     selecionado_parent = "";
@@ -1121,7 +1130,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                 $('#codigo_fase').val(response.select_tarefas_hidden);
                 $("select#task_parent").selectmenu("refresh");
                 loading('hide');
-				
+
                 if (selecionado != '')
                     seleciona_task(idcliente, idprojeto, selecionado_parent, selecionado);
             });
@@ -1198,7 +1207,7 @@ $(document).ready(function() {
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.2');
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.3');
     $(document).on("pageinit", function()
     {
         $resposta = verifica_logado();
@@ -1257,18 +1266,18 @@ $(document).ready(function() {
     }
 
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
-        
-		/*
-		$(".pagina").css("margin-top", "20px");
-        $("#barra_status_ios").css("position", "fixed");
-        $("#barra_status_ios").css("z-index", "99");
-        $("#barra_status_ios").css("top", "0%");
-        $("#barra_status_ios").css("height", "20px");
-        $("#barra_status_ios").css("width", "100%");
-        $("#barra_status_ios").css("background", "#EAEAEA");
-        */
-			
-		$("#dateinput2").change(function()
+
+        /*
+         $(".pagina").css("margin-top", "20px");
+         $("#barra_status_ios").css("position", "fixed");
+         $("#barra_status_ios").css("z-index", "99");
+         $("#barra_status_ios").css("top", "0%");
+         $("#barra_status_ios").css("height", "20px");
+         $("#barra_status_ios").css("width", "100%");
+         $("#barra_status_ios").css("background", "#EAEAEA");
+         */
+
+        $("#dateinput2").change(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
