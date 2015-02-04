@@ -1259,7 +1259,7 @@ $(document).ready(function() {
         if (ua.indexOf('android') != -1) {
             var version = ua.match(/android\s+([\d\.]+)/)[1];
             //Se versão android for maior 4.3 desabilita upload despesa
-            if (parseFloat(version) > 4.3) {
+            if (parseFloat(version) == 4.3) {
                 $('#upload_despesa').hide();
             }
         }
