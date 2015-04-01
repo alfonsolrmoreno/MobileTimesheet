@@ -781,6 +781,7 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function()
     $("#page_despesa_projetos").html('');
     $("#page_despesa_sub").show();
 });
+
 //################# FIM DESPESA ###############################################
 //#############################################################################
 
@@ -1338,10 +1339,6 @@ $(document).ready(function() {
     })
 
 
-
-
-
-
     //DESPESA: pega dados do idserviço conforme selecionado
     $("#codigo_despesa").change(function() {
         idservico = $("#codigo_despesa option:selected").val();
@@ -1365,5 +1362,16 @@ $(document).ready(function() {
             $('#vlr_unitario').trigger('blur');
         }
 
+    });
+
+    //default div botões upload fechados
+    $("#optionsUpload").hide()
+    $("#uploadArquivo").click(function() {
+        $("#optionsUpload").toggle();
+        //$("#btn_save_despesa").toggle();
+    });
+    $("#cancel_upload").click(function() {
+        $("#optionsUpload").toggle();
+        //$("#btn_save_despesa").toggle();
     });
 });

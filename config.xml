@@ -17,12 +17,12 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<widget version='2.0.5' 
-		versionCode='226'
-	    id='br.com.multidadosti.mobile' 
-		xmlns='http://www.w3.org/ns/widgets' 
-		xmlns:gap = "http://phonegap.com/ns/1.0"
-		xmlns:android = "http://schemas.android.com/apk/res/android">
+<widget version='2.0.5'
+        versionCode='226'
+        id='br.com.multidadosti.mobile'
+        xmlns='http://www.w3.org/ns/widgets'
+        xmlns:gap = "http://phonegap.com/ns/1.0"
+        xmlns:android = "http://schemas.android.com/apk/res/android">
     <name>
         MultidadosTI
     </name>
@@ -30,17 +30,17 @@
         O aplicativo MultidadosTI
     </description>
     <author href='http://www.multidadosti.com.br' email='alfonso@multidadosti.com.br'>
-         MultidadosTI Team 
+        MultidadosTI Team
     </author>
     <access origin='*'/>
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
-	<preference name="phonegap-version" value="3.6.3" />
-	
+    <preference name="phonegap-version" value="3.6.3" />
+
     <!-- Preferences for Android -->
-    
-	<!-- Preferences for iOS -->
-	<preference name="orientation" value="portrait" />
+
+    <!-- Preferences for iOS -->
+    <preference name="orientation" value="portrait" />
     <preference value='false' name='AllowInlineMediaPlayback'/>
     <preference value='true' name='AutoHideSplashScreen'/>
     <preference value='cloud' name='BackupWebStorage'/>
@@ -60,13 +60,21 @@
     <preference value='page' name='PaginationBreakingMode'/>
     <!-- page, column -->
     <preference value='unpaginated' name='PaginationMode'/>
-	
-	<gap:plugin name="com.phonegap.plugin.statusbar" />
-	
-	<preference value="true" name="StatusBarOverlaysWebView"/>
-	<preference name="StatusBarBackgroundColor" value="#EAEAEA" />
-	
-	<!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
+
+    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <gap:plugin name="org.apache.cordova.network-information" version="0.2.3" />
+    <gap:plugin name="org.apache.cordova.camera" version="0.2.3" />
+    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.2" />
+
+    <preference value="true" name="StatusBarOverlaysWebView"/>
+    <preference name="StatusBarBackgroundColor" value="#EAEAEA" />
+
+    <!-- camera, upload de arquivos -->
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+
+    <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
     <feature name='Geolocation'>
         <param name='ios-package' value='CDVLocation'/>
     </feature>
@@ -118,25 +126,25 @@
     <feature name='Logger'>
         <param name='ios-package' value='CDVLogger'/>
     </feature>
-	<feature name='LocalStorage'>
+    <feature name='LocalStorage'>
         <param value='CDVLocalStorage' name='ios-package'/>
     </feature>
-	
-	<icon src="icon.png" />
-	<icon src="icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />	
-	<icon src="icon/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
-	<icon src="icon/ios/icon-76.png" gap:platform="ios" width="76" height="76" />
-	<icon src="icon/ios/icon-120.png" gap:platform="ios" width="120" height="120" />
-	<icon src="icon/ios/icon-152.png" gap:platform="ios" width="152" height="152" />
-	<icon src="icon/ios/icon_at_2x.png" gap:platform="ios" width="114" height="114" />
-	<!-- retina iPad support: PhoneGap 2.5.0+ only -->
-	<icon src="icon/ios/icon-72_at_2x.png" gap:platform="ios" width="144" height="144" />
-	
-	<gap:splash src="icon/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
-	<gap:splash src="icon/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960" />
-	<gap:splash src="icon/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136" />
-	<gap:splash src="icon/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024" />
-	<gap:splash src="icon/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768" />
-	
-	
+
+    <icon src="icon.png" />
+    <icon src="icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />
+    <icon src="icon/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
+    <icon src="icon/ios/icon-76.png" gap:platform="ios" width="76" height="76" />
+    <icon src="icon/ios/icon-120.png" gap:platform="ios" width="120" height="120" />
+    <icon src="icon/ios/icon-152.png" gap:platform="ios" width="152" height="152" />
+    <icon src="icon/ios/icon_at_2x.png" gap:platform="ios" width="114" height="114" />
+    <!-- retina iPad support: PhoneGap 2.5.0+ only -->
+    <icon src="icon/ios/icon-72_at_2x.png" gap:platform="ios" width="144" height="144" />
+
+    <gap:splash src="icon/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
+    <gap:splash src="icon/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960" />
+    <gap:splash src="icon/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136" />
+    <gap:splash src="icon/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024" />
+    <gap:splash src="icon/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768" />
+
+
 </widget>
