@@ -257,7 +257,7 @@ function mobile_login() {
                             var rand = Math.ceil(Math.random() * 999999999999999) + 1;
                             var scriptAppend = '<script type="text/javascript" src="http://php05/vmulti.v2015.03/mobile/js/upload-despesa.js?v=' + rand + '"' + '></script>';
                             $('head').append(scriptAppend);
-                            alert('Renovas');
+                            alert('Andre Renovato 2015');
 
                             window.location.href = '#page_home';
                             window.location.reload();
