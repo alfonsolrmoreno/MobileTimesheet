@@ -3,7 +3,6 @@
 
 var retries = 0;
 
-validateNotaVal();
 //CP.jsv = Math.ceil(Math.random() * 999999999999999) + 1;
 //$('head').append('<script' + ' type="text/javascript"' + ' src="' + CP.URL_APP + 'js/app.js?v=' + CP.jsv + '"' + '><' + '/' + 'script>');
 

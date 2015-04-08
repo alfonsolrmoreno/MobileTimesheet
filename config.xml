@@ -69,10 +69,11 @@
     <preference value="true" name="StatusBarOverlaysWebView"/>
     <preference name="StatusBarBackgroundColor" value="#EAEAEA" />
 
-    <!-- camera, upload de arquivos -->
-    <feature name="http://api.phonegap.com/1.0/file"/>
+    <!-- Andre renovato - 08/04/2015
+    camera, upload de arquivos -->
+    <!--    <feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/camera"/>
-    <feature name="http://api.phonegap.com/1.0/network"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>-->
 
     <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
     <feature name='Geolocation'>
