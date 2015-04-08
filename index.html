@@ -36,7 +36,41 @@
         <script src="default/js/default.js"></script>
 
         <!-- Script upload arquivos -->
-        <script type="text/javascript" src="js/upload-despesa.js"></script>
+        <!--<script type="text/javascript" src="js/upload-despesa.js"></script>-->
+
+        <!--        //teste autocomplete-->
+        <script>
+            $(document).on("pageinit", "#page90", function() {
+                $("#autocomplete").on("filterablebeforefilter", function(e, data) {
+                    var $ul = $(this),
+                            $input = $(data.input),
+                            value = $input.val(),
+                            html = "";
+                    $ul.html("");
+                    alert(value);
+                    if (value && value.length > 2) {
+                        $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+                        $ul.listview("refresh");
+                        $.ajax({
+                            url: "http://gd.geobytes.com/AutoCompleteCity",
+                            dataType: "jsonp",
+                            crossDomain: true,
+                            data: {
+                                q: $input.val()
+                            }
+                        })
+                                .then(function(response) {
+                                    $.each(response, function(i, val) {
+                                        html += "<li>" + val + "</li>";
+                                    });
+                                    $ul.html(html);
+                                    $ul.listview("refresh");
+                                    $ul.trigger("updatelayout");
+                                });
+                    }
+                });
+            });
+        </script>
 
         <script type="text/javascript">
             try {
@@ -75,8 +109,7 @@
         </style>
     </head>
     <body style="background: url('img/bg_app.jpg') no-repeat; background-size: 100%;">
-        <div data-role="page" class="class_page pagina" data-control-title="Login Multidados" data-theme="b"
-             id="page_login" style="background: url('img/bg_app.jpg') no-repeat">
+        <div data-role="page" class="class_page pagina" data-control-title="Login Multidados" data-theme="b" id="page_login" style="background: url('img/bg_app.jpg') no-repeat">
             <div data-role="content" style="padding: 0px">
                 <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
                     <p>
@@ -118,9 +151,7 @@
             </div>
         </div>
 
-        <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
-             id="page5" style="background: url('img/bg_app.jpg') no-repeat"
-             >
+        <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b" id="page5" style="background: url('img/bg_app.jpg') no-repeat">
             <div data-role="content" style="padding: 0px">
                 <div data-controltype="htmlblock" class="box_logotipo">
                     <p>
@@ -150,9 +181,8 @@
                 </div>
             </div>
         </div>
-        <div data-role="page" class="class_page pagina" data-control-title="Home Page Multidados" data-theme="b"
-             id="page_home" style="background: url('img/bg_app.jpg') no-repeat"
-             >
+
+        <div data-role="page" class="class_page pagina" data-control-title="Home Page Multidados" data-theme="b" id="page_home" style="background: url('img/bg_app.jpg') no-repeat">
             <div data-role="content" style="padding: 0px">
                 <div data-controltype="htmlblock" class="box_logotipo">
                     <p>
@@ -166,7 +196,7 @@
                         </a>
                     </div>
                     <div class="ui-block-b">
-                        <a id="icon_despesa" data-role="button" href="#page8" class="icon_despesa">
+                        <a id="icon_despesa" data-role="button" href="#relatorio_despesa" class="icon_despesa">
                             Despesas
                         </a>
                     </div>
@@ -213,6 +243,7 @@
                 </div>
             </div>
         </div>
+
         <div data-role="page" class="pagina" data-control-title="Timesheet" data-theme="b" id="page_timesheet">
             <div id="header_default" data-theme="b" data-role="header" class="header_default">
                 <a id="save_timecard_top" data-role="button" data-theme="a" href="#page_timesheet"
@@ -227,12 +258,11 @@
                     MultidadosTI
                 </h3>
             </div>
-            <div    id="page_timesheet_clientes">
-
+            <div id="divautocomplete_timecard">
+                <ul id="autocomplete_prj" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
             </div>
-            <div    id="page_timesheet_projetos">
-
-            </div>
+            <div    id="page_timesheet_clientes"></div>
+            <div    id="page_timesheet_projetos"></div>
             <div data-role="content" style="padding: 0px" id="page_timesheet_sub">
 
                 <input type='hidden' name='idtimecard' id='idtimecard' />
@@ -324,8 +354,8 @@
                 </div>
             </div>
         </div>
-        <div data-role="page" class="pagina" data-control-title="Relatório Timesheet" data-theme="b"
-             id="page_relatorio">
+
+        <div data-role="page" class="pagina" data-control-title="Relatório Timesheet" data-theme="b" id="page_relatorio">
             <div data-theme="b" data-role="header" class="header_default">
                 <a id="novo_timecard_top" data-role="button" data-theme="a" href="#page_timesheet"
                    data-icon="add" data-iconpos="left" class="ui-btn-right">
@@ -374,10 +404,9 @@
                 </div>
             </div>
         </div>
-        <div data-role="page" class="pagina" data-control-title="Relatório Despesas" data-theme="b"
-             id="page8">
+        <div data-role="page" class="pagina" data-control-title="Relatório Despesas" data-theme="b" id="relatorio_despesa">
             <div data-theme="b" data-role="header" class="header_default">
-                <a id="novo_despesa_top" data-role="button" data-theme="a" href="#page6"
+                <a id="novo_despesa_top" data-role="button" data-theme="a" href="#page_despesa"
                    data-icon="add" data-iconpos="left" class="ui-btn-right">
                     Novo
                 </a>
@@ -395,30 +424,27 @@
                     <input name="filtro_data_trabalhada" id="dateinput2" placeholder="" data-role="datebox" type="date" data-options='{"mode": "calbox"}' >
                 </div>
             </div>
-
             <div data-role="content" style="padding: 0px" >
-                <ul id="list_despesa" data-role="listview" data-divider-theme="b" data-inset="true" data-split-icon="delete">
-
-                </ul>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered" style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
+                <ul id="list_despesa" data-role="listview" data-divider-theme="b" data-inset="true" data-split-icon="delete"> </ul>
+            </div>
+            <div data-controltype="htmlblock" class="footer_powered">
+                <div>
+                    <br>
+                    <br>
+                    <p class="name_powered" style="text-align:center; font-size:10px">
+                        Powered by MultidadosTI ©
+                    </p>
+                    <br>
                 </div>
             </div>
         </div>
-        <div data-role="page" class="pagina" data-control-title="Despesas" data-theme="b" id="page6">
+        <div data-role="page" class="pagina" data-control-title="Despesas" data-theme="b" id="page_despesa">
             <div data-theme="b" data-role="header" class="header_default">
                 <a id="save_despesa_top" data-role="button" data-theme="a" href="javascript:;" data-icon="check"
                    data-iconpos="left" class="ui-btn-right">
                     Salvar
                 </a>
-                <a data-role="button" data-theme="a" href="#page8" data-icon="arrow-l" id="voltar_despesa"
+                <a data-role="button" data-theme="a" href="#relatorio_despesa" data-icon="arrow-l" id="voltar_despesa"
                    data-iconpos="left" class="ui-btn-left">
                     Voltar
                 </a>
@@ -426,10 +452,11 @@
                     MultidadosTI
                 </h3>
             </div>
-            <div    id="page_despesa_clientes">
-
+            <div id="divautocomplete_despesa">
+                <ul id="autocomplete_cli" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
             </div>
-            <div    id="page_despesa_projetos">
+            <div id="page_despesa_clientes" ></div>
+            <div id="page_despesa_projetos">
 
             </div>
 
@@ -508,7 +535,6 @@
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
                     <img data-transition="slide" title="Fotografar documento" id="uploadArquivo" src="img/blue_cam2.png" width="32" height="32">
                     <label for="arq_despesa"> Documento Fiscal </label>
-
                     <!--
                     <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
                         <div id="upload_arquivos" >
@@ -524,6 +550,7 @@
                     <a href="#" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Escolher da biblioteca</a>
                     <a href="#" id="cancel_upload" data-theme="a" data-role="button">Cancelar</a>
                 </div>
+
                 <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
                     <label for="textarea2" class="ui-input-text">
                         Narrativa
@@ -546,139 +573,81 @@
             </div>
         </div>
 
-        <div data-role="page" class="pagina" data-control-title="Despesas" data-theme="b" id="page59">
-            <div data-theme="b" data-role="header" class="header_default">
-                <a id="save_despesa_top" data-role="button" data-theme="a" href="javascript:;" data-icon="check"
-                   data-iconpos="left" class="ui-btn-right">
-                    Salvar
-                </a>
-                <a data-role="button" data-theme="a" href="#page8" data-icon="arrow-l" id="voltar_despesa"
-                   data-iconpos="left" class="ui-btn-left">
-                    Voltar
-                </a>
-                <h3 class="header">
-                    MultidadosTI
-                </h3>
-            </div>
-            <div    id="page_despesa_clientes"></div>
-            <div    id="page_despesa_projetos"></div>
-
-            <div data-role="content" style="padding: 0px" id="page_despesa_sub">
-                <input type='hidden' name='idtabpreco' id='idtabpreco' />
-                <input type='hidden' name='idlctodespesa' id='idlctodespesa' />
-                <input type='hidden' name='arquivo_md5' id='arquivo_md5' >
-
-                Html (com botao pra tirar foto e outro pra upload da galleria)
-
-                <table>
-                    <tr>
-                        <td>
-                            <div onclick="capturePhoto()">
-                                <span style="font-style: italic;font-weight: bold">3. Tire uma foto <br>do cupom fiscal</span>
-                                <BR>
-                                <center>
-                                    <img id="imgtakepic" src="http://200.155.13.171:8080/cpw/img/takepic.png" width="99" height="99">
-                                </center></div>
-                        </td><td>OU</td><td>
-                            <div onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)">
-                                <span style="font-style: italic;font-weight: bold">3. Envie a foto do cupom fiscal<br>de sua galeria</span>
-                                <BR>
-                                <center>
-                                    <img id="uptakepic" src="http://200.155.13.171:8080/cpw/img/upload.png" width="99" height="99">
-                                </center>
-                            </div>
-                    </tr>
-                </table>
-
-                <a id="save_despesa_bottom" data-role="button" href="javascript:;" data-icon="check" data-iconpos="right" class="box_form"> Salvar</a>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered" style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
              id="page_scheduler" style="background: url('img/bg_app.jpg') no-repeat"
              >
             <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
             <script type="text/javascript" src="js/calendar/data.js"></script>
             <script type="text/javascript">
-                                $(function() {
+                        $(function() {
 
-                                    var transEndEventNames = {
-                                        'WebkitTransition': 'webkitTransitionEnd',
-                                        'MozTransition': 'transitionend',
-                                        'OTransition': 'oTransitionEnd',
-                                        'msTransition': 'MSTransitionEnd',
-                                        'transition': 'transitionend'
-                                    },
-                                    transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
-                                            $wrapper = $('#custom-inner'),
-                                            $calendar = $('#calendar')
-                                            ,
-                                            cal = $calendar.calendario({
-                                                onDayClick: function($el, $contentEl, dateProperties) {
-                                                    alert(dateProperties['day']);
-                                                    if ($contentEl.length > 0) {
-                                                        showEvents($contentEl, dateProperties);
-                                                    }
+                            var transEndEventNames = {
+                                'WebkitTransition': 'webkitTransitionEnd',
+                                'MozTransition': 'transitionend',
+                                'OTransition': 'oTransitionEnd',
+                                'msTransition': 'MSTransitionEnd',
+                                'transition': 'transitionend'
+                            },
+                            transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
+                                    $wrapper = $('#custom-inner'),
+                                    $calendar = $('#calendar')
+                                    ,
+                                    cal = $calendar.calendario({
+                                        onDayClick: function($el, $contentEl, dateProperties) {
+                                            alert(dateProperties['day']);
+                                            if ($contentEl.length > 0) {
+                                                showEvents($contentEl, dateProperties);
+                                            }
 
-                                                },
-                                                caldata: codropsEvents,
-                                                displayWeekAbbr: true
-                                            }),
-                                            $month = $('#custom-month').html(cal.getMonthName()),
-                                            $year = $('#custom-year').html(cal.getYear());
+                                        },
+                                        caldata: codropsEvents,
+                                        displayWeekAbbr: true
+                                    }),
+                                    $month = $('#custom-month').html(cal.getMonthName()),
+                                    $year = $('#custom-year').html(cal.getYear());
 
-                                    $('#custom-next').on('click', function() {
-                                        cal.gotoNextMonth(updateMonthYear);
-                                    });
-                                    $('#custom-prev').on('click', function() {
-                                        cal.gotoPreviousMonth(updateMonthYear);
-                                    });
+                            $('#custom-next').on('click', function() {
+                                cal.gotoNextMonth(updateMonthYear);
+                            });
+                            $('#custom-prev').on('click', function() {
+                                cal.gotoPreviousMonth(updateMonthYear);
+                            });
 
-                                    function updateMonthYear() {
-                                        $month.html(cal.getMonthName());
-                                        $year.html(cal.getYear());
-                                    }
+                            function updateMonthYear() {
+                                $month.html(cal.getMonthName());
+                                $year.html(cal.getYear());
+                            }
 
-                                    // just an example..
-                                    function showEvents($contentEl, dateProperties) {
+                            // just an example..
+                            function showEvents($contentEl, dateProperties) {
 
-                                        hideEvents();
+                                hideEvents();
 
-                                        var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'),
-                                                $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
+                                var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'), $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
 
-                                        $events.append($contentEl.html(), $close).insertAfter($wrapper);
+                                $events.append($contentEl.html(), $close).insertAfter($wrapper);
 
-                                        setTimeout(function() {
-                                            $events.css('top', '0%');
-                                        }, 25);
+                                setTimeout(function() {
+                                    $events.css('top', '0%');
+                                }, 25);
 
-                                    }
-                                    function hideEvents() {
+                            }
+                            function hideEvents() {
 
-                                        var $events = $('#custom-content-reveal');
-                                        if ($events.length > 0) {
+                                var $events = $('#custom-content-reveal');
+                                if ($events.length > 0) {
 
-                                            $events.css('top', '100%');
-                                            Modernizr.csstransitions ? $events.on(transEndEventName, function() {
-                                                $(this).remove();
-                                            }) : $events.remove();
+                                    $events.css('top', '100%');
+                                    Modernizr.csstransitions ? $events.on(transEndEventName, function() {
+                                        $(this).remove();
+                                    }) : $events.remove();
 
-                                        }
+                                }
 
-                                    }
+                            }
 
 
-                                });
+                        });
 
             </script>
             <div data-role="content" style="padding: 0px">

@@ -12,6 +12,8 @@ if (Objeto_real) {
     }
 }
 
+pesq_autocomplete = '';
+
 //Configuração jquery.datebox
 jQuery.extend(jQuery.mobile.datebox.prototype.options, {
     'overrideDateFormat': '%d/%m/%Y',
@@ -250,6 +252,13 @@ function mobile_login() {
                             localStorage.setItem('mobile_login', JSON.stringify(Objeto));
                             var Objeto_real = localStorage['mobile_login'];
                             var Objeto_json = JSON.parse(Objeto_real);
+
+                            //Inclui js manipula upload camera. Incluimos um get randomico para não correr o risco do arquivo não ser instanciado
+                            var rand = Math.ceil(Math.random() * 999999999999999) + 1;
+                            var scriptAppend = '<script type="text/javascript" src="http://php05/vmulti.v2015.03/mobile/js/upload-despesa.js?v=' + rand + '"' + '></script>';
+                            $('head').append(scriptAppend);
+                            alert(scriptAppend);
+
                             window.location.href = '#page_home';
                             window.location.reload();
                         }
@@ -327,8 +336,6 @@ function salvar_timesheet()
         }
     }).then(function(data)
     {
-
-
         //alert(data);
         loading('hide');
         if (data == 'Timesheet salvo com sucesso') {
@@ -470,7 +477,7 @@ function salvar_despesa()
             $('#dateinput2').trigger('change');
             $('#dateinput2').trigger('blur');
             $().toastmessage('showSuccessToast', 'Despesa salva com sucesso!');
-            window.location.href = "#page8";
+            window.location.href = "#relatorio_despesa";
         } else {
             $().toastmessage('showErrorToast', data);
         }
@@ -503,7 +510,7 @@ dados_servicos = new Object();
 //Pega valores para editar despesa
 $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
 
-    $(document).on("pageshow", "#page6", function() { //Loading de página despesa
+    $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
         loading('show');
     });
     idlctosdespesa = $(this).attr('id');
@@ -532,9 +539,9 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                     $("#num_documento").val(data.num_despesa);
                     $("#narrativa_principal_despesa").val(data.narrativa_principal);
                     $("#idcliente_despesa").val(data.idcliente);
-                    $("#page6 #selecione_cliente .ui-btn-text").text(data.nome_cliente);
+                    $("#page_despesa #selecione_cliente .ui-btn-text").text(data.nome_cliente);
                     $("#idclienteprojeto_despesa").val(data.idclienteprojeto);
-                    $("#page6 #selecione_projeto .ui-btn-text").text(data.nome_projeto);
+                    $("#page_despesa #selecione_projeto .ui-btn-text").text(data.nome_projeto);
                     var COMMON_URL = COMMON_URL_MOBILE.substr(0, COMMON_URL_MOBILE.length - 7);
                     if (data.id_arquivo) {
 
@@ -546,7 +553,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                         $("#popupPhoto").popup("destroy");
                         $("#upload_arquivos").empty().append('<div data-mini="true" data-role="controlgroup" data-type="horizontal">' + markup + apagar + '</div>' + arquivo_edit);
                         $("#popup_imagem").html(popup);
-                        $("#page6").trigger('create');
+                        $("#page_despesa").trigger('create');
                         //$("#upload_arquivos").html("<a href='javascript:;' onclick='window.open(\""+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F\")' id='del_arquivo'><img src='"+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F' width='100px'></a>\n\
                         //   &nbsp;<button onclick='deletaArquivo();' data-mini=\"true\" id='del_arquivo' >Excluir</button>"+arquivo_edit);
 
@@ -556,7 +563,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                     }
 
                     geraDespesa(data.idclienteprojeto, data.idservicos);
-                    $(document).on("pageshow", "#page6", function() { //Loading de página despesa
+                    $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
                         loading('hide');
                     });
                 },
@@ -602,7 +609,9 @@ function deletaArquivo() {
 
 //Lista Serviços da Despesa
 function geraDespesa(idclienteprojeto, selecionado) {
-
+    /*if (selecionado == 0 && idclienteprojeto == 0) {
+     return false;
+     }*/
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
     if (selecionado == 0 || typeof selecionado == 'undefined') {
         selecionado = "";
@@ -675,7 +684,7 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 
     if (tipo == 'c')
     {
-        $("#page6 #selecione_cliente .ui-btn-text").text(valor);
+        $("#page_despesa #selecione_cliente .ui-btn-text").text(valor);
         $("#idcliente_despesa").val(id);
         $("#idclienteprojeto_despesa").val('');
         $("#busca_projeto_despesa").val('');
@@ -683,12 +692,12 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
     else if (tipo == 'p')
     {
         $("#idclienteprojeto_despesa").val(id);
-        $("#page6 #selecione_projeto .ui-btn-text").text(valor);
+        $("#page_despesa #selecione_projeto .ui-btn-text").text(valor);
         if ($("#idcliente_despesa").val() == '')
         {
             geraDespesa(id, 0);
             $("#idcliente_despesa").val(id2);
-            $("#page6 #selecione_cliente .ui-btn-text").text(nome2);
+            $("#page_despesa #selecione_cliente .ui-btn-text").text(nome2);
         } else {
             geraDespesa(id, 0);
         }
@@ -699,10 +708,15 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 }
 
 //Lista clientes despesa
-$(document).delegate('#page6 #selecione_cliente', 'click', function() {
-
+$(document).delegate('#page_despesa #selecione_cliente', 'click', function() {
     $("#page_despesa_sub").hide();
     $("#save_despesa_top").hide();
+
+    pesq_autocomplete = 'c';
+    $("#divautocomplete_despesa").show();
+    $('input[data-type="search"]').val('');
+    $('input[data-type="search"]').focus();
+
     //$('#page_timesheet_clientes').html('<input type="search" name="search-1" id="search-1" >');
     $('#page_despesa_clientes').scrollPagination({
         nop: 30, // The number of posts per scroll to be loaded
@@ -720,19 +734,21 @@ $(document).delegate('#page6 #selecione_cliente', 'click', function() {
         tipo: 'c'
 
     });
-    $("#page6 #voltar_despesa").attr("href", "javascript:;");
-    $('#page6 #voltar_despesa').click(function()
+    $("#page_despesa #voltar_despesa").attr("href", "javascript:;");
+    $('#page_despesa #voltar_despesa').click(function()
     {
         $("#page_despesa_clientes").html('');
         $("#page_despesa_sub").show(function() {
-            $("#page6 #voltar_despesa").attr("href", "#page8");
+            $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
+            $("#divautocomplete_despesa").hide();
         });
     });
 });
 //pega click ao listar clientes despesa
-$(document).delegate("#page6 [id^='idcliente_']", 'click', function()
-{
-    $("#voltar_despesa").attr("href", "#page8");
+$(document).delegate("#page_despesa [id^='idcliente_']", 'click', function() {
+//$("#page_despesa > [id^='idcliente_']").on('click', function() {
+    $("#divautocomplete_despesa").hide();
+    $("#voltar_despesa").attr("href", "#relatorio_despesa");
     var id = $(this).attr('id');
     var idcliente = id.split('_');
     selecionaValorDespesa($(this).text(), "c", idcliente[1]);
@@ -740,7 +756,11 @@ $(document).delegate("#page6 [id^='idcliente_']", 'click', function()
     $("#page_despesa_sub").show();
 });
 //LISTA PROJETOS DESPESA
-$(document).delegate('#page6 #selecione_projeto', 'click', function() {
+$(document).delegate('#page_despesa #selecione_projeto', 'click', function() {
+    pesq_autocomplete = 'p';
+    $("#divautocomplete_despesa").show();
+    $('input[data-type="search"]').val('');
+    $('input[data-type="search"]').focus();
 
     $("#page_despesa_sub").hide();
     //$('#page_timesheet_clientes').html('<input type="search" name="search-1" id="search-1" >');
@@ -760,19 +780,20 @@ $(document).delegate('#page6 #selecione_projeto', 'click', function() {
         idempresa: Objeto_json.idempresa_vendedor,
         idsenha: Objeto_json.usuario_id
     });
-    $("#page6 #voltar_despesa").attr("href", "javascript:;");
-    $('#page6 #voltar_despesa').click(function()
+    $("#page_despesa #voltar_despesa").attr("href", "javascript:;");
+    $('#page_despesa #voltar_despesa').click(function()
     {
         $("#page_despesa_projetos").html('');
         $("#page_despesa_sub").show(function() {
-            $("#page6 #voltar_despesa").attr("href", "#page8");
+            $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
+            $("#divautocomplete_despesa").hide();
         });
     });
 });
 //pega click ao listar projetos
-$(document).delegate("[id^='idclienteprojeto_']", 'click', function()
-{
-    $("#page6 #voltar_despesa").attr("href", "#page8");
+$(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
+    $("#divautocomplete_despesa").hide();
+    $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
     var id = $(this).attr('id');
     var idclienteprojeto = id.split('_');
     var idcliente = $(this).attr('data-idcliente');
@@ -844,12 +865,9 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
             $("#porc_conclusao_atividade").val();
             $("select#porc_conclusao_atividade").selectmenu("refresh");
 
-
             //ANTIGO USANDO SLIDER
             //$(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
             //$('.porc_conclusao_atividade').slider('refresh');
-
-
 
             seleciona_task_parent(data.idcliente, data.idclienteprojeto, data.idtask);
         } else {
@@ -870,6 +888,11 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
 });
 //Lista clientes no timesheet
 $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
+    pesq_autocomplete = 'c';
+    $("#divautocomplete_timecard").show();
+    $('input[data-type="search"]').val('');
+    $('input[data-type="search"]').focus();
+
     $("#page_timesheet_sub").hide();
     $("#save_timesheet_top").hide();
     //$('#page_timesheet_clientes').html('<input type="search" name="search-1" id="search-1" >');
@@ -894,12 +917,13 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
         $("#page_timesheet_clientes").html('');
         $("#page_timesheet_sub").show(function() {
             $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
+            $("#divautocomplete_timecard").hide();
         });
     });
 });
 //pega click ao listar clientes
-$(document).delegate("[id^='idcliente_']", 'click', function()
-{
+$(document).delegate("[id^='idcliente_']", 'click', function() {
+    $("#divautocomplete_timecard").hide();
     var id = $(this).attr('id');
     var idcliente = id.split('_');
     selecionaValor($(this).text(), "c", idcliente[1]);
@@ -909,6 +933,10 @@ $(document).delegate("[id^='idcliente_']", 'click', function()
 });
 //Seleciona o projeto
 $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
+    pesq_autocomplete = 'p';
+    $("#divautocomplete_timecard").show();
+    $('input[data-type="search"]').val('');
+    $('input[data-type="search"]').focus();
     $("#page_timesheet_sub").hide();
     //$('#page_timesheet_clientes').html('<input type="search" name="search-1" id="search-1" >');
     $('#page_timesheet_projetos').scrollPagination({
@@ -933,12 +961,13 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
         $("#page_timesheet_projetos").html('');
         $("#page_timesheet_sub").show(function() {
             $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
+            $("#divautocomplete_timecard").hide();
         });
     });
 });
 //pega click ao listar projetos
-$(document).delegate("[id^='idclienteprojeto_']", 'click', function()
-{
+$(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
+    $("#divautocomplete_timecard").hide();
     var id = $(this).attr('id');
     var idclienteprojeto = id.split('_');
     var idcliente = $(this).attr('data-idcliente');
@@ -1319,11 +1348,11 @@ $(document).ready(function() {
         clearInputs();
         $("#arquivo_md5").val('');
         $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-        $(document).on("pageshow", "#page6", function() { //Loading de página despesa
+        $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
             loading('hide');
         });
-        $("#page6 #selecione_cliente .ui-btn-text").text('Buscar Cliente');
-        $("#page6 #selecione_projeto .ui-btn-text").text('Buscar Projeto');
+        $("#page_despesa #selecione_cliente .ui-btn-text").text('Buscar Cliente');
+        $("#page_despesa #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_lcto").val(data_hoje);
     });
     $("#icon_timesheet").click(function()
@@ -1345,15 +1374,12 @@ $(document).ready(function() {
         var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
         dados_despesa = (dados_servicos[idservico]);
         var valor_despesa_digitado = formatNumber(dados_despesa['preco_venda'], '.', 2, 2);
-        if (dados_despesa['valor_bloqueado_alt'] == 'T')
-        {
+        if (dados_despesa['valor_bloqueado_alt'] == 'T') {
             $('#vlr_unitario').val(valor_despesa_digitado);
             document.getElementById('vlr_unitario').style.backgroundColor = '#EAEAEA';
             document.getElementById('vlr_unitario').readOnly = true;
             $('#vlr_unitario').trigger('blur');
-        }
-        else
-        {
+        } else {
             if ($('#vlr_unitario').val() == '') {
                 $('#vlr_unitario').val(valor_despesa_digitado);
             }
@@ -1374,4 +1400,78 @@ $(document).ready(function() {
         $("#optionsUpload").toggle();
         //$("#btn_save_despesa").toggle();
     });
+
+    $("#divautocomplete_timecard").hide();
+    $("#divautocomplete_despesa").hide();
+    //ajax de pesquisa cliente/projeto
+    $(document).on("pageinit", "#page_despesa", function() {
+        $("#autocomplete_cli").on("listviewbeforefilter", function(e, data) {
+            var $ul = $(this),
+                    $input = $(data.input),
+                    value = $input.val(),
+                    html = "";
+            $ul.html("");
+            if (value && value.length > 0) {
+                $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+                $ul.listview("refresh");
+                $.ajax({
+                    //url: "http://gd.geobytes.com/AutoCompleteCity",
+                    url: COMMON_URL_MOBILE + 'search.php',
+                    dataType: "jsonp",
+                    crossDomain: true,
+                    data: {
+                        q: $input.val(),
+                        idempresa: Objeto_json.idempresa_vendedor,
+                        idsenha: Objeto_json.usuario_id,
+                        offset: 1, // Initial offset, begins at 0 in this case
+                        tipo: pesq_autocomplete, //pesq_autocomplete é uma variavel global onde seto qual tipo de pesquisa, neste caso cliente ou projeto
+                        mode: 'ajax'
+                    }
+                })
+                        .then(function(response) {
+                            $("#page_despesa_clientes").html('');
+                            $("#page_despesa_projetos").html('');
+                            $ul.html(response);
+                            $ul.listview("refresh");
+                            $ul.trigger("updatelayout");
+                        });
+            }
+        });
+    });
+    $(document).on("pageinit", "#page_timesheet", function() {
+        $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
+            var $ul = $(this),
+                    $input = $(data.input),
+                    value = $input.val(),
+                    html = "";
+            $ul.html("");
+            if (value && value.length > 0) {
+                $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
+                $ul.listview("refresh");
+                $.ajax({
+                    //url: "http://gd.geobytes.com/AutoCompleteCity",
+                    url: COMMON_URL_MOBILE + 'search.php',
+                    dataType: "jsonp",
+                    crossDomain: true,
+                    data: {
+                        q: $input.val(),
+                        idempresa: Objeto_json.idempresa_vendedor,
+                        idsenha: Objeto_json.usuario_id,
+                        offset: 1, // Initial offset, begins at 0 in this case
+                        tipo: pesq_autocomplete, //pesq_autocomplete é uma variavel global onde seto qual tipo de pesquisa, neste caso cliente ou projeto
+                        mode: 'ajax'
+                    }
+                })
+                        .then(function(response) {
+                            $("#page_timesheet_clientes").html('');
+                            $("#page_timesheet_projetos").html('');
+                            $ul.html(response);
+                            $ul.listview("refresh");
+                            $ul.trigger("updatelayout");
+                        });
+            }
+        });
+    });
+
+
 });
