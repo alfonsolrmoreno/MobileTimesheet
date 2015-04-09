@@ -1391,15 +1391,15 @@ $(document).ready(function() {
     });
 
     //default div botões upload fechados
-    $("#optionsUpload").hide()
-    $("#uploadArquivo").click(function() {
+    //$("#optionsUpload").hide()
+    /*$("#uploadArquivo").click(function() {
         $("#optionsUpload").toggle();
         //$("#btn_save_despesa").toggle();
     });
     $("#cancel_upload").click(function() {
         $("#optionsUpload").toggle();
         //$("#btn_save_despesa").toggle();
-    });
+    });*/
 
     $("#divautocomplete_timecard").hide();
     $("#divautocomplete_despesa").hide();
