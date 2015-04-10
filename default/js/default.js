@@ -1237,7 +1237,7 @@ $(document).ready(function() {
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.5');
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.6');
     $(document).on("pageinit", function()
     {
         $resposta = verifica_logado();
