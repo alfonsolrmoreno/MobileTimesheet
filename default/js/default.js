@@ -1471,7 +1471,9 @@ $(document).ready(function () {
     if (Objeto_json.usuario_id) {
         //Inclui js manipula upload camera. Incluimos um get randomico para não correr o risco do arquivo não ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
-        var scriptAppend = '<script type="text/javascript" src="http://192.168.0.196/vmulti.v2015.03/mobile/js/upload-despesa.js?v=' + rand + '"' + '></script>';
+        var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;
+        alert(x);
+        var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
 

@@ -6,13 +6,14 @@ var retries = 0;
 //CP.jsv = Math.ceil(Math.random() * 999999999999999) + 1;
 //$('head').append('<script' + ' type="text/javascript"' + ' src="' + CP.URL_APP + 'js/app.js?v=' + CP.jsv + '"' + '><' + '/' + 'script>');
 validateNotaVal();
+
 function cam_clearCache() {
     navigator.camera.cleanup();
 }
 
-var sendpic_win = function(r) {
+var sendpic_win = function (r) {
     loading('hide');
-    window.setTimeout(function() {
+    window.setTimeout(function () {
         cam_clearCache();
         retries = 0;
         var sys_resp = eval('(' + r.response + ')');
@@ -21,11 +22,11 @@ var sendpic_win = function(r) {
     }, 100);
 }
 
-var sendpic_fail = function(error) {
+var sendpic_fail = function (error) {
     loading('hide');
     if (retries == 0) {
         retries++
-        setTimeout(function() {
+        setTimeout(function () {
             onCapturePhoto(fileURI)
         }, 1000)
     } else {
