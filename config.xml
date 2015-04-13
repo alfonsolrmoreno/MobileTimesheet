@@ -35,7 +35,7 @@
     <access origin='*'/>
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
-    <preference name="phonegap-version" value="3.6.3" />
+<!--    <preference name="phonegap-version" value="3.6.3" />-->
 
     <!-- Preferences for Android -->
 
