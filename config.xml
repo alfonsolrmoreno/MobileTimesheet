@@ -62,18 +62,25 @@
     <preference value='unpaginated' name='PaginationMode'/>
 
     <gap:plugin name="com.phonegap.plugin.statusbar" />
-    <gap:plugin name="org.apache.cordova.network-information" version="0.2.3" />
-    <gap:plugin name="org.apache.cordova.camera" version="0.2.3" />
-    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.2" />
+
+    <!-- Andre renovato - 08/04/2015
+    camera, upload de arquivos -->    
+    <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
+    <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
+    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />
+    <!--    <gap:plugin name="org.apache.cordova.camera" version="0.2.3" />-->
+    <!--    <gap:plugin name="org.apache.cordova.network-information" version="0.2.3" />-->
+    <!--    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.2" />-->
+
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <!-- Fim Andre Renovato -->
 
     <preference value="true" name="StatusBarOverlaysWebView"/>
     <preference name="StatusBarBackgroundColor" value="#EAEAEA" />
 
-    <!-- Andre renovato - 08/04/2015
-    camera, upload de arquivos -->
-    <feature name="http://api.phonegap.com/1.0/file"/>
-    <feature name="http://api.phonegap.com/1.0/camera"/>
-    <feature name="http://api.phonegap.com/1.0/network"/>
+
 
     <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
     <feature name='Geolocation'>
