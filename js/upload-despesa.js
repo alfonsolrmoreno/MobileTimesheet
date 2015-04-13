@@ -1,11 +1,8 @@
+
 //var pictureSource = navigator.camera.PictureSourceType;   // picture source
 //var destinationType = navigator.camera.DestinationType; // sets the format of returned value
 
 var retries = 0;
-
-//CP.jsv = Math.ceil(Math.random() * 999999999999999) + 1;
-//$('head').append('<script' + ' type="text/javascript"' + ' src="' + CP.URL_APP + 'js/app.js?v=' + CP.jsv + '"' + '><' + '/' + 'script>');
-validateNotaVal();
 
 function cam_clearCache() {
     navigator.camera.cleanup();
@@ -60,16 +57,27 @@ function onCapturePhoto(fileURI) {
     ft.upload(fileURI, encodeURI(CP.URL_API), sendpic_win, sendpic_fail, options);
 }
 
+function onDeviceReady() {
+    alert('1111111111111');
+    console.log(navigator.camera);
+}
+
 function capturePhoto(sourceType) {
+
+    
+
+
+    /*  alert(Camera.PictureSourceType.CAMERA);
+
     if (!sourceType)
         sourceType = Camera.PictureSourceType.CAMERA;
-
-    if (!validateNotaVal())
-        return false;
+*/
+    //if (!validateNotaVal())
+    //return false;
 
     navigator.camera.getPicture(onCapturePhoto, onFail, {
         //quality: 100,
-        destinationType: destinationType.FILE_URI,
+        destinationType: destinationType.COMMON_URL_MOBILE,
         quality: 90,
         //           destinationType:Camera.DestinationType.DATA_URL,
         targetWidth: 250,
@@ -94,4 +102,4 @@ function validateNotaVal() {
     } else {
         return true;
     }
-}
+} 
