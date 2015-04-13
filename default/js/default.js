@@ -1476,6 +1476,6 @@ $(document).ready(function () {
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
-    document.addEventListener("deviceready", onDeviceReady, false);
+    
 
 });

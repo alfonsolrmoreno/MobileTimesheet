@@ -1,4 +1,4 @@
-
+document.addEventListener("deviceready", onDeviceReady, false);
 //var pictureSource = navigator.camera.PictureSourceType;   // picture source
 //var destinationType = navigator.camera.DestinationType; // sets the format of returned value
 
@@ -57,16 +57,25 @@ function onCapturePhoto(fileURI) {
     ft.upload(fileURI, encodeURI(CP.URL_API), sendpic_win, sendpic_fail, options);
 }
 
-function onDeviceReady() {
-    alert('1111111111111');
-    console.log(navigator.camera);
-}
+
+
+ // device APIs are available
+ //
+ function onDeviceReady() {
+     // Retrieve image file location from specified source
+     navigator.camera.getPicture(
+         uploadPhoto,
+         function(message) { alert('get picture failed'); },
+         {
+             quality         : 50,
+             destinationType : navigator.camera.DestinationType.FILE_URI,
+             sourceType      : navigator.camera.PictureSourceType.PHOTOLIBRARY
+         }
+     );
+ }
+
 
 function capturePhoto(sourceType) {
-
-    
-
-
     /*  alert(Camera.PictureSourceType.CAMERA);
 
     if (!sourceType)
