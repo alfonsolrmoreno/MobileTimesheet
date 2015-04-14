@@ -22,54 +22,22 @@
         id='br.com.multidadosti.mobile'
         xmlns='http://www.w3.org/ns/widgets'
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        xmlns:android = "http://schemas.android.com/apk/res/android">
-    <name>
-        MultidadosTI
-    </name>
-    <description>
-        O aplicativo MultidadosTI
-    </description>
-    <author href='http://www.multidadosti.com.br' email='alfonso@multidadosti.com.br'>
-        MultidadosTI Team
-    </author>
+        xmlns:android = "http://schemas.android.com/apk/res/android"
+>
+
+    <name>MultidadosTI</name>
+    <description>O aplicativo MultidadosTI</description>
+    <author href='http://www.multidadosti.com.br' email='alfonso@multidadosti.com.br'>MultidadosTI Team</author>
     <access origin='*'/>
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
-<!--    <preference name="phonegap-version" value="3.6.3" />-->
 
-    <!-- Preferences for Android -->
-
-    <!-- Preferences for iOS -->
-    <preference name="orientation" value="portrait" />
-    <preference value='false' name='AllowInlineMediaPlayback'/>
-    <preference value='true' name='AutoHideSplashScreen'/>
-    <preference value='cloud' name='BackupWebStorage'/>
-    <preference value='false' name='DisallowOverscroll'/>
-    <preference value='false' name='EnableViewportScale'/>
-    <preference value='true' name='FadeSplashScreen'/>
-    <preference value='.25' name='FadeSplashScreenDuration'/>
-    <preference value='false' name='HideKeyboardFormAccessoryBar'/>
-    <preference value='true' name='KeyboardDisplayRequiresUserAction'/>
-    <preference value='false' name='KeyboardShrinksView'/>
-    <preference value='false' name='MediaPlaybackRequiresUserAction'/>
-    <preference value='true' name='ShowSplashScreenSpinner'/>
-    <preference value='false' name='SuppressesIncrementalRendering'/>
-    <preference value='gray' name='TopActivityIndicator'/>
-    <preference value='0' name='GapBetweenPages'/>
-    <preference value='0' name='PageLength'/>
-    <preference value='page' name='PaginationBreakingMode'/>
-    <!-- page, column -->
-    <preference value='unpaginated' name='PaginationMode'/>
-
-    <!-- Andre renovato - 08/04/2015
-    camera, upload de arquivos -->    
+    <!-- ////////////////// Andre renovato - 08/04/2015 //////////////////////////////-->
+    <!--  camera, upload de arquivos -->    
     <gap:plugin name="com.phonegap.plugin.statusbar" version="1.1.0" />
     <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
     <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />
     <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
-    <!--    <gap:plugin name="org.apache.cordova.camera" version="0.2.3" />-->
-    <!--    <gap:plugin name="org.apache.cordova.network-information" version="0.2.3" />-->
-    <!--    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.2" />-->
 
     <feature name="http://api.phonegap.com/1.0/file"/>
     <feature name="http://api.phonegap.com/1.0/camera"/>
@@ -134,6 +102,31 @@
     <feature name='LocalStorage'>
         <param value='CDVLocalStorage' name='ios-package'/>
     </feature>
+
+    <!-- Preferences for Android -->
+    <!-- Preferences for iOS -->
+    <preference name="orientation" value="portrait" />
+    <!--Andre Renovato - comentado dia 13/04/2015-->
+    <!--<preference name="phonegap-version" value="3.6.3" />-->    
+    <preference value='false' name='AllowInlineMediaPlayback'/>
+    <preference value='true' name='AutoHideSplashScreen'/>
+    <preference value='cloud' name='BackupWebStorage'/>
+    <preference value='false' name='DisallowOverscroll'/>
+    <preference value='false' name='EnableViewportScale'/>
+    <preference value='true' name='FadeSplashScreen'/>
+    <preference value='.25' name='FadeSplashScreenDuration'/>
+    <preference value='false' name='HideKeyboardFormAccessoryBar'/>
+    <preference value='true' name='KeyboardDisplayRequiresUserAction'/>
+    <preference value='false' name='KeyboardShrinksView'/>
+    <preference value='false' name='MediaPlaybackRequiresUserAction'/>
+    <preference value='true' name='ShowSplashScreenSpinner'/>
+    <preference value='false' name='SuppressesIncrementalRendering'/>
+    <preference value='gray' name='TopActivityIndicator'/>
+    <preference value='0' name='GapBetweenPages'/>
+    <preference value='0' name='PageLength'/>
+    <preference value='page' name='PaginationBreakingMode'/>
+    <!-- page, column -->
+    <preference value='unpaginated' name='PaginationMode'/>
 
     <icon src="icon.png" />
     <icon src="icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />
