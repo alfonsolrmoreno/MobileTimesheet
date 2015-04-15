@@ -1384,17 +1384,6 @@ $(document).ready(function () {
 
     });
 
-    //default div botões upload fechados
-    //$("#optionsUpload").hide()
-    /*$("#uploadArquivo").click(function() {
-     $("#optionsUpload").toggle();
-     //$("#btn_save_despesa").toggle();
-     });
-     $("#cancel_upload").click(function() {
-     $("#optionsUpload").toggle();
-     //$("#btn_save_despesa").toggle();
-     });*/
-
     $("#divautocomplete_timecard").hide();
     $("#divautocomplete_despesa").hide();
     //ajax de pesquisa cliente/projeto
@@ -1472,8 +1461,19 @@ $(document).ready(function () {
         //Inclui js manipula upload camera. Incluimos um get randomico para não correr o risco do arquivo não ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;
-        alert(x);
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
+    
+    //default div botões upload fechados
+    //$("#optionsUpload").hide()
+    /*$("#uploadArquivo").click(function() {
+     $("#optionsUpload").toggle();
+     //$("#btn_save_despesa").toggle();
+     });
+     $("#cancel_upload").click(function() {
+     $("#optionsUpload").toggle();
+     //$("#btn_save_despesa").toggle();
+     });*/    
+    
 });
