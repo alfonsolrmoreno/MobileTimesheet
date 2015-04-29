@@ -14,14 +14,14 @@ if (Objeto_real) {
 
 pesq_autocomplete = '';
 
-//Configuração jquery.datebox
+//Configuraç?o jquery.datebox
 jQuery.extend(jQuery.mobile.datebox.prototype.options, {
     'overrideDateFormat': '%d/%m/%Y',
     'overrideHeaderFormat': '%d/%m/%Y',
     dateFieldOrder: ['d', 'm', 'y']
 });
 if (!supports_html5_storage) {
-    alert("Infelizmente, seu navegador não suporta IndexedDB");
+    alert("Infelizmente, seu navegador n?o suporta IndexedDB");
 }
 
 function clearInputs() {
@@ -538,22 +538,13 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                     $("#page_despesa #selecione_projeto .ui-btn-text").text(data.nome_projeto);
                     var COMMON_URL = COMMON_URL_MOBILE.substr(0, COMMON_URL_MOBILE.length - 7);
                     if (data.id_arquivo) {
-
+                        alert(id_arquivo);
                         arquivo_edit = "<input type='hidden' name='idarquivo' id='idarquivo' value='" + data.id_arquivo + "' >";
                         var filename = COMMON_URL_MOBILE + "open_files_mobile.php?ss=arq_despesas&id=" + data.id_arquivo + "&dw=F";
-                        var markup = '<a href="#popupPhoto" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="fade">' + data.nome_arquivo + '</a>';
-                        var popup = '<div data-role="popup" id="popupPhoto" data-overlay-theme="a" data-theme="d" data-corners="false"><a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><img class="popphoto" src="' + filename + '" ></div>';
+                        var imagem = '<div><img width="25%" src="' + filename + '"></div>';
                         var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
-                        $("#popupPhoto").popup("destroy");
-                        $("#upload_arquivos").empty().append('<div data-mini="true" data-role="controlgroup" data-type="horizontal">' + markup + apagar + '</div>' + arquivo_edit);
-                        $("#popup_imagem").html(popup);
-                        $("#page_despesa").trigger('create');
-                        //$("#upload_arquivos").html("<a href='javascript:;' onclick='window.open(\""+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F\")' id='del_arquivo'><img src='"+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F' width='100px'></a>\n\
-                        //   &nbsp;<button onclick='deletaArquivo();' data-mini=\"true\" id='del_arquivo' >Excluir</button>"+arquivo_edit);
-
-                    } else {
-                        $("#arquivo_md5").val('');
-                        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
+                        $("#popup_imagem").html('<br>'+ imagem + apagar + arquivo_edit);
+                        $("#page_despesa").trigger('create'); //cria o tema do botao
                     }
 
                     geraDespesa(data.idclienteprojeto, data.idservicos);
@@ -597,7 +588,7 @@ function deletaArquivo() {
             $("#arquivo_md5").val('');
         });
         $("#arquivo_md5").val('');
-        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
+        //$("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
     }
 }
 
@@ -1225,7 +1216,7 @@ $(document).ready(function () {
     data_hoje = dia + "/" + mes + "/" + data.getFullYear();
     //#########################################################################
 
-    //Configuração alert
+    //Configuraç?o alert
     $().toastmessage({
         position: 'middle-center',
         type: 'success'
@@ -1240,9 +1231,15 @@ $(document).ready(function () {
         if ($("#filtro_data_trabalhada").val() == '') {
             $("#filtro_data_trabalhada").val(data_hoje);
         }
+        
         if ($("#dateinput2").val() == '') {
             $("#dateinput2").val(data_hoje);
         }
+        
+        buscar_timesheet($("#filtro_data_trabalhada").val());
+        
+        //inclusao desta linha, pq nao listava as despesas quando atualizava a pagina
+        buscar_despesa($("#dateinput2").val());
     });
     $("#botao_entrar").click(function ()
     {
@@ -1280,13 +1277,15 @@ $(document).ready(function () {
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
-        if (ua.indexOf('android') != -1) {
+        //29/04/2015 - Andre Renovato
+        //Agora estamos usando um novo componente 
+        /*if (ua.indexOf('android') != -1) {
             var version = ua.match(/android\s+([\d\.]+)/)[1];
-            //Se versão android for maior 4.3 desabilita upload despesa
+            //Se versao android for maior 4.3 desabilita upload despesa
             if (parseFloat(version) == 4.3) {
                 $('#upload_despesa').hide();
             }
-        }
+        }*/
     }
 
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
@@ -1458,22 +1457,25 @@ $(document).ready(function () {
 
     //Verifica se existe user logado
     if (Objeto_json.usuario_id) {
-        //Inclui js manipula upload camera. Incluimos um get randomico para não correr o risco do arquivo não ser instanciado
+        //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
     
-    //default div botões upload fechados
-    //$("#optionsUpload").hide()
-    /*$("#uploadArquivo").click(function() {
-     $("#optionsUpload").toggle();
-     //$("#btn_save_despesa").toggle();
-     });
-     $("#cancel_upload").click(function() {
-     $("#optionsUpload").toggle();
-     //$("#btn_save_despesa").toggle();
-     });*/    
+    //default div botoes upload fechados
+    $("#optionsUpload").hide()
+    //valida botoes para tirar foto, quando edita um despesa e possui foto, os botoes nao serao exibidos.
+    if($("idarquivo").val() == ''){
+        $("#uploadArquivo").click(function() {
+            $("#optionsUpload").toggle();
+            $("#btn_save_despesa").toggle();
+        });
+    }
+    $("#cancel_upload").click(function() {
+        $("#optionsUpload").toggle();
+        $("#btn_save_despesa").toggle();
+    });
     
 });
