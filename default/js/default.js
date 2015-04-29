@@ -562,12 +562,9 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                         var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
                         $("#popup_imagem").html('<br>'+ imagem + apagar + arquivo_edit);
                         $("#page_despesa").trigger('create');
-                        alert(11111);
                     }
-                    alert(22222);
                     geraDespesa(data.idclienteprojeto, data.idservicos);
                     $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
-                        alert(33333);
                         loading('hide');
                     });
                 },
