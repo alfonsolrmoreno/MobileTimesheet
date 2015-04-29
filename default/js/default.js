@@ -1291,13 +1291,14 @@ $(document).ready(function () {
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
-        if (ua.indexOf('android') != -1) {
+        
+        /*if (ua.indexOf('android') != -1) {
             var version = ua.match(/android\s+([\d\.]+)/)[1];
             //Se vers?o android for maior 4.3 desabilita upload despesa
             if (parseFloat(version) == 4.3) {
                 $('#upload_despesa').hide();
             }
-        }
+        }*/
     }
 
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
