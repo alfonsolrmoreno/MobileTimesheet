@@ -556,18 +556,18 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                     }*/
 
                     if (data.id_arquivo) {
-                        console.clear();
-                        console.dir(data);
                         arquivo_edit = "<input type='hidden' name='idarquivo' id='idarquivo' value='" + data.id_arquivo + "' >";
                         var filename = COMMON_URL_MOBILE + "open_files_mobile.php?ss=arq_despesas&id=" + data.id_arquivo + "&dw=F";
                         var imagem = '<div><img width="25%" src="' + filename + '"></div>';
                         var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
                         $("#popup_imagem").html('<br>'+ imagem + apagar + arquivo_edit);
                         $("#page_despesa").trigger('create');
+                        alert(11111);
                     }
-
+                    alert(22222);
                     geraDespesa(data.idclienteprojeto, data.idservicos);
                     $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
+                        alert(33333);
                         loading('hide');
                     });
                 },
@@ -607,7 +607,10 @@ function deletaArquivo() {
             $("#arquivo_md5").val('');
         });
         $("#arquivo_md5").val('');
-        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
+        //$("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
+        
+        //novo
+        $("#popup_imagem").html('');
     }
 }
 
@@ -1254,6 +1257,9 @@ $(document).ready(function () {
         if ($("#dateinput2").val() == '') {
             $("#dateinput2").val(data_hoje);
         }
+        
+        buscar_timesheet($("#filtro_data_trabalhada").val());
+        buscar_despesa($("#dateinput2").val());
     });
     $("#botao_entrar").click(function ()
     {
@@ -1481,11 +1487,9 @@ $(document).ready(function () {
     $("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
         $("#optionsUpload").toggle();
-        $("#btn_save_despesa").toggle();
      });
      $("#cancel_upload").click(function() {
         $("#optionsUpload").toggle();
-        $("#btn_save_despesa").toggle();
      }); 
     
 });
