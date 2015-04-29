@@ -497,14 +497,17 @@
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
                     <img data-transition="slide" title="Fotografar documento" id="uploadArquivo" src="img/blue_cam2.png" width="32" height="32"/>
                     <label for="arq_despesa"> Anexar Documento </label>
-                    
+                    <!--
                     <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
-                        <div id="upload_arquivos"></div>
-                        <div id="popup_imagem"></div>
-                    </form>
-                    <!--<form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
-                        <div id="popup_imagem" >AAAAAAA </div>                        
+                        <div id="upload_arquivos" >
+                            <input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">
+                        </div>
+                        <div    id="popup_imagem">
+                        </div>
                     </form>-->
+                    <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
+                        <div id="popup_imagem"> </div>                        
+                    </form>
                 </div>
                 <!-- Lista de tipo foto/upload -->
                 <div id="optionsUpload"  data-role="controlgroup">
