@@ -1480,10 +1480,12 @@ $(document).ready(function () {
         $('head').append(scriptAppend);
     }
     
-    //default div bot?es upload fechados
+    //default div botoes upload fechados
     $("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
-        $("#optionsUpload").toggle();
+        if($("#idarquivo").val() > 0){
+            $("#optionsUpload").toggle();
+        }
      });
      $("#cancel_upload").click(function() {
         $("#optionsUpload").toggle();
