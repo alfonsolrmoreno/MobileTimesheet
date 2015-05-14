@@ -1483,7 +1483,7 @@ $(document).ready(function () {
     //default div botoes upload fechados
     $("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
-        if($("#idarquivo").val() > 0){
+        if(!$("#idarquivo").val()){
             $("#optionsUpload").toggle();
         }
      });
