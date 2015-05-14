@@ -14,7 +14,7 @@ if (Objeto_real) {
 
 pesq_autocomplete = '';
 
-//ConfiguraÁ?o jquery.datebox
+//Configura√ß?o jquery.datebox
 jQuery.extend(jQuery.mobile.datebox.prototype.options, {
     'overrideDateFormat': '%d/%m/%Y',
     'overrideHeaderFormat': '%d/%m/%Y',
@@ -417,7 +417,7 @@ function upload() {
         crossdomain: true
     })
             .then(function (data) {
-                if (data == "Arquivo inv·lido!" || data == "Erro no arquivo") {
+                if (data == "Arquivo inv√°lido!" || data == "Erro no arquivo") {
                     $("#arquivo_md5").val('');
                     $().toastmessage('showErrorToast', data);
                 } else {
@@ -504,7 +504,7 @@ dados_servicos = new Object();
 //Pega valores para editar despesa
 $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
 
-    $(document).on("pageshow", "#page_despesa", function () { //Loading de p·gina despesa
+    $(document).on("pageshow", "#page_despesa", function () { //Loading de p√°gina despesa
         loading('show');
     });
     idlctosdespesa = $(this).attr('id');
@@ -564,7 +564,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                         $("#page_despesa").trigger('create');
                     }
                     geraDespesa(data.idclienteprojeto, data.idservicos);
-                    $(document).on("pageshow", "#page_despesa", function () { //Loading de p·gina despesa
+                    $(document).on("pageshow", "#page_despesa", function () { //Loading de p√°gina despesa
                         loading('hide');
                     });
                 },
@@ -611,7 +611,7 @@ function deletaArquivo() {
     }
 }
 
-//Lista ServiÁos da Despesa
+//Lista Servi√ßos da Despesa
 function geraDespesa(idclienteprojeto, selecionado) {
     /*if (selecionado == 0 && idclienteprojeto == 0) {
      return false;
@@ -840,7 +840,7 @@ function buscar_timesheet(data) {
 }
 
 
-//Editar: Pega dados do idtimecard que foi clicado na lista faz select e envia pra outra p·gina
+//Editar: Pega dados do idtimecard que foi clicado na lista faz select e envia pra outra p√°gina
 $(document).delegate('#list .btn-timesheet', 'click', function () {
     idtimecard = $(this).attr('id');
     //var args = {cm: 'Timesheet->getTimecard', idtimecard: idtimecard};
@@ -861,7 +861,7 @@ $(document).delegate('#list .btn-timesheet', 'click', function () {
             $("#idtimecard").val(data.idtimecard);
         }
 
-        //Verifica se È project
+        //Verifica se √© project
         if (data.idtask != '') {
             $("#porcentagem_conclusao").show();
             seleciona_porcentagem_conclusao(data.porc_conclusao_atividade);
@@ -1236,12 +1236,12 @@ $(document).ready(function () {
     data_hoje = dia + "/" + mes + "/" + data.getFullYear();
     //#########################################################################
 
-    //ConfiguraÁ?o alert
+    //Configura√ß?o alert
     $().toastmessage({
         position: 'middle-center',
         type: 'success'
     });
-    //Define footer para todas as p·ginas
+    //Define footer para todas as p√°ginas
     $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.6');
     $(document).on("pageinit", function ()
     {
@@ -1283,7 +1283,7 @@ $(document).ready(function () {
         salvar_despesa();
     });
     ua = navigator.userAgent.toLowerCase();
-    //verifica se È ios
+    //verifica se √© ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
         $("#filtro_data_trabalhada").change(function ()
         {
@@ -1357,7 +1357,7 @@ $(document).ready(function () {
         clearInputs();
         $("#arquivo_md5").val('');
         $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-        $(document).on("pageshow", "#page_despesa", function () { //Loading de p·gina despesa
+        $(document).on("pageshow", "#page_despesa", function () { //Loading de p√°gina despesa
             loading('hide');
         });
         $("#page_despesa #selecione_cliente .ui-btn-text").text('Buscar Cliente');
@@ -1377,7 +1377,7 @@ $(document).ready(function () {
     })
 
 
-    //DESPESA: pega dados do idserviÁo conforme selecionado
+    //DESPESA: pega dados do idservi√ßo conforme selecionado
     $("#codigo_despesa").change(function () {
         idservico = $("#codigo_despesa option:selected").val();
         var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
@@ -1422,7 +1422,7 @@ $(document).ready(function () {
                         idempresa: Objeto_json.idempresa_vendedor,
                         idsenha: Objeto_json.usuario_id,
                         offset: 1, // Initial offset, begins at 0 in this case
-                        tipo: pesq_autocomplete, //pesq_autocomplete È uma variavel global onde seto qual tipo de pesquisa, neste caso cliente ou projeto
+                        tipo: pesq_autocomplete, //pesq_autocomplete √© uma variavel global onde seto qual tipo de pesquisa, neste caso cliente ou projeto
                         mode: 'ajax'
                     }
                 })
@@ -1456,7 +1456,7 @@ $(document).ready(function () {
                         idempresa: Objeto_json.idempresa_vendedor,
                         idsenha: Objeto_json.usuario_id,
                         offset: 1, // Initial offset, begins at 0 in this case
-                        tipo: pesq_autocomplete, //pesq_autocomplete È uma variavel global onde seto qual tipo de pesquisa, neste caso cliente ou projeto
+                        tipo: pesq_autocomplete, //pesq_autocomplete √© uma variavel global onde seto qual tipo de pesquisa, neste caso cliente ou projeto
                         mode: 'ajax'
                     }
                 })
@@ -1483,9 +1483,10 @@ $(document).ready(function () {
     //default div botoes upload fechados
     $("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
-        if($("#idarquivo").val() > 0){
+        alert('teste');
+        //if($("#idarquivo").val() > 0){
             $("#optionsUpload").toggle();
-        }
+        //}
      });
      $("#cancel_upload").click(function() {
         $("#optionsUpload").toggle();
