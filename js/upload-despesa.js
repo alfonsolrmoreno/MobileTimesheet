@@ -5,10 +5,11 @@
 var retries = 0;
 
 
-$(document).ready(function () {
+$(document).ready(function () {   
     //default div botoes upload fechados
     $("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
+        //somente no editar, quando e nova foto, os botoes podem ser visualizados para escolher ou tirar nova foto.
         if(!$("#idarquivo").val()){
             $("#optionsUpload").toggle();
         }
@@ -35,7 +36,9 @@ var sendpic_win = function (r) {
 
         loading('hide');
         $("#optionsUpload").toggle();
-        $().toastmessage('showSuccessToast', 'Upload de foto realizado com sucesso');  
+        $().toastmessage('showSuccessToast', 'Upload de foto realizado com sucesso');
+        
+        
     }
 };
 
