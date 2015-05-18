@@ -506,10 +506,13 @@ function buscar_despesa(data) {
 dados_servicos = new Object();
 //Pega valores para editar despesa
 $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
-
     $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
         loading('show');
     });
+    
+    //zerando campo de foto anterior
+    $("#popup_imagem").html('');
+    
     idlctosdespesa = $(this).attr('id');
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
     $.when(
@@ -540,25 +543,8 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                     $("#idclienteprojeto_despesa").val(data.idclienteprojeto);
                     $("#page_despesa #selecione_projeto .ui-btn-text").text(data.nome_projeto);
                     var COMMON_URL = COMMON_URL_MOBILE.substr(0, COMMON_URL_MOBILE.length - 7);
-                    /*if (data.id_arquivo) {
-                        arquivo_edit = "<input type='hidden' name='idarquivo' id='idarquivo' value='" + data.id_arquivo + "' >";
-                        var filename = COMMON_URL_MOBILE + "open_files_mobile.php?ss=arq_despesas&id=" + data.id_arquivo + "&dw=F";
-                        var markup = '<a href="#popupPhoto" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="fade">' + data.nome_arquivo + '</a>';
-                        var popup = '<div data-role="popup" id="popupPhoto" data-overlay-theme="a" data-theme="d" data-corners="false"><a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a><img class="popphoto" src="' + filename + '" ></div>';
-                        var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
-                        $("#popupPhoto").popup("destroy");
-                        $("#upload_arquivos").empty().append('<div data-mini="true" data-role="controlgroup" data-type="horizontal">' + markup + apagar + '</div>' + arquivo_edit);
-                        $("#popup_imagem").html(popup);
-                        $("#page_despesa").trigger('create');
-                        //$("#upload_arquivos").html("<a href='javascript:;' onclick='window.open(\""+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F\")' id='del_arquivo'><img src='"+COMMON_URL_MOBILE+"open_files_mobile.php?ss=arq_despesas&id="+data.id_arquivo+"&dw=F' width='100px'></a>\n\
-                        //   &nbsp;<button onclick='deletaArquivo();' data-mini=\"true\" id='del_arquivo' >Excluir</button>"+arquivo_edit);
 
-                    } else {
-                        $("#arquivo_md5").val('');
-                        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-                    }*/
-
-                    if (data.id_arquivo) {
+                    if (data.id_arquivo > 0) {
                         arquivo_edit = "<input type='hidden' name='idarquivo' id='idarquivo' value='" + data.id_arquivo + "' >";
                         var filename = COMMON_URL_MOBILE + "open_files_mobile.php?ss=arq_despesas&id=" + data.id_arquivo + "&dw=F";
                         var imagem = '<div><img width="25%" src="' + filename + '"></div>';
