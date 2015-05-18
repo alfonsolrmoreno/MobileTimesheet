@@ -28,6 +28,9 @@ function clearInputs() {
     $(":input").each(function () {
         $(this).val('');
     });
+    
+    $("#popup_imagem").html('');
+    
     geraDespesa(0, 0);
 }
 
@@ -1352,8 +1355,7 @@ $(document).ready(function () {
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_trabalhada").val(data_hoje);
     });
-    $("#novo_despesa_top").click(function ()
-    {
+    $("#novo_despesa_top").click(function () {
         clearInputs();
         $("#arquivo_md5").val('');
         $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
@@ -1364,6 +1366,7 @@ $(document).ready(function () {
         $("#page_despesa #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_lcto").val(data_hoje);
     });
+    
     $("#icon_timesheet").click(function ()
     {
         $('#filtro_data_trabalhada').val(data_hoje);
