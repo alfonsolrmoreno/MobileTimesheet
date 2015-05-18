@@ -495,8 +495,10 @@
                 </div>
 
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
-                    <img data-transition="slide" title="Fotografar documento" id="uploadArquivo" src="img/blue_cam2.png" width="32" height="32"/>
-                    <label for="arq_despesa"> Anexar Documento </label>
+                    <div id="uploadArquivo" style="width: -moz-max-content">
+                        <img data-transition="slide" title="Fotografar documento" src="img/blue_cam2.png" width="32" height="32"/>
+                        <label for="arq_despesa"> Anexar Documento </label>
+                    </div>
                     <!--
                     <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
                         <div id="upload_arquivos" >
