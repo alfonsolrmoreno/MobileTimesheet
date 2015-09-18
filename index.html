@@ -1,653 +1,673 @@
+<!--
+Andre Renovato - 17/09/2015
+MOBILE ARQUIVOS IMPORTANTES
+
+CSS COM ITENS CUSTOMIZADOS
+PROCURAR POR (CUSTOM MULTIDADOS)
+- layout.css
+- grey.css
+- css.css
+-->
+
 <!DOCTYPE html>
-<html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
     <head>
-        <meta charset="utf-8">
-        <title>Mobile - Multidados</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8"/>
+        <title>Mobile - MultidadosTi</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="assets/global/plugins/font-family/font-family.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+        <!-- END GLOBAL MANDATORY STYLES -->
+
+        <!-- BEGIN THEME STYLES -->
+        <link href="assets/global/css/components.css" id="style_components" rel="stylesheet" type="text/css"/>
+        <link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/admin/layout2/css/layout.css" rel="stylesheet" type="text/css"/>
+        <link href="assets/admin/layout2/css/themes/grey.css" rel="stylesheet" type="text/css" id="style_color"/>
+        <link href="assets/admin/layout2/css/custom.css" rel="stylesheet" type="text/css"/>
+        <!-- END THEME STYLES -->
+
+        <!-- CSS DO MOBILE ANTIGO -->
+        <link href="css/jquery.toastmessage.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="css/jqm-datebox-1.4.0.min.css" />
         <link href="css/jqm-neue.css" rel="stylesheet">
         <link href="css/codiqa.ext.min.css" rel="stylesheet">
-        <link href="css/jquery.toastmessage.css" rel="stylesheet">
-
-        <link rel="stylesheet" type="text/css" href="css/jqm-datebox-1.4.0.min.css" />
-
-        <link rel="shortcut icon" href="../favicon.ico">
         <link rel="stylesheet" type="text/css" href="css/calendar/calendar.css" />
         <link rel="stylesheet" type="text/css" href="css/calendar/custom_2.css" />
-        <script src="js/calendar/modernizr.custom.63321.js"></script>
 
-        <script src="js/jquery-1.9.1.min.js"></script>
-        <script src="js/jquery.mobile-1.3.1.min.js"></script>
-        <script src="js/codiqa.ext.min.js"></script>
+        <style>
+            html,body        {height:100%;}
+            .wrapper         {width:100%;height:100%;margin:0 auto;}
+            //.wrapper         {margin:0 auto;}
+            .h_iframe        {position:relative;}
+            .h_iframe .ratio {display:block;width:100%;height:auto;}
+            //.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:100%;}
+            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:350px;}
+
+        </style>
+    </head>
+    <!-- END HEAD -->
+    <!-- BEGIN BODY -->
+    <!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+    <!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+    <!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+    <!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+    <!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+    <!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+    <!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+    <!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+    <!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+    <body class="page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo page-header-fixed-mobile page-footer-fixed-mobile">
+        <!--    <body class="page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo">-->
+        <!-- BEGIN HEADER -->
+        <div class="page-header navbar navbar-fixed-top">
+            <!-- BEGIN HEADER INNER -->
+            <div class="page-header-inner container">
+                <!-- BEGIN LOGO -->
+                <div class="page-logo">
+                    <a href="javascript:;">
+                        <img src="img/logomultidados_transparent.png" alt="logo" class="logo-multidados"/>
+                    </a>
+                    <div class="menu-toggler sidebar-toggler">
+                        <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
+                    </div>
+                </div>
+                <!-- END LOGO -->
+                <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+                </a>
+                <!-- END RESPONSIVE MENU TOGGLER -->
+
+                <!-- BEGIN PAGE TOP -->
+                <div class="page-top">
+                    <div class="saudacao-init pull-left">
+                        <span class="saudacao"></span>
+                        <br />
+                        <span class="saudacao-data" ></span>
+                    </div>
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            <!-- BEGIN NOTIFICATION DROPDOWN -->
+                            <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+
+                            <!-- VOLTAR PARA MENU -->
+                            <!--
+                            <li class="dropdown dropdown-extended dropdown-notification" >
+                                <a class="dropdown-toggle link" href="javascript:;" id="menu">
+                                    <i class="icon-action-undo"></i>
+                                </a>
+                            </li>
+                            <li class="dropdown dropdown-extended dropdown-notification" id="header_notification_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-bell"></i>
+                                    <span class="badge badge-default">
+                                        7 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3><span class="bold">12 pending</span> notifications</h3>
+                                        <a href="extra_profile.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">just now</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-success">
+                                                            <i class="fa fa-plus"></i>
+                                                        </span>
+                                                        New user registered. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">3 mins</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span>
+                                                        Server #12 overloaded. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">10 mins</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-warning">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span>
+                                                        Server #2 not responding. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">14 hrs</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bullhorn"></i>
+                                                        </span>
+                                                        Application error. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">2 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span>
+                                                        Database overloaded 68%. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">3 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span>
+                                                        A user IP blocked. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">4 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-warning">
+                                                            <i class="fa fa-bell-o"></i>
+                                                        </span>
+                                                        Storage Server #4 not responding dfdfdfd. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">5 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-info">
+                                                            <i class="fa fa-bullhorn"></i>
+                                                        </span>
+                                                        System Error. </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="time">9 days</span>
+                                                    <span class="details">
+                                                        <span class="label label-sm label-icon label-danger">
+                                                            <i class="fa fa-bolt"></i>
+                                                        </span>
+                                                        Storage server failed. </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-envelope-open"></i>
+                                    <span class="badge badge-default">
+                                        4 </span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                        <h3>You have <span class="bold">7 New</span> Messages</h3>
+                                        <a href="page_inbox.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="inbox.html?a=view">
+                                                    <span class="photo">
+                                                        <img src="assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from">
+                                                            Lisa Wong </span>
+                                                        <span class="time">Just Now </span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="inbox.html?a=view">
+                                                    <span class="photo">
+                                                        <img src="assets/admin/layout3/img/avatar3.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from">
+                                                            Richard Doe </span>
+                                                        <span class="time">16 mins </span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="inbox.html?a=view">
+                                                    <span class="photo">
+                                                        <img src="assets/admin/layout3/img/avatar1.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from">
+                                                            Bob Nilson </span>
+                                                        <span class="time">2 hrs </span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Vivamus sed nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="inbox.html?a=view">
+                                                    <span class="photo">
+                                                        <img src="assets/admin/layout3/img/avatar2.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from">
+                                                            Lisa Wong </span>
+                                                        <span class="time">40 mins </span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Vivamus sed auctor 40% nibh congue nibh... </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="inbox.html?a=view">
+                                                    <span class="photo">
+                                                        <img src="assets/admin/layout3/img/avatar3.jpg" class="img-circle" alt="">
+                                                    </span>
+                                                    <span class="subject">
+                                                        <span class="from">
+                                                            Richard Doe </span>
+                                                        <span class="time">46 mins </span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown dropdown-extended dropdown-tasks" id="header_task_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-calendar"></i>
+                                    <span class="badge badge-default">
+                                        3 </span>
+                                </a>
+                                <ul class="dropdown-menu extended tasks">
+                                    <li class="external">
+                                        <h3>You have <span class="bold">12 pending</span> tasks</h3>
+                                        <a href="page_todo.html">view all</a>
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">New release v1.2 </span>
+                                                        <span class="percent">30%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 40%;" class="progress-bar progress-bar-success" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">40% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Application deployment</span>
+                                                        <span class="percent">65%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 65%;" class="progress-bar progress-bar-danger" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">65% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Mobile app release</span>
+                                                        <span class="percent">98%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 98%;" class="progress-bar progress-bar-success" aria-valuenow="98" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">98% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Database migration</span>
+                                                        <span class="percent">10%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 10%;" class="progress-bar progress-bar-warning" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">10% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Web server upgrade</span>
+                                                        <span class="percent">58%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 58%;" class="progress-bar progress-bar-info" aria-valuenow="58" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">58% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">Mobile development</span>
+                                                        <span class="percent">85%</span>
+                                                    </span>
+                                                    <span class="progress">
+                                                        <span style="width: 85%;" class="progress-bar progress-bar-success" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">85% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;">
+                                                    <span class="task">
+                                                        <span class="desc">New UI release</span>
+                                                        <span class="percent">38%</span>
+                                                    </span>
+                                                    <span class="progress progress-striped">
+                                                        <span style="width: 38%;" class="progress-bar progress-bar-important" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100"><span class="sr-only">38% Complete</span></span>
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            -->
+                            <li class="dropdown dropdown-user">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <!-- <img alt="" class="img-circle" src="assets/admin/layout2/img/avatar.png"/>-->
+                                    <!-- http://localhost/vmulti.v2015.09/timesheet/multidados/module/scheduler/include/foto.php?idfoto=1 -->
+                                    <img alt="" id="foto_user" class="img-circle" src="img/avatar.png"/>
+                                    <span class="username username-hide-on-mobile"></span>
+                                    <i class="fa fa-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-default">
+                                    <!--<li>
+                                        <a href="extra_profile.html">
+                                            <i class="icon-user"></i> My Profile </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_calendar.html">
+                                            <i class="icon-calendar"></i> My Calendar </a>
+                                    </li>
+                                    <li>
+                                        <a href="inbox.html">
+                                            <i class="icon-envelope-open"></i> My Inbox <span class="badge badge-danger">
+                                                3 </span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="page_todo.html">
+                                            <i class="icon-rocket"></i> My Tasks <span class="badge badge-success">
+                                                7 </span>
+                                        </a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
+                                    <li>
+                                        <a href="extra_lock.html">
+                                            <i class="icon-lock"></i> Lock Screen </a>
+                                    </li>
+                                    -->
+                                    <!--<li>
+                                        <a id="banco-nome" href="javascript:;"> </a>
+                                    </li>-->
+                                    <li>
+                                        <a id="icon_sair" href="javascript:;">
+                                            <i class="icon-key"></i> Desconectar </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <!-- END USER LOGIN DROPDOWN -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+                <!-- END PAGE TOP -->
+            </div>
+            <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+
+        <!-- BEGIN CONTAINER -->
+        <div class="container">
+            <div class="page-container">
+                <!-- BEGIN SIDEBAR -->
+                <div class="page-sidebar-wrapper">
+                    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                    <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                    <div class="page-sidebar navbar-collapse collapse ">
+                        <!-- BEGIN SIDEBAR MENU -->
+                        <!-- DOC: Apply "page-sidebar-menu-light" class right after "page-sidebar-menu" to enable light sidebar menu style(without borders) -->
+                        <!-- DOC: Apply "page-sidebar-menu-hover-submenu" class right after "page-sidebar-menu" to enable hoverable(hover vs accordion) sub menu mode -->
+                        <!-- DOC: Apply "page-sidebar-menu-closed" class right after "page-sidebar-menu" to collapse("page-sidebar-closed" class must be applied to the body element) the sidebar sub menu mode -->
+                        <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+                        <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
+                        <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+                        <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+
+                            <li class="start">
+                                <a class="link" id="mobile_home.html">
+                                    <!--<i class="icon-power"></i>-->
+                                    <i class="icon-home"></i>
+                                    <span class="title">Home</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="javascript:;">
+                                    <i class="icon-calendar"></i>
+                                    <span class="title">TimeSheet</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a class="link" mobile="true" id="#page_timesheet">
+                                            <i class="glyphicon glyphicon-plus"></i>Novo</a>
+                                    </li>
+                                    <li>
+                                        <!--                                        <a class="link" id="mobile_lista_timesheet.html">-->
+                                        <a class="link" mobile="true" id="#page_relatorio">
+                                            <i class="glyphicon glyphicon-th-list"></i>Listar</a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=usuarios&a=timesheet&nomenu=1">
+                                            <i class="icon-bar-chart"></i>Portal</a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1">
+                                            <i class="icon-bar-chart"></i> Aprovação Horas(Cliente)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="icon-notebook"></i>
+                                    <span class="title">Despesas</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a class="link" mobile="true" id="#page_despesa">
+                                            <i class="glyphicon glyphicon-plus"></i> Novo</a>
+                                    </li>
+                                    <li>
+                                        <a class="link" mobile="true" id="#relatorio_despesa">
+                                            <i class="glyphicon glyphicon-th-list"></i> Listar</a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=usuarios&a=despesas&nomenu=1">
+                                            <i class="icon-bar-chart"></i> Portal </a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=despesas&a=despesas_aprovacoes_portal&nomenu=1">
+                                            <i class="icon-bar-chart"></i> Aprovação Despesas(Cliente)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="icon-rocket"></i>
+                                    <span class="title">ServiceDesk</span>
+                                    <span class="selected"></span>
+                                    <span class="arrow open"></span>
+                                </a>
+                                <ul class="sub-menu">
+                                    <li>
+                                        <a class="link" id="?display=portal&m=usuarios&a=abrir_oc_portal&nomenu=1">
+                                            <i class="glyphicon glyphicon-plus"></i> Novo </a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=servicedesk&a=consultar_ocs_portal&nomenu=1">
+                                            <i class="glyphicon glyphicon-th-list"></i> Listar</a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=usuarios&a=ocorrencias&nomenu=1">
+                                            <i class="icon-bar-chart"></i> Portal </a>
+                                    </li>
+                                    <li>
+                                        <a class="link" id="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1">
+                                            <i class="icon-bar-chart"></i> Aprovação </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:;">
+                                    <i class="icon-bar-chart"></i>
+                                    <span class="title">Dashboards</span>
+                                    <span class="selected"></span>
+                                    <span class="arrow open"></span>
+                                </a>
+                                <ul id="lista_dashboard" class="sub-menu">
+
+                                </ul>
+                            </li>
+
+                            <!--<li class="last ">
+                                <a id="icon_sair" class="" href="javascript:;">
+                                    <i class="icon-logout"></i>
+                                    <span class="title">Desconectar</span>
+                                </a>
+                            </li>-->
+
+                        </ul>
+                        <!-- END SIDEBAR MENU -->
+                    </div>
+                </div>
+                <!-- END SIDEBAR -->
+                <!-- BEGIN CONTENT -->
+                <div class="page-content-wrapper">
+                    <div class="page-content">
+                        <div class="wrapper">
+                            <div class="h_iframe">
+                                <iframe id="conteudo" src="mobile_home.html" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- END CONTENT -->
+            </div>
+            <!-- END CONTAINER -->
+            <!-- BEGIN FOOTER -->
+            <div class="page-footer">
+                <div class="page-footer-inner name_powered"> </div>
+                <div class="scroll-to-top">
+                    <i class="icon-arrow-up"></i>
+                </div>
+            </div>
+            <!-- END FOOTER -->
+        </div>
+        <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+        <!-- BEGIN CORE PLUGINS -->
+        <!--[if lt IE 9]>
+        <script src="assets/global/plugins/respond.min.js"></script>
+        <script src="assets/global/plugins/excanvas.min.js"></script>
+        <![endif]-->
+
+        <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/jquery-migrate.min.js" type="text/javascript"></script>
+        <!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+        <script src="assets/global/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+        <script src="assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <!-- END CORE PLUGINS -->
+
+        <!-- BEGIN PAGE LEVEL SCRIPTS -->
+        <script src="assets/global/scripts/metronic.js" type="text/javascript"></script>
+        <script src="assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
+        <script src="assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
+        <!-- END PAGE LEVEL SCRIPTS -->
+
+        <!-- SCRIPTS DO MOBILE ANTIGO -->
+        <!-- Andre Renovato - 14/04/2015 - Este js é incluido automaticamente pelo phonegap -->
+        <!--<script type="text/javascript" src="cordova.js"></script>
+        <script src="js/calendar/modernizr.custom.63321.js"></script>-->
+        <!--        <script src="js/jquery-1.9.1.min.js"></script>-->
+        <!--                <script src="js/jquery.mobile-1.3.1.min.js"></script>-->
+        <!--<script src="js/codiqa.ext.min.js"></script>
         <script src="js/mobile-multidados.js"></script>
-
         <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
-        <script type="text/javascript" src="js/jqm-datebox-1.4.0.core.min.js"></script>
-        <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.calbox.min.js"></script>
-        <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.datebox.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mobile.datebox.i8n.pt-BR.js"></script>
-
+               <script type="text/javascript" src="js/jqm-datebox-1.4.0.core.min.js"></script>
+                <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.calbox.min.js"></script>
+                <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.datebox.min.js"></script>
+                <script type="text/javascript" src="js/jquery.mobile.datebox.i8n.pt-BR.js"></script>-->
         <!-- configuracoes Multidados -->
-        <link href="default/css/css.css" rel="stylesheet">
         <script src="js/infinity-scroll.js"></script>
         <script src="js/jquery.toastmessage.js"></script>
         <script src="default/js/default.js"></script>
 
-        <!-- Script upload arquivos -->
-        <!--<script type="text/javascript" src="js/upload-despesa.js"></script>-->
+        <!-- UTILIZADO PARA O SLIDE DE PAGINA -->
+        <!--<link rel="stylesheet" href="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.css">-->
+        <!--        <script src="//code.jquery.com/mobile/1.3.2/jquery.mobile-1.3.2.min.js"></script>-->
 
-        <script type="text/javascript">
-            try {
-                Typekit.load();
-            } catch (e) {
-            }</script>
-        <!-- fim configuracoes Multidados -->
-        <style>
-            .lista-infinity {
-                padding: 0em;
-            }
-            .lista-infinity li{
-                font-family: sans-serif;
-                font-size: 1em;
-                line-height: 1.3;
-                background: #fff;
-                list-style: none;
-                padding: .7em 1em;
-                border-width: 1px 0 0;
-                border-style: solid;
-                border-color: #ddd;
-                color: #333;
-                text-shadow: 0 1px 0 #f3f3f3;
-                cursor: pointer; cursor: hand;
-            }
-            .lista-infinity li:hover, lista-infinity li:active{
-                background: #eee;
-            }
-            #form_arquivo{
-                width:100%;
-                display: inline-block;
-            }
-            #busca_cliente_despesa, #busca_projeto_despesa, #busca_cliente_timesheet, #busca_projeto_timesheet{
-                display: none;
-            }
-        </style>
-    </head>
-    <body style="background: url('img/bg_app.jpg') no-repeat; background-size: 100%;">
-        <div data-role="page" class="class_page pagina" data-control-title="Login Multidados" data-theme="b" id="page_login" style="background: url('img/bg_app.jpg') no-repeat">
-            <div data-role="content" style="padding: 0px">
-                <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
-                    <p>&nbsp;</p>
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_url">
-                    <label for="url">
-                        URL do Sistema
-                    </label>
-                    <input name="url" id="url" placeholder="" value="" type="text">
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_usuario">
-                    <label for="usuario">
-                        Usu&aacute;rio
-                    </label>
-                    <input name="usuario" id="usuario" placeholder="" value="" type="text">
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_senha">
-                    <label for="senha">
-                        Senha
-                    </label>
-                    <input name="senha" id="senha" placeholder="" value="" type="password">
-                </div>
-                <a id="botao_entrar" data-role="button" href="javascript:;" data-icon="arrow-r"
-                   data-iconpos="right" class="box_btentrar">
-                    Entrar
-                </a>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered" style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©<br /> v.1.0.0
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <script>
+            jQuery(document).ready(function () {
+                Metronic.init(); // init metronic core componets
+                Layout.init(); // init layout
 
-        <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b" id="page5" style="background: url('img/bg_app.jpg') no-repeat">
-            <div data-role="content" style="padding: 0px">
-                <div data-controltype="htmlblock" class="box_logotipo">
-                    <p>
-                        &nbsp;
-                    </p>
-                </div>
-                <div id="box_pagina_construcao" data-controltype="htmlblock" class="box_pagina_construcao">
-                    <p>
-                        <strong>
-                            P&aacute;gina em constru&ccedil;&atilde;o
-                        </strong>
-                    </p>
-                </div>
-                <a id="bt_voltar" data-role="button" href="#page_home" data-icon="home"
-                   data-iconpos="left" class="bt_voltar">
-                    Voltar para a home
-                </a>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered"  style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
+                verifica_logado();
 
-        <div data-role="page" class="class_page pagina" data-control-title="Home Page Multidados" data-theme="b" id="page_home" style="background: url('img/bg_app.jpg') no-repeat">
-            <div data-role="content" style="padding: 0px">
-                <div data-controltype="htmlblock" class="box_logotipo">
-                    <p>
-                        &nbsp;
-                    </p>
-                </div>
-                <div id="grid_icones" class="ui-grid-b grid_icones">
-                    <div class="ui-block-a">
-                        <a id="icon_timesheet" data-role="button" href="#page_relatorio" class="icon_timesheet">
-                            Timesheet
-                        </a>
-                    </div>
-                    <div class="ui-block-b">
-                        <a id="icon_despesa" data-role="button" href="#relatorio_despesa" class="icon_despesa">
-                            Despesas
-                        </a>
-                    </div>
-                    <div class="ui-block-c">
-                        <a id="icon_ocorrencia" data-role="button" href="#page5" class="icon_ocorrencia">
-                            Ocorrências
-                        </a>
-                    </div>
-                    <div class="ui-block-a">
-                        <a id="icon_contato" data-role="button" href="#page5" class="icon_contato">
-                            Contatos
-                        </a>
-                    </div>
-                    <div class="ui-block-b">
-                        <a id="icon_scheduler" data-role="button" href="#page5" class="icon_scheduler">
-                            Scheduler
-                        </a>
-                    </div>
-                    <div class="ui-block-c">
-                        <a id="icon_dashboard" data-role="button" href="javascript:window.location=Objeto_json.url+'?display=portal&m=usuarios&a=timesheet';" class="icon_dashboard">
-                            Dashboard
-                        </a>
-                    </div>
-                    <div class="ui-block-a"></div>
-
-                    <div class="ui-block-c"></div>
-                </div>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered" style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <p align="center">
-                            <a href="#page_login" id="icon_sair"  class="icon_sair"  data-mini="true" data-inline="true" data-iconpos="left">
-                                <img src="img/icon_desconnect.png"  />
-                            </a>
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div data-role="page" class="pagina" data-control-title="Timesheet" data-theme="b" id="page_timesheet">
-            <div id="header_default" data-theme="b" data-role="header" class="header_default">
-                <a id="save_timecard_top" data-role="button" data-theme="a" href="#page_timesheet"
-                   data-icon="check" data-iconpos="left" class="ui-btn-right">
-                    Salvar
-                </a>
-                <a data-role="button" data-theme="a" href="#page_relatorio" data-icon="arrow-l" id="voltar_timesheet"
-                   data-iconpos="left" class="ui-btn-left">
-                    Voltar
-                </a>
-                <h3 id="header" class="header">
-                    MultidadosTI
-                </h3>
-            </div>
-            <div id="divautocomplete_timecard">
-                <ul id="autocomplete_prj" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
-            </div>
-            <div    id="page_timesheet_clientes"></div>
-            <div    id="page_timesheet_projetos"></div>
-            <div data-role="content" style="padding: 0px" id="page_timesheet_sub">
-
-                <input type='hidden' name='idtimecard' id='idtimecard' />
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="data_trabalhada">
-                        Data
-                    </label>
-                    <input name="data_trabalhada" id="data_trabalhada" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}' >
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="search_cliente">
-                        Cliente
-                    </label>
-
-                    <!--<ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>-->
-                    <input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" />
-
-                    <a href="javascript:;" id="selecione_cliente" data-role="button" data-icon="search" data-theme="c">Buscar Cliente</a>
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="codigo_projeto">
-                        Projeto
-                    </label>
-
-                    <!-- <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul> -->
-                    <input type="hidden" name="codigo" id="codigo" />
-                    <a href="javascript:;" id="selecione_projeto" data-role="button" data-icon="search" data-theme="c">Buscar Projeto</a>
-                </div>
-                <div id="fase_task" data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
-                    <label for="codigo_fase">
-                        Fase
-                    </label>
-                    <select id="codigo_fase" name="codigo_fase" data-theme="c">
-                        <option value="">
-                            Selecione uma fase
-                        </option>
-                    </select>
-                </div>
-                <div id="atividade_task" data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
-                    <label for="codigo_atividade">
-                        Atividade
-                    </label>
-                    <select id="codigo_atividade" name="codigo_atividade" data-theme="c">
-                        <option value="">
-                            Selecione uma atividade
-                        </option>
-                    </select>
-                </div>
-
-                <div id="porcentagem_conclusao" data-role="fieldcontain" class="box_form">
-                    <label for="slider-fill">Conclusão %</label>
-                    <select id="porc_conclusao_atividade" name="porc_conclusao_atividade" data-theme="c">
-                        <option value=""> </option>
-                    </select>
-
-                    <!--<input type="range" name="porc_conclusao_atividade" id="slider-fill" class="porc_conclusao_atividade" data-mini="true" min="0" max="100" step="5" value="0" > -->
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="hora_inicial">
-                        Hora Inicial
-                    </label>
-                    <input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="hora_final">
-                        Hora Final
-                    </label>
-                    <input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >
-                </div>
-                <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
-                    <label for="narrativa_principal">
-                        Narrativa
-                    </label>
-                    <textarea name="narrativa_principal" id="narrativa_principal" placeholder=""></textarea>
-                </div>
-                <a id="save_timecard_bottom" data-role="button" href="#page_timesheet"
-                   data-icon="check" data-iconpos="right" class="box_form" >
-                    Salvar
-                </a>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered"  style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div data-role="page" class="pagina" data-control-title="Relatório Timesheet" data-theme="b" id="page_relatorio">
-            <div data-theme="b" data-role="header" class="header_default">
-                <a id="novo_timecard_top" data-role="button" data-theme="a" href="#page_timesheet"
-                   data-icon="add" data-iconpos="left" class="ui-btn-right">
-                    Novo
-                </a>
-                <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Voltar
-                </a>
-                <h3 class="header">
-                    MultidadosTI
-                </h3>
-                <div data-role="fieldcontain" data-controltype="dateinput">
-                    <label for="filtro_data_trabalhada">
-                        Filtro de Data
-                    </label>
-                    <input name="filtro_data_trabalhada" id="filtro_data_trabalhada" data-role="datebox" type="date" data-options='{"mode": "calbox"}' >
-                </div>
-            </div>
-            <div data-role="content" style="padding: 0px">
-                <div role="main" class="ui-content">
-                    <ul id="list" data-role="listview" data-divider-theme="b"  data-split-icon="delete" style="margin-top: auto;">
-
-                    </ul>
-                </div><!-- /content -->
-                <div id="confirm" class="ui-content" data-role="popup" data-theme="a">
-                    <p id="question">Confirma a exclusão ?</p>
-                    <div class="ui-grid-a">
-                        <div class="ui-block-a">
-                            <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Sim</a>
-                        </div>
-                        <div class="ui-block-b">
-                            <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-a" data-rel="back">Não</a>
-                        </div>
-                    </div>
-                </div><!-- /popup -->
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered" style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div data-role="page" class="pagina" data-control-title="Relatório Despesas" data-theme="b" id="relatorio_despesa">
-            <div data-theme="b" data-role="header" class="header_default">
-                <a id="novo_despesa_top" data-role="button" data-theme="a" href="#page_despesa"
-                   data-icon="add" data-iconpos="left" class="ui-btn-right">
-                    Novo
-                </a>
-                <a data-role="button" data-theme="a" href="#page_home" data-icon="arrow-l"
-                   data-iconpos="left" class="ui-btn-left">
-                    Voltar
-                </a>
-                <h3 class="header">
-                    MultidadosTI
-                </h3>
-                <div data-role="fieldcontain" data-controltype="dateinput">
-                    <label for="dateinput2">
-                        Filtro de Data
-                    </label>
-                    <input name="filtro_data_trabalhada" id="dateinput2" data-role="datebox" type="date" data-options='{"mode": "calbox"}' >
-                </div>
-            </div>
-            <div data-role="content" style="padding: 0px" >
-                <ul id="list_despesa" data-role="listview" data-divider-theme="b" data-inset="true" data-split-icon="delete"> </ul>
-            </div>
-            <div data-controltype="htmlblock" class="footer_powered">
-                <div>
-                    <br>
-                    <br>
-                    <p class="name_powered" style="text-align:center; font-size:10px">
-                        Powered by MultidadosTI ©
-                    </p>
-                    <br>
-                </div>
-            </div>
-        </div>
-        <div data-role="page" class="pagina" data-control-title="Despesas" data-theme="b" id="page_despesa">
-            <div data-theme="b" data-role="header" class="header_default">
-                <a id="save_despesa_top" data-role="button" data-theme="a" href="javascript:;" data-icon="check"
-                   data-iconpos="left" class="ui-btn-right">
-                    Salvar
-                </a>
-                <a data-role="button" data-theme="a" href="#relatorio_despesa" data-icon="arrow-l" id="voltar_despesa"
-                   data-iconpos="left" class="ui-btn-left">
-                    Voltar
-                </a>
-                <h3 class="header">
-                    MultidadosTI
-                </h3>
-            </div>
-            <div id="divautocomplete_despesa">
-                <ul id="autocomplete_cli" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
-            </div>
-            <div id="page_despesa_clientes" ></div>
-            <div id="page_despesa_projetos">
-
-            </div>
-
-            <div data-role="content" style="padding: 0px" id="page_despesa_sub">
-                <input type='hidden' name='idtabpreco' id='idtabpreco' />
-                <input type='hidden' name='idlctodespesa' id='idlctodespesa' />
-                <input type='hidden' name='arquivo_md5' id='arquivo_md5' >
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="textinput8" class="ui-input-text" >
-                        Data
-                    </label>
-                    <input name="data_lcto" id="data_lcto" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}'  >
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="textinput9" >
-                        Cliente
-                    </label>
-                    <!-- <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente...." data-filter-theme="c"></ul>-->
-                    <input type="hidden" name="idcliente_despesa" id="idcliente_despesa" />
-
-                    <a href="javascript:;" id="selecione_cliente" data-role="button" data-icon="search" data-theme="c">Buscar Cliente</a>
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="textinput13">
-                        Projeto
-                    </label>
-
-                    <!--  <ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto...." data-filter-theme="p"></ul>-->
-                    <input type="hidden" name="idclienteprojeto_despesa" id="idclienteprojeto_despesa" />
-
-                    <a href="javascript:;" id="selecione_projeto" data-role="button" data-icon="search" data-theme="c">Buscar Projeto</a>
-                </div>
-                <div data-role="fieldcontain" data-controltype="selectmenu" class="box_form">
-                    <label for="codigo_despesa">
-                        Despesa
-                    </label>
-                    <select id="codigo_despesa" name="codigo_despesa" data-theme="c">
-                        <option value="">
-                            Selecione uma despesa
-                        </option>
-                    </select>
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="vlr_unitario">
-                        Valor Unitário
-                    </label>
-                    <input name="vlr_unitario" id="vlr_unitario" placeholder="" value="" type="text">
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="qtde_despesa">
-                        Qtde.
-                    </label>
-                    <input name="qtde_despesa" id="qtde_despesa" placeholder="" value="" type="number" >
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="valor_total">
-                        Valor Total
-                    </label>
-                    <input name="valor_total" id="valor_total" value="" type="number" readonly="true" />
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="local_despesa">
-                        Local da Despesa
-                    </label>
-                    <input name="local_despesa" id="local_despesa" placeholder="" value=""
-                           type="text">
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="num_documento">
-                        Nº do documento
-                    </label>
-                    <input name="num_documento" id="num_documento" placeholder="" value=""
-                           type="text">
-                </div>
-
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
-                    <img data-transition="slide" title="Fotografar documento" id="uploadArquivo" src="img/blue_cam2.png" width="32" height="32"/>
-                    <label for="arq_despesa"> Anexar Documento </label>
-                    <!--
-                    <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
-                        <div id="upload_arquivos" >
-                            <input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">
-                        </div>
-                        <div    id="popup_imagem">
-                        </div>
-                    </form>-->
-                </div>
-                <!-- Lista de tipo foto/upload -->
-                <div id="optionsUpload"  data-role="controlgroup">
-                    <a href="#" onclick="capturePhoto()" data-role="button">Tirar foto</a>
-                    <a href="#" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Escolher da biblioteca</a>
-                    <a href="#" id="cancel_upload" data-theme="a" data-role="button">Cancelar</a>
-                </div>
-
-                <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
-                    <label for="textarea2" class="ui-input-text">
-                        Narrativa
-                    </label>
-                    <textarea name="narrativa_principal_despesa" id="narrativa_principal_despesa" placeholder=""></textarea>
-                </div>
-                <div id="btn_save_despesa">
-                    <a id="save_despesa_bottom" data-role="button" href="javascript:;" data-icon="check" data-iconpos="right" class="box_form">Salvar</a>
-                </div>
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered" style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
-             id="page_scheduler" style="background: url('img/bg_app.jpg') no-repeat"
-             >
-            <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
-            <script type="text/javascript" src="js/calendar/data.js"></script>
-            <script type="text/javascript">
-            $(function() {
-
-                var transEndEventNames = {
-                    'WebkitTransition': 'webkitTransitionEnd',
-                    'MozTransition': 'transitionend',
-                    'OTransition': 'oTransitionEnd',
-                    'msTransition': 'MSTransitionEnd',
-                    'transition': 'transitionend'
-                },
-                transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
-                        $wrapper = $('#custom-inner'),
-                        $calendar = $('#calendar')
-                        ,
-                        cal = $calendar.calendario({
-                            onDayClick: function($el, $contentEl, dateProperties) {
-                                alert(dateProperties['day']);
-                                if ($contentEl.length > 0) {
-                                    showEvents($contentEl, dateProperties);
-                                }
-
-                            },
-                            caldata: codropsEvents,
-                            displayWeekAbbr: true
-                        }),
-                        $month = $('#custom-month').html(cal.getMonthName()),
-                        $year = $('#custom-year').html(cal.getYear());
-
-                $('#custom-next').on('click', function() {
-                    cal.gotoNextMonth(updateMonthYear);
-                });
-                $('#custom-prev').on('click', function() {
-                    cal.gotoPreviousMonth(updateMonthYear);
-                });
-
-                function updateMonthYear() {
-                    $month.html(cal.getMonthName());
-                    $year.html(cal.getYear());
-                }
-
-                // just an example..
-                function showEvents($contentEl, dateProperties) {
-
-                    hideEvents();
-
-                    var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'), $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
-
-                    $events.append($contentEl.html(), $close).insertAfter($wrapper);
-
-                    setTimeout(function() {
-                        $events.css('top', '0%');
-                    }, 25);
-
-                }
-                function hideEvents() {
-
-                    var $events = $('#custom-content-reveal');
-                    if ($events.length > 0) {
-
-                        $events.css('top', '100%');
-                        Modernizr.csstransitions ? $events.on(transEndEventName, function() {
-                            $(this).remove();
-                        }) : $events.remove();
-
-                    }
-
-                }
-
+                //popula Menu de Dashboards
+                popMenuDash();
 
             });
-
-            </script>
-            <div data-role="content" style="padding: 0px">
-                <div data-controltype="htmlblock" class="box_logotipo">
-                    <p>
-                        &nbsp;
-                    </p>
-                </div>
-                <div id="box_pagina_construcao" data-controltype="htmlblock" class="box_pagina_construcao">
-                    <section class="main">
-                        <div class="custom-calendar-wrap">
-                            <div id="custom-inner" class="custom-inner">
-                                <div class="custom-header clearfix">
-                                    <nav>
-                                        <span id="custom-prev" class="custom-prev"></span>
-                                        <span id="custom-next" class="custom-next"></span>
-                                    </nav>
-                                    <h2 id="custom-month" class="custom-month"></h2>
-                                    <h3 id="custom-year" class="custom-year"></h3>
-                                </div>
-                                <div id="calendar" class="fc-calendar-container"></div>
-                            </div>
-                        </div>
-                    </section>
-
-                </div>
-
-                <div data-controltype="htmlblock" class="footer_powered">
-                    <div>
-                        <br>
-                        <br>
-                        <p class="name_powered"  style="text-align:center; font-size:10px">
-                            Powered by MultidadosTI ©
-                        </p>
-                        <br>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </script>
+        <!-- END JAVASCRIPTS -->
     </body>
+    <!-- END BODY -->
 </html>

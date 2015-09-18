@@ -1,96 +1,106 @@
+
 //var pictureSource = navigator.camera.PictureSourceType;   // picture source
 //var destinationType = navigator.camera.DestinationType; // sets the format of returned value
 
 var retries = 0;
 
-//CP.jsv = Math.ceil(Math.random() * 999999999999999) + 1;
-//$('head').append('<script' + ' type="text/javascript"' + ' src="' + CP.URL_APP + 'js/app.js?v=' + CP.jsv + '"' + '><' + '/' + 'script>');
+
+$(document).ready(function () {   
+    //default div botoes upload fechados
+    $("#optionsUpload").hide()
+    $("#uploadArquivo").click(function() {
+        //somente no editar, quando e nova foto, os botoes podem ser visualizados para escolher ou tirar nova foto.
+        if(!$("#idarquivo").val()){
+            $("#optionsUpload").toggle();
+        }
+     });
+     $("#cancel_upload").click(function() {
+        $("#optionsUpload").toggle();
+     });     
+})
 
 function cam_clearCache() {
     navigator.camera.cleanup();
 }
+//obj = {prop:123}
 
-var sendpic_win = function(r) {
-    loading('hide');
-    window.setTimeout(function() {
-        cam_clearCache();
-        retries = 0;
-        var sys_resp = eval('(' + r.response + ')');
 
-        alert(sys_resp.msg);
-    }, 100);
+var sendpic_win = function (r) {
+    if(r.response.length > 0){
+        var result = eval('('+r.response+')'); //transformando a string em objeto para acessar cada objeto
+        
+        $("#arquivo_md5").val(r.response);
+        localStorage.setItem('foto', result.nome_arquivo_temp);
+        var visu = '<div data-mini="true" data-role="controlgroup" data-type="horizontal"><img width="25%" src="' + COMMON_URL_MOBILE+'/temp_mobile/'+result.nome_arquivo_temp + '"></div>';
+        $("#popup_imagem").empty().append('<br>'+visu);       
+
+        loading('hide');
+        $("#optionsUpload").toggle();
+        $().toastmessage('showSuccessToast', 'Upload de foto realizado com sucesso');
+
+    }
+};
+
+function showfoto() {
+    $('#popup_imagem').html('');
+    var foto = localStorage.getItem('foto');
+    //alert('nome da foto:::> '+foto);
+    if (foto) { 
+        var picurl = COMMON_URL_MOBILE + 'view_anexo.php?foto=' + foto;
+        //alert('caminhoURL: >> '+picurl);
+        $('#popup_imagem').html('Anexo:<br><img width="50%" src="' + picurl + '">');
+    }
 }
 
-var sendpic_fail = function(error) {
+var sendpic_fail = function (error) {
     loading('hide');
     if (retries == 0) {
         retries++
-        setTimeout(function() {
+        setTimeout(function () {
             onCapturePhoto(fileURI)
-        }, 1000)
+        }, 1000);
     } else {
         retries = 0;
         cam_clearCache();
         alert('Oops, algo de errado aconteceu!');
     }
-}
+};
 
 function onCapturePhoto(fileURI) {
-
     var options = new FileUploadOptions();
-
     options.fileKey = "file";
     options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    //options.fileName = 'Andre.jpg';//fileURI.substr(fileURI.lastIndexOf('/') + 1);
     options.mimeType = "image/jpeg";
-    options.params = {
-        cpsa: 'lancar_nota'
-        , idnota: localStorage.getItem('lancando_nota_idnota')
-        , idloja: $('#idloja').val()
-        , valor: js_extract_numbers($('#nota_valor').val())
-        , cents: js_extract_numbers($('#nota_valor_cents').val())
-        , idestabelecimento: CP.idestabelecimento
-        , idusuario: localStorage.getItem('usuario_idusuario')
-        , idevento: localStorage.getItem('eventos_idevento')
-    }; // if we need to send parameters to the server request
-
+    options.params = {}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
-    loading('show', 'Enviando arquivo, aguarde...');
-
-    ft.upload(fileURI, encodeURI(CP.URL_API), sendpic_win, sendpic_fail, options);
+    ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
 }
 
 function capturePhoto(sourceType) {
-    if (!sourceType)
-        sourceType = Camera.PictureSourceType.CAMERA;
+    if(!navigator.camera){
+        alert('Ooops, nao foi possivel usar a camera!');
+    }else{
+        loading('show', 'Enviando foto, aguarde...');
+        
+        if (!sourceType)
+            sourceType = Camera.PictureSourceType.CAMERA;
 
-    if (!validateNotaVal())
-        return false;
-
-    navigator.camera.getPicture(onCapturePhoto, onFail, {
-        //quality: 100,
-        destinationType: destinationType.FILE_URI,
-        quality: 90,
-        //           destinationType:Camera.DestinationType.DATA_URL,
-        targetWidth: 250,
-        targetHeight: 250,
-        saveToPhotoAlbum: true,
-        sourceType: sourceType
-    });
+        navigator.camera.getPicture(onCapturePhoto, onFail, {
+            //quality: 100,
+            //destinationType: destinationType.DATA_URL,
+            quality: 90,
+            //destinationType:Camera.DestinationType.DATA_URL,
+            destinationType: navigator.camera.DestinationType.FILE_URI,
+            targetWidth: 550,
+            targetHeight: 550,
+            saveToPhotoAlbum: true,
+            sourceType: sourceType
+        });
+    }
 }
 
 function onFail(message) {
-    alert('Failed because: ' + message);
-}
-
-function validateNotaVal() {
-    if (!$('#idloja').val()) {
-        alert('Selecione a loja onde foi feita a compra');
-        return false;
-    }
-    if (js_extract_numbers($('#nota_valor').val()) + js_extract_numbers($('#nota_valor_cents').val()) <= 0) {
-        alert('Indique o valor da nota antes de tirar a foto ou fazer o envio da foto');
-        return false;
-    } else {
-        return true;
-    }
+    loading('hide');
+    //alert('Camera falhou ao tirar a foto: ' + message);
 }
