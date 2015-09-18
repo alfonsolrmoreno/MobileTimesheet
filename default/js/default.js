@@ -51,15 +51,25 @@ arrayMes[11] = "Dezembro";
 
 pesq_autocomplete = '';
 
+<<<<<<< HEAD
 //Configuracao jquery.datebox
 /*jQuery.extend(jQuery.mobile.datebox.prototype.options, {
+=======
+//Configuraç?o jquery.datebox
+jQuery.extend(jQuery.mobile.datebox.prototype.options, {
+>>>>>>> origin/master
     'overrideDateFormat': '%d/%m/%Y',
     'overrideHeaderFormat': '%d/%m/%Y',
     dateFieldOrder: ['d', 'm', 'y']
 });
 if (!supports_html5_storage) {
+<<<<<<< HEAD
     alert("Infelizmente, seu navegador não suporta IndexedDB");
 }*/
+=======
+    alert("Infelizmente, seu navegador n?o suporta IndexedDB");
+}
+>>>>>>> origin/master
 
 function clearInputs() {
     $(":input").each(function () {
@@ -317,8 +327,13 @@ function mobile_login() {
                             var Objeto_real = localStorage['mobile_login'];
                             var Objeto_json = JSON.parse(Objeto_real);
 
+<<<<<<< HEAD
                             window.location.href = 'index.html';
                             //window.location.reload();
+=======
+                            window.location.href = '#page_home';
+                            window.location.reload();
+>>>>>>> origin/master
                         }
                     }
                 });
@@ -1362,13 +1377,19 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 $(document).delegate('#task_parent', 'change', function () {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
+<<<<<<< HEAD
 $(document).on("pageinit", "pages.html#page_login", function (){
+=======
+$(document).on("pageinit", "#page_login", function ()
+{
+>>>>>>> origin/master
     $resposta = verifica_logado();
     if ($resposta == 'ok') {
         window.location.href = "index.html";
     }
 });
 $(document).ready(function () {
+<<<<<<< HEAD
 
     var link = '';
     //Acao do click no menu, onde encaminha para pagina correta.
@@ -1395,6 +1416,8 @@ $(document).ready(function () {
             //loading('hide');
         }
     })    
+=======
+>>>>>>> origin/master
 
     //Pega data do dia ########################################################
     var data = new Date();
@@ -1414,9 +1437,15 @@ $(document).ready(function () {
         type: 'success'
     });
     //Define footer para todas as páginas
+<<<<<<< HEAD
     $(".name_powered").html('Powered by MultidadosTI &copy; v.2.0.6');
     
     $(document).on("pageinit", function (){
+=======
+    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.6');
+    $(document).on("pageinit", function ()
+    {
+>>>>>>> origin/master
         $resposta = verifica_logado();
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
@@ -1643,12 +1672,21 @@ $(document).ready(function () {
         });
     });
 
+<<<<<<< HEAD
     //Verifica se existe user logado    
     if (Objeto_json) {
+=======
+    //Verifica se existe user logado
+    if (Objeto_json.usuario_id) {
+>>>>>>> origin/master
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 });
