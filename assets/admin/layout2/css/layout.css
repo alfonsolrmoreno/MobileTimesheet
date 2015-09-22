@@ -183,7 +183,7 @@ Page Header
 .page-header.navbar .menu-toggler.responsive-toggler {
   display: none;
   float: right;
-  margin: 24px 14px 0 6px;
+  margin: 24px 14px 10px 20px;
   background-image: url(../img/sidebar-toggler-inverse.png);
 }
 .page-header.navbar .page-actions {
