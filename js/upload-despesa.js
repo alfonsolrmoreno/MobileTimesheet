@@ -37,12 +37,7 @@ var sendpic_win = function (r) {
         loading('hide');
         $("#optionsUpload").toggle();
         $().toastmessage('showSuccessToast', 'Upload de foto realizado com sucesso');
-<<<<<<< HEAD
 
-=======
-        
-        
->>>>>>> origin/master
     }
 };
 

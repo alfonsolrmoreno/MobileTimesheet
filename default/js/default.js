@@ -51,25 +51,15 @@ arrayMes[11] = "Dezembro";
 
 pesq_autocomplete = '';
 
-<<<<<<< HEAD
 //Configuracao jquery.datebox
 /*jQuery.extend(jQuery.mobile.datebox.prototype.options, {
-=======
-//Configuraç?o jquery.datebox
-jQuery.extend(jQuery.mobile.datebox.prototype.options, {
->>>>>>> origin/master
     'overrideDateFormat': '%d/%m/%Y',
     'overrideHeaderFormat': '%d/%m/%Y',
     dateFieldOrder: ['d', 'm', 'y']
 });
 if (!supports_html5_storage) {
-<<<<<<< HEAD
     alert("Infelizmente, seu navegador não suporta IndexedDB");
 }*/
-=======
-    alert("Infelizmente, seu navegador n?o suporta IndexedDB");
-}
->>>>>>> origin/master
 
 function clearInputs() {
     $(":input").each(function () {
@@ -244,7 +234,7 @@ function mobile_login() {
     //valida se todos os campos de login estao preechidos
     if(!notNull($("#url").val()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())){
         loading('hide');
-        $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre todas as informa&ccedil;&odblac;es');        
+        $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre todas as informa&ccedil;&odblac;es');
         return false;
     }
     
@@ -254,13 +244,44 @@ function mobile_login() {
     dados['URL'] = $("#url").val();
     if (dados['URL'] != "") {
         var ajax_file_url = 'verifica_url.php';
+        
         //Verifica se existe http:// e se existe "/" no final
-        if ((dados['URL'].substr(0, 7)) != 'http://') {
-            dados['URL'] = 'http://' + dados['URL'];
-            if ((dados['URL'].substr(dados['URL'].length - 1, 1)) == '/') {
-                dados['URL'] = dados['URL'].substr(0, dados['URL'].length - 1);
+        if ((dados['URL'].substr(0, 7)) != 'http://') {                
+            //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
+            var b1 = dados['URL'].search('/'); //localiza a posicao da primeira (/)
+            var url_new = dados['URL'].slice(0,b1+1); //recupera apenas o localhost sem (/)
+            var dados2 = dados['URL'].substr(b1+1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)
+            var b2 = dados2.search('/'); //recupera a posicao da segunda (/)
+            url_new += dados2.slice(0,b2); //recupera apenas o conteundo antes do (/)              
+            
+            dados['URL'] = 'http://' + url_new;
+            
+        //Endereco nao possui http
+        }else{       
+            //Recupera URL sem http://
+            var url_old = dados['URL'].slice(7);
+            
+            //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
+            var b1 = url_old.search('/'); //localiza a posicao da primeira (/)
+            var url_new = url_old.slice(0,b1+1); //recupera apenas o localhost sem (/)
+            var dados2 = url_old.substr(b1+1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)           
+            var b2 = dados2.search('/'); //recupera a posicao da segunda (/)         
+            
+            //caso nao encontre a segunda (/) o valor é -1 neste caso false, entao nao podemos realizar o slice
+            if(b2 > 0){
+                url_new += dados2.slice(0,b2); //recupera apenas o conteundo antes do (/)           
+            }else{
+                url_new += dados2;
             }
+
+            dados['URL'] = 'http://' + url_new;
         }
+
+        //VERIFICA SE EXISTE (/) NO FIM DA URL E REMOVE CASO EXISTA
+        if ((dados['URL'].substr(dados['URL'].length - 1, 1)) == '/') {
+            dados['URL'] = dados['URL'].substr(0, dados['URL'].length - 1);
+        }
+
 
         //Remove "/login.php" caso enviado no campo URL
         if ((dados['URL'].substr(-10)) == '/login.php') {
@@ -327,13 +348,8 @@ function mobile_login() {
                             var Objeto_real = localStorage['mobile_login'];
                             var Objeto_json = JSON.parse(Objeto_real);
 
-<<<<<<< HEAD
                             window.location.href = 'index.html';
                             //window.location.reload();
-=======
-                            window.location.href = '#page_home';
-                            window.location.reload();
->>>>>>> origin/master
                         }
                     }
                 });
@@ -1377,19 +1393,13 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 $(document).delegate('#task_parent', 'change', function () {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
-<<<<<<< HEAD
 $(document).on("pageinit", "pages.html#page_login", function (){
-=======
-$(document).on("pageinit", "#page_login", function ()
-{
->>>>>>> origin/master
     $resposta = verifica_logado();
     if ($resposta == 'ok') {
         window.location.href = "index.html";
     }
 });
 $(document).ready(function () {
-<<<<<<< HEAD
 
     var link = '';
     //Acao do click no menu, onde encaminha para pagina correta.
@@ -1406,7 +1416,7 @@ $(document).ready(function () {
         }
         
         if ($(this).attr('id')) {
-            console.log(link);
+            //console.log(link);
             //loading('show');
             $("#conteudo").attr("src", link);
             //loading('hide');
@@ -1416,8 +1426,6 @@ $(document).ready(function () {
             //loading('hide');
         }
     })    
-=======
->>>>>>> origin/master
 
     //Pega data do dia ########################################################
     var data = new Date();
@@ -1437,15 +1445,9 @@ $(document).ready(function () {
         type: 'success'
     });
     //Define footer para todas as páginas
-<<<<<<< HEAD
     $(".name_powered").html('Powered by MultidadosTI &copy; v.2.0.6');
     
     $(document).on("pageinit", function (){
-=======
-    $(".name_powered").html('Powered by MultidadosTI &copy;<br /> v.2.0.6');
-    $(document).on("pageinit", function ()
-    {
->>>>>>> origin/master
         $resposta = verifica_logado();
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
@@ -1672,21 +1674,12 @@ $(document).ready(function () {
         });
     });
 
-<<<<<<< HEAD
     //Verifica se existe user logado    
     if (Objeto_json) {
-=======
-    //Verifica se existe user logado
-    if (Objeto_json.usuario_id) {
->>>>>>> origin/master
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 });

@@ -20,6 +20,11 @@
 	padding-bottom:50px;
 }
 
+.info-url{
+    font-size: 11px;
+    color: #F08080;    
+}
+
 .class_page
 {
 	background-position:top;
