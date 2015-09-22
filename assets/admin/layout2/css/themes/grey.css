@@ -431,5 +431,6 @@ body {
 }
 
 body.page-boxed {
-    background-color: #c8cdca;
+    //background-color: #c8cdca;
+    background-color: #F1F3FA !important;
 }

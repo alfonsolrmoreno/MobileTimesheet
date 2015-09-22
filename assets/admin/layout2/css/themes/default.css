@@ -428,5 +428,6 @@ body {
 }
 
 body.page-boxed {
-  background-color: #cdd2cf;
+  //background-color: #cdd2cf;
+  background-color: #F1F3FA !important;
 }
