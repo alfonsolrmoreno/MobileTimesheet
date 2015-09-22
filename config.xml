@@ -17,13 +17,9 @@
  specific language governing permissions and limitations
  under the License.
 -->
-<<<<<<< HEAD
+
 <widget version='2.0.8'
         versionCode='228'
-=======
-<widget version='2.0.7'
-        versionCode='227'
->>>>>>> origin/master
         id='br.com.multidadosti.mobile'
         xmlns='http://www.w3.org/ns/widgets'
         xmlns:gap = "http://phonegap.com/ns/1.0"
