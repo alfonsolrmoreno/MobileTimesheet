@@ -362,29 +362,45 @@ function mobile_logout() {
     var dados = new Object();
     var ajax_file = COMMON_URL_MOBILE+'login_mobile.php?logout=1';
 
-    $.ajax({
-        type: 'POST',
-        url: ajax_file,
-        dataType: "jsonp",
-        timeout: 5000,
-        crossDomain: true,
-        data: {
-            usuario: dados['USUARIO'],
-            senha: dados['SENHA'],
-            url: dados['URL']
-        },
-        error: function () {
-            loading('hide');
-            $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
-        },
-        success: function (data) {
-            if(data){
-                localStorage.clear();
-                window.location.href = 'pages.html#page_login';
-            }
+
+    function checkServerOnline(imageUrl, error, ok){
+        var img = new Image();
+        img.src = imageUrl;
+        if (img.height > 0) {
+            ok();
+        } else {
+            error();
         }
-    });    
-    
+    }
+
+    if(checkServerOnline(COMMON_URL_MOBILE+'/layout/default/imagens/ligacao_positiva.png', function() {return false;}, function(){return true;})){
+        $.ajax({
+                type: 'POST',
+                url: ajax_file,
+                dataType: "jsonp",
+                timeout: 5000,
+                crossDomain: true,
+                data: {
+                    usuario: dados['USUARIO'],
+                    senha: dados['SENHA'],
+                    url: dados['URL']
+                },
+                error: function () {
+                    loading('hide');
+                    $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
+                },
+                success: function (data) {
+                    if(data){
+                        localStorage.clear();
+                        window.location.href = 'pages.html#page_login';
+                    }
+                }
+        });           
+    }else{
+        //caso servidor nao esteja disponivel vamos apenas limpar os dados de conexao e redirecionar para pagina de login
+        localStorage.clear();
+        window.location.href = 'pages.html#page_login';        
+    }
 }
 
 function mobile_logout_OLD() {
@@ -1445,7 +1461,7 @@ $(document).ready(function () {
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy; v.2.0.6');
+    $(".name_powered").html('Powered by MultidadosTI &copy; v.2.0.8');
     
     $(document).on("pageinit", function (){
         $resposta = verifica_logado();
