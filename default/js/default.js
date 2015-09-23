@@ -474,11 +474,8 @@ function verifica_logado() {
     if (Objeto_real == undefined) {
         window.location.href = 'pages.html#page_login';
     } else {
-
-
         var url_ok = ajusteUrl(url.href);
-
-        var ajax_file = url_ok + '/mobile/checkServerOnline1.php';
+        var ajax_file = url_ok + '/mobile/checkServerOnline.php';
 
         $.ajax({
             type: 'POST',
