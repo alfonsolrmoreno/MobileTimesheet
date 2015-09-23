@@ -10,22 +10,23 @@ if (Objeto_real) {
     } else {
         var COMMON_URL_MOBILE = '';
         var COMMON_URL = '';
+        var Objeto_json = {};
     }
 }
 
-function construirArray(qtdElementos){
-	this.length = qtdElementos
+function construirArray(qtdElementos) {
+    this.length = qtdElementos
 }
 
-function getMesExtenso(mes){
-	return this.arrayMes[mes];
+function getMesExtenso(mes) {
+    return this.arrayMes[mes];
 }
 
-function getDiaExtenso(dia){
-	return this.arrayDia[dia];
+function getDiaExtenso(dia) {
+    return this.arrayDia[dia];
 }
 
-var	arrayDia = new construirArray(7);
+var arrayDia = new construirArray(7);
 arrayDia[0] = "Domingo";
 arrayDia[1] = "Segunda-Feira";
 arrayDia[2] = "Ter&ccedil;a-Feira";
@@ -37,7 +38,7 @@ arrayDia[6] = "Sabado";
 var arrayMes = new construirArray(12);
 arrayMes[0] = "Janeiro";
 arrayMes[1] = "Fevereiro";
-arrayMes[2] = "Mar&ccedil;o";		
+arrayMes[2] = "Mar&ccedil;o";
 arrayMes[3] = "Abril";
 arrayMes[4] = "Maio";
 arrayMes[5] = "Junho";
@@ -53,21 +54,21 @@ pesq_autocomplete = '';
 
 //Configuracao jquery.datebox
 /*jQuery.extend(jQuery.mobile.datebox.prototype.options, {
-    'overrideDateFormat': '%d/%m/%Y',
-    'overrideHeaderFormat': '%d/%m/%Y',
-    dateFieldOrder: ['d', 'm', 'y']
-});
-if (!supports_html5_storage) {
-    alert("Infelizmente, seu navegador não suporta IndexedDB");
-}*/
+ 'overrideDateFormat': '%d/%m/%Y',
+ 'overrideHeaderFormat': '%d/%m/%Y',
+ dateFieldOrder: ['d', 'm', 'y']
+ });
+ if (!supports_html5_storage) {
+ alert("Infelizmente, seu navegador não suporta IndexedDB");
+ }*/
 
 function clearInputs() {
     $(":input").each(function () {
         $(this).val('');
     });
-    
+
     $("#popup_imagem").html('');
-    
+
     geraDespesa(0, 0);
 }
 
@@ -218,10 +219,10 @@ function loading(showOrHide) {
     });
 }
 
-function notNull (valor){
-    if (valor != "" && !(valor.match(/^\s+$/))){
+function notNull(valor) {
+    if (valor != "" && !(valor.match(/^\s+$/))) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
@@ -230,47 +231,47 @@ function notNull (valor){
 function mobile_login() {
     loading('show');
     var dados = new Object();
-    
+
     //valida se todos os campos de login estao preechidos
-    if(!notNull($("#url").val()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())){
+    if (!notNull($("#url").val()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())) {
         loading('hide');
         $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre todas as informa&ccedil;&odblac;es');
         return false;
     }
-    
+
     //return false;
     dados['USUARIO'] = $("#usuario").val();
     dados['SENHA'] = $("#senha").val();
     dados['URL'] = $("#url").val();
     if (dados['URL'] != "") {
         var ajax_file_url = 'verifica_url.php';
-        
+
         //Verifica se existe http:// e se existe "/" no final
-        if ((dados['URL'].substr(0, 7)) != 'http://') {                
+        if ((dados['URL'].substr(0, 7)) != 'http://') {
             //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
             var b1 = dados['URL'].search('/'); //localiza a posicao da primeira (/)
-            var url_new = dados['URL'].slice(0,b1+1); //recupera apenas o localhost sem (/)
-            var dados2 = dados['URL'].substr(b1+1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)
+            var url_new = dados['URL'].slice(0, b1 + 1); //recupera apenas o localhost sem (/)
+            var dados2 = dados['URL'].substr(b1 + 1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)
             var b2 = dados2.search('/'); //recupera a posicao da segunda (/)
-            url_new += dados2.slice(0,b2); //recupera apenas o conteundo antes do (/)              
-            
+            url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)              
+
             dados['URL'] = 'http://' + url_new;
-            
-        //Endereco nao possui http
-        }else{       
+
+            //Endereco nao possui http
+        } else {
             //Recupera URL sem http://
             var url_old = dados['URL'].slice(7);
-            
+
             //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
             var b1 = url_old.search('/'); //localiza a posicao da primeira (/)
-            var url_new = url_old.slice(0,b1+1); //recupera apenas o localhost sem (/)
-            var dados2 = url_old.substr(b1+1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)           
+            var url_new = url_old.slice(0, b1 + 1); //recupera apenas o localhost sem (/)
+            var dados2 = url_old.substr(b1 + 1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)           
             var b2 = dados2.search('/'); //recupera a posicao da segunda (/)         
-            
+
             //caso nao encontre a segunda (/) o valor é -1 neste caso false, entao nao podemos realizar o slice
-            if(b2 > 0){
-                url_new += dados2.slice(0,b2); //recupera apenas o conteundo antes do (/)           
-            }else{
+            if (b2 > 0) {
+                url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)           
+            } else {
                 url_new += dados2;
             }
 
@@ -293,9 +294,9 @@ function mobile_login() {
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
         //alert(COMMON_URL_MOBILE);
-        
+
         //alert(dados['USUARIO']+' - '+dados['SENHA']+' - '+dados['URL']+' - ');
-        
+
         $.ajax({
             type: 'POST',
             url: dados['URL'] + '/mobile/' + ajax_file_url,
@@ -358,49 +359,71 @@ function mobile_login() {
     }
 }
 
+function ajusteUrl(url) {
+//Verifica se existe http:// e se existe "/" no final
+    if ((url.substr(0, 7)) != 'http://') {
+        //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
+        var b1 = url.search('/'); //localiza a posicao da primeira (/)
+        var url_new = url.slice(0, b1 + 1); //recupera apenas o localhost sem (/)
+        var dados2 = url.substr(b1 + 1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)
+        var b2 = dados2.search('/'); //recupera a posicao da segunda (/)
+        url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)              
+
+        url = 'http://' + url_new;
+
+        //Endereco nao possui http
+    } else {
+        //Recupera URL sem http://
+        var url_old = url.slice(7);
+
+        //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
+        var b1 = url_old.search('/'); //localiza a posicao da primeira (/)
+        var url_new = url_old.slice(0, b1 + 1); //recupera apenas o localhost sem (/)
+        var dados2 = url_old.substr(b1 + 1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)           
+        var b2 = dados2.search('/'); //recupera a posicao da segunda (/)         
+
+        //caso nao encontre a segunda (/) o valor é -1 neste caso false, entao nao podemos realizar o slice
+        if (b2 > 0) {
+            url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)           
+        } else {
+            url_new += dados2;
+        }
+
+        url = 'http://' + url_new;
+
+        return url;
+    }
+}
+
 function mobile_logout() {
     var dados = new Object();
-    var ajax_file = COMMON_URL_MOBILE+'login_mobile.php?logout=1';
+    var ajax_file = COMMON_URL_MOBILE + 'login_mobile.php?logout=1';
 
-
-    function checkServerOnline(imageUrl, error, ok){
-        var img = new Image();
-        img.src = imageUrl;
-        if (img.height > 0) {
-            ok();
-        } else {
-            error();
+    $.ajax({
+        type: 'POST',
+        url: ajax_file,
+        dataType: "jsonp",
+        timeout: 5000,
+        crossDomain: true,
+        data: {
+            usuario: dados['USUARIO'],
+            senha: dados['SENHA'],
+            url: dados['URL']
+        },
+        error: function () {
+            loading('hide');
+            $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
+            //caso servidor nao esteja disponivel vamos apenas limpar os dados de conexao e redirecionar para pagina de login
+            localStorage.clear();
+            window.location.href = 'pages.html#page_login';
+        },
+        success: function (data) {
+            if (data) {
+                localStorage.clear();
+                window.location.href = 'pages.html#page_login';
+            }
         }
-    }
-
-    if(checkServerOnline(COMMON_URL_MOBILE+'/layout/default/imagens/ligacao_positiva.png', function() {return false;}, function(){return true;})){
-        $.ajax({
-                type: 'POST',
-                url: ajax_file,
-                dataType: "jsonp",
-                timeout: 5000,
-                crossDomain: true,
-                data: {
-                    usuario: dados['USUARIO'],
-                    senha: dados['SENHA'],
-                    url: dados['URL']
-                },
-                error: function () {
-                    loading('hide');
-                    $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
-                },
-                success: function (data) {
-                    if(data){
-                        localStorage.clear();
-                        window.location.href = 'pages.html#page_login';
-                    }
-                }
-        });           
-    }else{
-        //caso servidor nao esteja disponivel vamos apenas limpar os dados de conexao e redirecionar para pagina de login
-        localStorage.clear();
-        window.location.href = 'pages.html#page_login';        
-    }
+    });
 }
 
 function mobile_logout_OLD() {
@@ -408,16 +431,16 @@ function mobile_logout_OLD() {
     var urlString = url.toString();
     var urlArray = urlString.split("/");
 
-    var urlLogin = urlArray[0]+'//'+urlArray[2]+'/'+urlArray[3]+'/'+urlArray[4]+'/pages.html';
+    var urlLogin = urlArray[0] + '//' + urlArray[2] + '/' + urlArray[3] + '/' + urlArray[4] + '/pages.html';
 
     localStorage.clear();
     window.location.href = 'pages.html#page_login';
 }
 
-function setSaudacao(){
+function setSaudacao() {
     var saudacao = '';
     var saudacao_data = '';
-    
+
     var dados = JSON.parse(localStorage['mobile_login']);
     var nome_user = dados['nome_senha'];
 
@@ -426,44 +449,55 @@ function setSaudacao(){
     var ano = d.getFullYear();
     var dia = d.getDate();
     var mes = d.getMonth();
-    
-    if (hora < 12){
-        saudacao = 'Bom Dia, '+nome_user;
-    }else if(hora >= 19){
-        saudacao = 'Boa Noite, '+nome_user;
-    }else{
-        saudacao = 'Boa Tarde, '+nome_user;    
+
+    if (hora < 12) {
+        saudacao = 'Bom Dia, ' + nome_user;
+    } else if (hora >= 19) {
+        saudacao = 'Boa Noite, ' + nome_user;
+    } else {
+        saudacao = 'Boa Tarde, ' + nome_user;
     }
-    
-    saudacao_data = getDiaExtenso(d.getDay())+', '+dia+' de '+getMesExtenso(mes)+' de '+ano;
-    
+
+    saudacao_data = getDiaExtenso(d.getDay()) + ', ' + dia + ' de ' + getMesExtenso(mes) + ' de ' + ano;
+
     $('.saudacao').html(saudacao);
     $('.saudacao-data').html(saudacao_data);
-    $('#foto_user').attr('src',dados['url_foto_user']);
+    $('#foto_user').attr('src', dados['url_foto_user']);
 
     //$('#banco-nome').html(dados['db']);
 }
 
 function verifica_logado() {
     var Objeto_real = localStorage['mobile_login'];
-   
-    //if (!Objeto_real) {
-    if (Objeto_real == undefined) {
-        var url = window.location;
-        window.location.href = "pages.html";        
-        /*var url = window.location;
-        var urlString = url.toString();
-        var urlArray = urlString.split("/");
-        alert(urlArray[4]);
-        if (urlArray[5] != '') {
-            window.location.href = "pages.html";
-        }*/
+    var url = window.location;
 
-        //window.location.href = COMMON_URL_MOBILE;
+    if (Objeto_real == undefined) {
+        window.location.href = 'pages.html#page_login';
     } else {
-        setSaudacao();
-        return 'ok';
+
+
+        var url_ok = ajusteUrl(url.href);
+
+        var ajax_file = url_ok + '/mobile/checkServerOnline1.php';
+
+        $.ajax({
+            type: 'POST',
+            url: ajax_file,
+            dataType: "jsonp",
+            timeout: 1000,
+            crossDomain: true,
+            error: function (data) {
+                //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
+                window.location.href = 'pages.html#page_login';
+                return false;
+            },
+            success: function (data) {
+                setSaudacao();
+                return 'ok';
+            }
+        });
     }
+
 }
 
 //####################### FIM LOGIN ###########################################
@@ -472,7 +506,7 @@ function verifica_logado() {
 
 //############################# MENU ##########################################
 //#############################################################################
-function popMenuDash(){
+function popMenuDash() {
     var dados = new Object();
     var ajax_file = COMMON_URL_MOBILE + 'getDashboards.php';
     $.ajax({
@@ -483,7 +517,7 @@ function popMenuDash(){
         data: {
             tipo: 'menu'
         }
-    }).then(function (data){
+    }).then(function (data) {
         if (data) {
             $("#lista_dashboard").html(data);
         } else {
@@ -492,8 +526,8 @@ function popMenuDash(){
     });
 }
 
-function attrSrcIframe(url){
-    $("#conteudo").attr("src", COMMON_URL+url);
+function attrSrcIframe(url) {
+    $("#conteudo").attr("src", COMMON_URL + url);
 }
 
 //############################# FIM MENU ######################################
@@ -687,25 +721,27 @@ function salvar_despesa()
 }
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
-    var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
-    loading('show');
-    data = dateFormatDisplayToTimestamp(data);
-    $.ajax({
-        type: 'POST',
-        url: ajax_file,
-        dataType: "jsonp",
-        crossDomain: true,
-        data: {
-            data: data,
-            idsenha: Objeto_json.usuario_id,
-            idempresa_vendedor: Objeto_json.idempresa_vendedor
-        }
-    }).then(function (data)
-    {
-        $("#list_despesa").html(data);
-        $("#list_despesa").listview("refresh");
-        loading('hide');
-    });
+    if (data) {
+        var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
+        loading('show');
+        data = dateFormatDisplayToTimestamp(data);
+        $.ajax({
+            type: 'POST',
+            url: ajax_file,
+            dataType: "jsonp",
+            crossDomain: true,
+            data: {
+                data: data,
+                idsenha: Objeto_json.usuario_id,
+                idempresa_vendedor: Objeto_json.idempresa_vendedor
+            }
+        }).then(function (data)
+        {
+            $("#list_despesa").html(data);
+            $("#list_despesa").listview("refresh");
+            loading('hide');
+        });
+    }
 }
 
 dados_servicos = new Object();
@@ -714,10 +750,10 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
     $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
         loading('show');
     });
-    
+
     //zerando campo de foto anterior
     $("#popup_imagem").html('');
-    
+
     idlctosdespesa = $(this).attr('id');
     var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
     $.when(
@@ -754,7 +790,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                         var filename = COMMON_URL_MOBILE + "open_files_mobile.php?ss=arq_despesas&id=" + data.id_arquivo + "&dw=F";
                         var imagem = '<div><img width="25%" src="' + filename + '"></div>';
                         var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
-                        $("#popup_imagem").html('<br>'+ imagem + apagar + arquivo_edit);
+                        $("#popup_imagem").html('<br>' + imagem + apagar + arquivo_edit);
                         $("#page_despesa").trigger('create');
                     }
                     geraDespesa(data.idclienteprojeto, data.idservicos);
@@ -799,7 +835,7 @@ function deletaArquivo() {
         });
         $("#arquivo_md5").val('');
         //$("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-        
+
         //novo
         $("#popup_imagem").html('');
     }
@@ -827,7 +863,7 @@ function geraDespesa(idclienteprojeto, selecionado) {
     }).then(function (data)
     {
         //console.dir(data);
-        
+
         dados_servicos = data.data;
         var options = '<option value="" ' + selected_first + '>Selecione uma despesa</option>';
         $("#idtabpreco").val(data['idtabpreco']);
@@ -1012,25 +1048,27 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
 
 //Buscar timesheet conforme as datas
 function buscar_timesheet(data) {
-    loading('show');
-    data = dateFormatDisplayToTimestamp(data);
-    var ajax_file = COMMON_URL_MOBILE + 'busca_timesheet.php';
-    $.ajax({
-        type: 'POST',
-        url: ajax_file,
-        dataType: "jsonp",
-        crossDomain: true,
-        data: {
-            data: data,
-            idsenha: Objeto_json.usuario_id,
-            idempresa_vendedor: Objeto_json.idempresa_vendedor
-        }
-    }).then(function (data)
-    {
-        $("#list").html(data);
-        $("#list").listview("refresh");
-        loading('hide');
-    });
+    if (data) {
+        loading('show');
+        data = dateFormatDisplayToTimestamp(data);
+        var ajax_file = COMMON_URL_MOBILE + 'busca_timesheet.php';
+        $.ajax({
+            type: 'POST',
+            url: ajax_file,
+            dataType: "jsonp",
+            crossDomain: true,
+            data: {
+                data: data,
+                idsenha: Objeto_json.usuario_id,
+                idempresa_vendedor: Objeto_json.idempresa_vendedor
+            }
+        }).then(function (data)
+        {
+            $("#list").html(data);
+            $("#list").listview("refresh");
+            loading('hide');
+        });
+    }
 }
 
 
@@ -1409,7 +1447,7 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 $(document).delegate('#task_parent', 'change', function () {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
-$(document).on("pageinit", "pages.html#page_login", function (){
+$(document).on("pageinit", "pages.html#page_login", function () {
     $resposta = verifica_logado();
     if ($resposta == 'ok') {
         window.location.href = "index.html";
@@ -1421,16 +1459,16 @@ $(document).ready(function () {
     //Acao do click no menu, onde encaminha para pagina correta.
     $('.link').click(function () {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
-        if($(this).attr('id') == 'mobile_home.html'){
+        if ($(this).attr('id') == 'mobile_home.html') {
             link = "mobile_home.html";
-        }else{
-            if($(this).attr('mobile') == 'true'){
-                link = COMMON_URL_MOBILE+'/pages.html'+$(this).attr('id');
-            }else{
-               link = COMMON_URL+$(this).attr('id'); 
+        } else {
+            if ($(this).attr('mobile') == 'true') {
+                link = COMMON_URL_MOBILE + '/pages.html' + $(this).attr('id');
+            } else {
+                link = COMMON_URL + $(this).attr('id');
             }
         }
-        
+
         if ($(this).attr('id')) {
             //console.log(link);
             //loading('show');
@@ -1441,7 +1479,7 @@ $(document).ready(function () {
             $("#conteudo").attr("src", "mobile_home.html");
             //loading('hide');
         }
-    })    
+    })
 
     //Pega data do dia ########################################################
     var data = new Date();
@@ -1462,8 +1500,8 @@ $(document).ready(function () {
     });
     //Define footer para todas as páginas
     $(".name_powered").html('Powered by MultidadosTI &copy; v.2.0.8');
-    
-    $(document).on("pageinit", function (){
+
+    $(document).on("pageinit", function () {
         $resposta = verifica_logado();
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
@@ -1473,7 +1511,7 @@ $(document).ready(function () {
         if ($("#dateinput2").val() == '') {
             $("#dateinput2").val(data_hoje);
         }
-        
+
         buscar_timesheet($("#filtro_data_trabalhada").val());
         buscar_despesa($("#dateinput2").val());
     });
@@ -1513,14 +1551,14 @@ $(document).ready(function () {
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
-        
+
         /*if (ua.indexOf('android') != -1) {
-            var version = ua.match(/android\s+([\d\.]+)/)[1];
-            //Se vers?o android for maior 4.3 desabilita upload despesa
-            if (parseFloat(version) == 4.3) {
-                $('#upload_despesa').hide();
-            }
-        }*/
+         var version = ua.match(/android\s+([\d\.]+)/)[1];
+         //Se vers?o android for maior 4.3 desabilita upload despesa
+         if (parseFloat(version) == 4.3) {
+         $('#upload_despesa').hide();
+         }
+         }*/
     }
 
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1 || ua.indexOf('ipad') != -1) {
@@ -1582,7 +1620,7 @@ $(document).ready(function () {
         $("#page_despesa #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_lcto").val(data_hoje);
     });
-    
+
     $("#icon_timesheet").click(function ()
     {
         $('#filtro_data_trabalhada').val(data_hoje);

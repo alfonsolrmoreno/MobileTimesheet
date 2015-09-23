@@ -110,7 +110,9 @@
                 var link = '';
                 //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
                 $('.link').click(function () {
-                    window.location.href = Objeto_json['url'] + $(this).attr('id');
+                    if (typeof $(this).attr('id') != 'undefined') {
+                        window.location.href = Objeto_json['url'] + $(this).attr('id');
+                    }
                 })
 
             });
