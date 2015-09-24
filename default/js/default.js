@@ -1,11 +1,11 @@
 var Objeto_real = localStorage['mobile_login'];
-alert('Objeto_real >>> '+Objeto_real);
+//alert('Objeto_real >>> '+Objeto_real);
 if (Objeto_real) {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
     var COMMON_URL = Objeto_json.url;
     
-    alert('AAAAA >> '+COMMON_URL_MOBILE);
+    //alert('AAAAA >> '+COMMON_URL_MOBILE);
 } else {
     if (typeof $("#url").val() != 'undefined') {
         var COMMON_URL_MOBILE = $("#url").val() + '/mobile/';
@@ -16,7 +16,7 @@ if (Objeto_real) {
         var Objeto_json = {};
     }
     
-    alert('BBBBB >> '+COMMON_URL_MOBILE);
+    //alert('BBBBB >> '+COMMON_URL_MOBILE);
 }
 
 function construirArray(qtdElementos) {
@@ -489,13 +489,13 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             error: function () {
-                alert('1)- '+COMMON_URL_MOBILE+'/checkServerOnline.php');
+                //alert('1)- '+COMMON_URL_MOBILE+'/checkServerOnline.php');
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
-                alert('ok saudacao >> '+COMMON_URL_MOBILE+'/checkServerOnline.php');
+                //alert('ok saudacao >> '+COMMON_URL_MOBILE+'/checkServerOnline.php');
                 setSaudacao();
                 return 'ok';
             }
@@ -1458,7 +1458,6 @@ $(document).on("pageinit", "pages.html#page_login", function () {
     }
 });
 $(document).ready(function () {
-
     var link = '';
     //Acao do click no menu, onde encaminha para pagina correta.
     $('.link').click(function () {
@@ -1472,7 +1471,7 @@ $(document).ready(function () {
                 link = COMMON_URL + $(this).attr('id');
             }
         }
-
+        alert('LINK: '+link);
         if ($(this).attr('id')) {
             //console.log(link);
             //loading('show');
