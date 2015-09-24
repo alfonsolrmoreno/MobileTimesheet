@@ -1,4 +1,5 @@
 var Objeto_real = localStorage['mobile_login'];
+alert('Objeto_real >>> '+Objeto_real);
 if (Objeto_real) {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
@@ -488,7 +489,7 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             error: function () {
-                alert('1) '+COMMON_URL_MOBILE+'/checkServerOnline.php');
+                alert('1)- '+COMMON_URL_MOBILE+'/checkServerOnline.php');
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
