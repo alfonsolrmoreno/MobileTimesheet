@@ -483,14 +483,14 @@ function verifica_logado() {
             dataType: "jsonp",
             timeout: 1000,
             crossDomain: true,
-            error: function (data) {
-                alert('erro');
+            error: function () {
+                alert(ajax_file);
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
-                alert('tela ok');
+                alert('ok saudacao');
                 setSaudacao();
                 return 'ok';
             }
