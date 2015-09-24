@@ -484,11 +484,13 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             error: function (data) {
+                alert('erro');
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
+                alert('tela ok');
                 setSaudacao();
                 return 'ok';
             }
