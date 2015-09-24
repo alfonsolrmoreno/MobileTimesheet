@@ -474,8 +474,10 @@ function verifica_logado() {
     if (Objeto_real == undefined) {
         window.location.href = 'pages.html#page_login';
     } else {
-        var url_ok = ajusteUrl(url.href);
-        var ajax_file = url_ok + '/mobile/checkServerOnline.php';
+        
+        //var url_ok = ajusteUrl(url['href']);
+        //var ajax_file = url_ok + '/mobile/checkServerOnline.php';
+        var ajax_file = COMMON_URL_MOBILE + 'checkServerOnline.php';
 
         $.ajax({
             type: 'POST',
@@ -484,6 +486,8 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             error: function () {
+                
+                //alert(window.location.host+'/'+window.location.pathname);
                 alert(ajax_file);
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
