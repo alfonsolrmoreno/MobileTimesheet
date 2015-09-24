@@ -3,6 +3,8 @@ if (Objeto_real) {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
     var COMMON_URL = Objeto_json.url;
+    
+    alert('AAAAA >> '+COMMON_URL_MOBILE);
 } else {
     if (typeof $("#url").val() != 'undefined') {
         var COMMON_URL_MOBILE = $("#url").val() + '/mobile/';
@@ -12,6 +14,8 @@ if (Objeto_real) {
         var COMMON_URL = '';
         var Objeto_json = {};
     }
+    
+    alert('BBBBB >> '+COMMON_URL_MOBILE);
 }
 
 function construirArray(qtdElementos) {
@@ -474,20 +478,23 @@ function verifica_logado() {
     if (Objeto_real == undefined) {
         window.location.href = 'pages.html#page_login';
     } else {
+        //var url_ok = ajusteUrl(url.href);
+        //var ajax_file = url_ok + '/mobile/checkServerOnline.php';
+
         $.ajax({
             type: 'POST',
-            url: COMMON_URL_MOBILE + '/checkServerOnline.php',
+            url: COMMON_URL_MOBILE+'/checkServerOnline.php',
             dataType: "jsonp",
             timeout: 1000,
             crossDomain: true,
             error: function () {
-                alert('1) ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
+                alert('1) '+COMMON_URL_MOBILE+'/checkServerOnline.php');
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
-                alert('ok saudacao >> ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
+                alert('ok saudacao >> '+COMMON_URL_MOBILE+'/checkServerOnline.php');
                 setSaudacao();
                 return 'ok';
             }
