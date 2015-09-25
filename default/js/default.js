@@ -3,9 +3,16 @@ var vs_mobile = 'v.2.0.8';
 
 var Objeto_real = localStorage['mobile_login'];
 
-
-//alert('>>>>>>>>>CASE');
-//alert(print_r(localStorage));
+function objIsEmpty(obj) {
+    if (typeof obj != 'object')
+        return true;
+    for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 function print_r(arr, level) {
     var dumped_text = "";
@@ -35,12 +42,11 @@ function print_r(arr, level) {
     return dumped_text;
 }
 
-if (Objeto_real) {
+if (typeof Objeto_real != 'undefined') {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
     var COMMON_URL = Objeto_json.url;
 
-    //alert('AAAAA >> '+COMMON_URL_MOBILE);
 } else {
     if (typeof $("#url").val() != 'undefined') {
         var COMMON_URL_MOBILE = $("#url").val() + '/mobile/';
@@ -50,8 +56,6 @@ if (Objeto_real) {
         var COMMON_URL = '';
         var Objeto_json = {};
     }
-
-    //alert('BBBBB >> '+COMMON_URL_MOBILE);
 }
 
 function construirArray(qtdElementos) {
@@ -89,18 +93,7 @@ arrayMes[9] = "Outubro";
 arrayMes[10] = "Novembro";
 arrayMes[11] = "Dezembro";
 
-
 pesq_autocomplete = '';
-
-//Configuracao jquery.datebox
-/*jQuery.extend(jQuery.mobile.datebox.prototype.options, {
- 'overrideDateFormat': '%d/%m/%Y',
- 'overrideHeaderFormat': '%d/%m/%Y',
- dateFieldOrder: ['d', 'm', 'y']
- });
- if (!supports_html5_storage) {
- alert("Infelizmente, seu navegador não suporta IndexedDB");
- }*/
 
 function clearInputs() {
     $(":input").each(function () {
@@ -269,7 +262,8 @@ function notNull(valor) {
 
 //Controle de login
 function mobile_login(obj) {
-    loading('show');
+	
+	loading('show');
     var dados = new Object();
     
     //Retorno do object no valida login
@@ -342,8 +336,6 @@ function mobile_login(obj) {
 
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
-
-        //alert(dados['USUARIO']+' - '+dados['SENHA']+' - '+dados['URL']+' - ');
 
         $.ajax({
             type: 'POST',
@@ -527,11 +519,9 @@ function isArray(o) {
 
 function verifica_logado() {
 	
-	if(debug_mode) alert('Inicia Verificar logado');
-	
-    var Objeto_real = localStorage['mobile_login'];
-    //alert(print_r(Objeto_real));
-    if (typeof Objeto_real == "undefined") {
+	var Objeto_real = localStorage['mobile_login'];
+    
+	if (typeof Objeto_real == "undefined") {
         window.location.href = 'pages.html#page_login';
     } else {
         //var url_ok = ajusteUrl(url.href);
@@ -544,17 +534,18 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             error: function () {
-                //alert('1)- ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
+                
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
-                mobile_login(Objeto_real);
-                //alert('ok saudacao >> ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
-                setSaudacao();
+				
+				if(typeof data.idvendedor == 'undefined') {
+					mobile_login(Objeto_real);
+				}
+				
                 return 'ok';
-				if(debug_mode) alert('Fim do Verificar logado');
             }
         });
     }
@@ -633,7 +624,7 @@ function salvar_timesheet()
         }
     }).then(function (data)
     {
-        //alert(data);
+		
         loading('hide');
         if (data == 'Timesheet salvo com sucesso') {
             $().toastmessage('showSuccessToast', data);
@@ -727,7 +718,6 @@ function upload() {
                     $("#arquivo_md5").val(data);
                 }
 
-                //alert("Ocorreu um erro ao enviar a foto selecionada.");
                 loading('hide');
             });
 }
@@ -825,7 +815,6 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                 crossDomain: true,
                 async: false,
                 afterSend: function () {
-                    alert('antes?')
                 },
                 success: function (data) {
                     if (data.idlctodespesa != '') {
@@ -1528,10 +1517,9 @@ $(document).ready(function () {
             } else {
                 //setar url do sistema, pois o portal é chamado atraves da url
                 link = COMMON_URL + $(this).attr('id');
-                alert(link);
             }
         }
-        //alert('22LINK: '+link);
+		
         if ($(this).attr('id')) {
             //console.log(link);
             //loading('show');
@@ -1556,7 +1544,7 @@ $(document).ready(function () {
     data_hoje = dia + "/" + mes + "/" + data.getFullYear();
     //#########################################################################
 
-    //Configuraç?o alert
+    //Configuracao alert
     $().toastmessage({
         position: 'middle-center',
         type: 'success'
@@ -1565,7 +1553,8 @@ $(document).ready(function () {
     $(".name_powered").html('Powered by MultidadosTI &copy;' + vs_mobile);
 
     $(document).on("pageinit", function () {
-        $resposta = verifica_logado();
+		
+		$resposta = verifica_logado();
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
         if ($("#filtro_data_trabalhada").val() == '') {
@@ -1756,7 +1745,7 @@ $(document).ready(function () {
             }
         });
     });
-    $(document).on("pageinit", "#page_timesheet", function () {
+    $(document).on("pageinit", "#page_timesheet", function () { 
         $("#autocomplete_prj").on("listviewbeforefilter", function (e, data) {
             var $ul = $(this),
                     $input = $(data.input),
@@ -1790,9 +1779,9 @@ $(document).ready(function () {
             }
         });
     });
-
+	
     //Verifica se existe user logado    
-    if (Objeto_json) {
+    if (!objIsEmpty(Objeto_json)) {
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
