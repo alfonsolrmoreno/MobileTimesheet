@@ -511,7 +511,7 @@ function setSaudacao() {
 function verifica_logado() {
     var Objeto_real = localStorage['mobile_login'];
     var url = window.location;
-    //alert(COMMON_URL_MOBILE);
+    alert(print_r(Objeto_real));
     if (Objeto_real == undefined) {
         window.location.href = 'pages.html#page_login';
     } else {
@@ -1508,6 +1508,7 @@ $(document).ready(function () {
             } else {
                 //setar url do sistema, pois o portal é chamado atraves da url
                 link = COMMON_URL + $(this).attr('id');
+                alert(link);
             }
         }
         //alert('22LINK: '+link);
