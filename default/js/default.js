@@ -510,9 +510,8 @@ function setSaudacao() {
 
 function verifica_logado() {
     var Objeto_real = localStorage['mobile_login'];
-    var url = window.location;
     alert(print_r(Objeto_real));
-    if (Objeto_real == undefined) {
+    if (typeof Objeto_real == "undefined") {
         window.location.href = 'pages.html#page_login';
     } else {
         //var url_ok = ajusteUrl(url.href);
