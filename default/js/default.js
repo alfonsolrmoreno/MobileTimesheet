@@ -1495,7 +1495,7 @@ $(document).on("pageinit", "pages.html#page_login", function () {
 });
 $(document).ready(function () {
     var link = '';
-    alert('adsfasdfsda');
+
     //Acao do click no menu, onde encaminha para pagina correta.
     $('.link').click(function () {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
@@ -1503,11 +1503,10 @@ $(document).ready(function () {
             link = "mobile_home.html";
         } else {
             if ($(this).attr('mobile') == 'true') {
-                //link = COMMON_URL_MOBILE + '/pages.html' + $(this).attr('id');
-                
+                //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
                 link =  'pages.html' + $(this).attr('id');
-                alert(link);
             } else {
+                //setar url do sistema, pois o portal é chamado atraves da url
                 link = COMMON_URL + $(this).attr('id');
             }
         }
@@ -1545,8 +1544,7 @@ $(document).ready(function () {
     $(".name_powered").html('Powered by MultidadosTI &copy;' + vs_mobile);
 
     $(document).on("pageinit", function () {
-        alert('PAGE-INIT');
-        //$resposta = verifica_logado();
+        $resposta = verifica_logado();
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
         if ($("#filtro_data_trabalhada").val() == '') {
