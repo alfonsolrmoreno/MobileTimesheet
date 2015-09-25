@@ -1,10 +1,45 @@
+//versao do mobile para mostrar no footer
+var vs_mobile = 'v.2.0.8';
+
 var Objeto_real = localStorage['mobile_login'];
-//alert('Objeto_real >>> '+Objeto_real);
+
+
+//alert('>>>>>>>>>CASE');
+//alert(print_r(localStorage));
+
+function print_r(arr, level) {
+    var dumped_text = "";
+    if (!level)
+        level = 0;
+
+    //The padding given at the beginning of the line.
+    var level_padding = "";
+    for (var j = 0; j < level + 1; j++)
+        level_padding += "    ";
+
+    if (typeof (arr) == 'object') {
+        //Array/Hashes/Objects 
+        for (var item in arr) {
+            var value = arr[item];
+
+            if (typeof (value) == 'object') { //If it is an array,
+                dumped_text += level_padding + "'" + item + "' ...\n";
+                dumped_text += print_r(value, level + 1);
+            } else {
+                dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
+            }
+        }
+    } else { //Stings/Chars/Numbers etc.
+        dumped_text = "===>" + arr + "<===(" + typeof (arr) + ")";
+    }
+    return dumped_text;
+}
+
 if (Objeto_real) {
     var Objeto_json = JSON.parse(Objeto_real)
     var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
     var COMMON_URL = Objeto_json.url;
-    
+
     //alert('AAAAA >> '+COMMON_URL_MOBILE);
 } else {
     if (typeof $("#url").val() != 'undefined') {
@@ -15,7 +50,7 @@ if (Objeto_real) {
         var COMMON_URL = '';
         var Objeto_json = {};
     }
-    
+
     //alert('BBBBB >> '+COMMON_URL_MOBILE);
 }
 
@@ -251,20 +286,23 @@ function mobile_login() {
     if (dados['URL'] != "") {
         var ajax_file_url = 'verifica_url.php';
 
-        //Verifica se existe http:// e se existe "/" no final
+
+        //Trata URL sem http://
         if ((dados['URL'].substr(0, 7)) != 'http://') {
             //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
             var b1 = dados['URL'].search('/'); //localiza a posicao da primeira (/)
-            var url_new = dados['URL'].slice(0, b1 + 1); //recupera apenas o localhost sem (/)
+            var url_new = dados['URL'].slice(0, b1+1); //recupera apenas o localhost sem (/)
             var dados2 = dados['URL'].substr(b1 + 1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)
             var b2 = dados2.search('/'); //recupera a posicao da segunda (/)
-            url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)              
-
+            if(b2 > 0){
+                url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)
+            }else{
+                url_new += dados2; //nao tem barra no final entao junta a segunda parte da url
+            }
             dados['URL'] = 'http://' + url_new;
-
-            //Endereco nao possui http
         } else {
-            //Recupera URL sem http://
+            //ENDERECO COM HTTP://
+            //Remove http:// da URL
             var url_old = dados['URL'].slice(7);
 
             //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
@@ -282,12 +320,11 @@ function mobile_login() {
 
             dados['URL'] = 'http://' + url_new;
         }
-
+        
         //VERIFICA SE EXISTE (/) NO FIM DA URL E REMOVE CASO EXISTA
         if ((dados['URL'].substr(dados['URL'].length - 1, 1)) == '/') {
             dados['URL'] = dados['URL'].substr(0, dados['URL'].length - 1);
         }
-
 
         //Remove "/login.php" caso enviado no campo URL
         if ((dados['URL'].substr(-10)) == '/login.php') {
@@ -295,11 +332,10 @@ function mobile_login() {
             count_url = count_url - 10;
             dados['URL'] = dados['URL'].substr(0, count_url);
         }
-
+        
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
-        //alert(COMMON_URL_MOBILE);
-
+        
         //alert(dados['USUARIO']+' - '+dados['SENHA']+' - '+dados['URL']+' - ');
 
         $.ajax({
@@ -475,7 +511,7 @@ function setSaudacao() {
 function verifica_logado() {
     var Objeto_real = localStorage['mobile_login'];
     var url = window.location;
-
+    //alert(COMMON_URL_MOBILE);
     if (Objeto_real == undefined) {
         window.location.href = 'pages.html#page_login';
     } else {
@@ -484,18 +520,18 @@ function verifica_logado() {
 
         $.ajax({
             type: 'POST',
-            url: COMMON_URL_MOBILE+'/checkServerOnline.php',
+            url: COMMON_URL_MOBILE + '/checkServerOnline.php',
             dataType: "jsonp",
             timeout: 1000,
             crossDomain: true,
             error: function () {
-                //alert('1)- '+COMMON_URL_MOBILE+'/checkServerOnline.php');
+                //alert('1)- ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
-                //alert('ok saudacao >> '+COMMON_URL_MOBILE+'/checkServerOnline.php');
+                //alert('ok saudacao >> ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
                 setSaudacao();
                 return 'ok';
             }
@@ -1459,6 +1495,7 @@ $(document).on("pageinit", "pages.html#page_login", function () {
 });
 $(document).ready(function () {
     var link = '';
+    alert('adsfasdfsda');
     //Acao do click no menu, onde encaminha para pagina correta.
     $('.link').click(function () {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
@@ -1466,12 +1503,15 @@ $(document).ready(function () {
             link = "mobile_home.html";
         } else {
             if ($(this).attr('mobile') == 'true') {
-                link = COMMON_URL_MOBILE + '/pages.html' + $(this).attr('id');
+                //link = COMMON_URL_MOBILE + '/pages.html' + $(this).attr('id');
+                
+                link =  'pages.html' + $(this).attr('id');
+                alert(link);
             } else {
                 link = COMMON_URL + $(this).attr('id');
             }
         }
-        alert('LINK: '+link);
+        //alert('22LINK: '+link);
         if ($(this).attr('id')) {
             //console.log(link);
             //loading('show');
@@ -1502,10 +1542,11 @@ $(document).ready(function () {
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy; v.2.0.8');
+    $(".name_powered").html('Powered by MultidadosTI &copy;' + vs_mobile);
 
     $(document).on("pageinit", function () {
-        $resposta = verifica_logado();
+        alert('PAGE-INIT');
+        //$resposta = verifica_logado();
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
         if ($("#filtro_data_trabalhada").val() == '') {

@@ -87,9 +87,10 @@
     <feature name='NetworkStatus'>
         <param name='ios-package' value='CDVConnection'/>
     </feature>
+    <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID
     <feature name='FileTransfer'>
         <param name='ios-package' value='CDVFileTransfer'/>
-    </feature>
+    </feature>-->
     <feature name='Capture'>
         <param name='ios-package' value='CDVCapture'/>
     </feature>
