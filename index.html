@@ -48,6 +48,11 @@ PROCURAR POR (CUSTOM MULTIDADOS)
         <link href="css/codiqa.ext.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/calendar/calendar.css" />
         <link rel="stylesheet" type="text/css" href="css/calendar/custom_2.css" />
+		
+		<script>
+		debug_mode = true;
+		</script>
+		
 
         <style>
             html,body        {height:100%;}
@@ -651,10 +656,14 @@ PROCURAR POR (CUSTOM MULTIDADOS)
         <script src="default/js/default.js"></script>
 
         <script>
+		
+			if(debug_mode) alert('Carregando index.html');
+		
             jQuery(document).ready(function () {
                 Metronic.init(); // init metronic core componets
                 Layout.init(); // init layout
 
+				if(debug_mode) alert('Verificar agora se está logado');
                 verifica_logado();
 
                 //popula Menu de Dashboards

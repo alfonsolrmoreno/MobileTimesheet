@@ -526,6 +526,9 @@ function isArray(o) {
 }
 
 function verifica_logado() {
+	
+	if(debug_mode) alert('Inicia Verificar logado');
+	
     var Objeto_real = localStorage['mobile_login'];
     //alert(print_r(Objeto_real));
     if (typeof Objeto_real == "undefined") {
@@ -551,6 +554,7 @@ function verifica_logado() {
                 //alert('ok saudacao >> ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
                 setSaudacao();
                 return 'ok';
+				if(debug_mode) alert('Fim do Verificar logado');
             }
         });
     }
