@@ -450,7 +450,7 @@ function ajusteUrl(url) {
 
 function mobile_logout() {
     var dados = new Object();
-    var ajax_file = COMMON_URL_MOBILE + 'login_mobile.php?logout=1';
+    var ajax_file = COMMON_URL_MOBILE + '/login_mobile.php?logout=1';
 
     $.ajax({
         type: 'POST',
@@ -565,7 +565,7 @@ function verifica_logado() {
 //#############################################################################
 function popMenuDash() {
     var dados = new Object();
-    var ajax_file = COMMON_URL_MOBILE + 'getDashboards.php';
+    var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -617,7 +617,7 @@ function salvar_timesheet()
     dados['porc_conclusao_atividade'] = $("#porc_conclusao_atividade").val();
     dados['narrativa_principal'] = $("#narrativa_principal").val();
 
-    var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
+    var ajax_file = COMMON_URL_MOBILE + '/save_lanctos.php';
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -708,7 +708,7 @@ function upload() {
     loading('show');
     $.ajax({
         type: 'POST',
-        url: COMMON_URL_MOBILE + 'upload.php',
+        url: COMMON_URL_MOBILE + '/upload.php',
         data: data,
         cache: false,
         contentType: false,
@@ -750,7 +750,7 @@ function salvar_despesa()
     dados['arq_despesa'] = $("#arq_despesa").val();
     dados['narrativa_principal'] = $("#narrativa_principal_despesa").val();
     arquivo_md5 = $("#arquivo_md5").val();
-    var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
+    var ajax_file = COMMON_URL_MOBILE + '/save_lanctos.php';
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -812,7 +812,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
     $("#popup_imagem").html('');
 
     idlctosdespesa = $(this).attr('id');
-    var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
+    var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
     $.when(
             $.ajax({
                 type: 'POST',
@@ -875,7 +875,7 @@ $(document).on("pagecreate", function () {
 function deletaArquivo() {
     ok = confirm('Deseja realmente apagar esse arquivo?');
     if (ok == true) {
-        var ajax_file = COMMON_URL_MOBILE + 'arquivo_despesa.php';
+        var ajax_file = COMMON_URL_MOBILE + '/arquivo_despesa.php';
         idarquivo = $("#idarquivo").val();
         $.ajax({
             type: 'POST',
@@ -903,7 +903,7 @@ function geraDespesa(idclienteprojeto, selecionado) {
     /*if (selecionado == 0 && idclienteprojeto == 0) {
      return false;
      }*/
-    var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
+    var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
     if (selecionado == 0 || typeof selecionado == 'undefined') {
         selecionado = "";
         var selected_first = "selected='selected'";
@@ -948,7 +948,7 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function () {
     idlctodespesa = $(this).attr('id');
     loading('show');
     if (confirm('Deseja excluir esta despesa?')) {
-        var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
+        var ajax_file = COMMON_URL_MOBILE + '/save_lanctos.php';
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -1108,7 +1108,7 @@ function buscar_timesheet(data) {
     if (data) {
         loading('show');
         data = dateFormatDisplayToTimestamp(data);
-        var ajax_file = COMMON_URL_MOBILE + 'busca_timesheet.php';
+        var ajax_file = COMMON_URL_MOBILE + '/busca_timesheet.php';
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -1133,7 +1133,7 @@ function buscar_timesheet(data) {
 $(document).delegate('#list .btn-timesheet', 'click', function () {
     idtimecard = $(this).attr('id');
     //var args = {cm: 'Timesheet->getTimecard', idtimecard: idtimecard};
-    var ajax_file = COMMON_URL_MOBILE + 'retorna_timecard.php';
+    var ajax_file = COMMON_URL_MOBILE + '/retorna_timecard.php';
     $.ajax({
         type: 'POST',
         url: ajax_file,
@@ -1284,7 +1284,7 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
 $(document).delegate('#list .delete_timesheet', 'click', function () {
     idtimecard = $(this).attr('id');
     if (confirm('Deseja apagar esse Timecard ?')) {
-        var ajax_file = COMMON_URL_MOBILE + 'save_lanctos.php';
+        var ajax_file = COMMON_URL_MOBILE + '/save_lanctos.php';
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -1696,7 +1696,7 @@ $(document).ready(function () {
     //DESPESA: pega dados do idserviço conforme selecionado
     $("#codigo_despesa").change(function () {
         idservico = $("#codigo_despesa option:selected").val();
-        var ajax_file = COMMON_URL_MOBILE + 'retorna_despesa.php';
+        var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
         dados_despesa = (dados_servicos[idservico]);
         var valor_despesa_digitado = formatNumber(dados_despesa['preco_venda'], '.', 2, 2);
         if (dados_despesa['valor_bloqueado_alt'] == 'T') {
@@ -1791,7 +1791,7 @@ $(document).ready(function () {
     if (Objeto_json) {
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
-        var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;
+        var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
