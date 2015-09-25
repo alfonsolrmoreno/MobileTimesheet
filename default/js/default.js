@@ -268,35 +268,42 @@ function notNull(valor) {
 }
 
 //Controle de login
-function mobile_login() {
+function mobile_login(obj) {
     loading('show');
     var dados = new Object();
-
-    //valida se todos os campos de login estao preechidos
-    if (!notNull($("#url").val()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())) {
-        loading('hide');
-        $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre todas as informa&ccedil;&odblac;es');
-        return false;
+    
+    //Retorno do object no valida login
+    if (obj) {
+        var dadosArray = JSON.parse(obj);
+        dados['USUARIO'] = dadosArray.user_bd;
+        dados['SENHA'] = dadosArray.senha;
+        dados['URL'] = dadosArray.url;
+    } else {
+        dados['USUARIO'] = $("#usuario").val();
+        dados['SENHA'] = $("#senha").val();
+        dados['URL'] = $("#url").val();
+        
+        //valida se todos os campos de login estao preechidos
+        if (!notNull($("#url").val()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())) {
+            loading('hide');
+            $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre todas as informa&ccedil;&odblac;es');
+            return false;
+        }
     }
 
-    //return false;
-    dados['USUARIO'] = $("#usuario").val();
-    dados['SENHA'] = $("#senha").val();
-    dados['URL'] = $("#url").val();
     if (dados['URL'] != "") {
         var ajax_file_url = 'verifica_url.php';
-
 
         //Trata URL sem http://
         if ((dados['URL'].substr(0, 7)) != 'http://') {
             //AQUI VALIDAMOS A URL PELA SEGUNDA (/) PARA RECUPERAR O ENDERECO CORRETO
             var b1 = dados['URL'].search('/'); //localiza a posicao da primeira (/)
-            var url_new = dados['URL'].slice(0, b1+1); //recupera apenas o localhost sem (/)
+            var url_new = dados['URL'].slice(0, b1 + 1); //recupera apenas o localhost sem (/)
             var dados2 = dados['URL'].substr(b1 + 1); //recupera o que vem depois do localhost(/) para recuperar o resto depois da proxima (/)
             var b2 = dados2.search('/'); //recupera a posicao da segunda (/)
-            if(b2 > 0){
+            if (b2 > 0) {
                 url_new += dados2.slice(0, b2); //recupera apenas o conteundo antes do (/)
-            }else{
+            } else {
                 url_new += dados2; //nao tem barra no final entao junta a segunda parte da url
             }
             dados['URL'] = 'http://' + url_new;
@@ -320,7 +327,7 @@ function mobile_login() {
 
             dados['URL'] = 'http://' + url_new;
         }
-        
+
         //VERIFICA SE EXISTE (/) NO FIM DA URL E REMOVE CASO EXISTA
         if ((dados['URL'].substr(dados['URL'].length - 1, 1)) == '/') {
             dados['URL'] = dados['URL'].substr(0, dados['URL'].length - 1);
@@ -332,10 +339,10 @@ function mobile_login() {
             count_url = count_url - 10;
             dados['URL'] = dados['URL'].substr(0, count_url);
         }
-        
+
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
-        
+
         //alert(dados['USUARIO']+' - '+dados['SENHA']+' - '+dados['URL']+' - ');
 
         $.ajax({
@@ -389,9 +396,14 @@ function mobile_login() {
                             localStorage.setItem('mobile_login', JSON.stringify(Objeto));
                             var Objeto_real = localStorage['mobile_login'];
                             var Objeto_json = JSON.parse(Objeto_real);
-
-                            window.location.href = 'index.html';
-                            //window.location.reload();
+                            
+                            loading('hide');
+                            
+                            if (obj) {
+                                $().toastmessage('showSuccessToast', 'Login realizado com sucesso');
+                            }else{
+                                window.location.href = 'index.html';
+                            }
                         }
                     }
                 });
@@ -508,9 +520,14 @@ function setSaudacao() {
     //$('#banco-nome').html(dados['db']);
 }
 
+//Valida array
+function isArray(o) {
+    return(typeof (o.length) == "undefined") ? false : true;
+}
+
 function verifica_logado() {
     var Objeto_real = localStorage['mobile_login'];
-    alert(print_r(Objeto_real));
+    //alert(print_r(Objeto_real));
     if (typeof Objeto_real == "undefined") {
         window.location.href = 'pages.html#page_login';
     } else {
@@ -530,6 +547,7 @@ function verifica_logado() {
                 return false;
             },
             success: function (data) {
+                mobile_login(Objeto_real);
                 //alert('ok saudacao >> ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
                 setSaudacao();
                 return 'ok';
@@ -1004,7 +1022,7 @@ $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
         q: $('#busca_cliente_despesa').val(),
         idempresa: Objeto_json.idempresa_vendedor,
         idsenha: Objeto_json.usuario_id,
-        url: COMMON_URL_MOBILE + 'search.php',
+        url: COMMON_URL_MOBILE + '/search.php',
         tipo: 'c'
 
     });
@@ -1048,7 +1066,7 @@ $(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
         scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_projeto_despesa').val(),
-        url: COMMON_URL_MOBILE + 'search.php',
+        url: COMMON_URL_MOBILE + '/search.php',
         tipo: 'p',
         idcliente: $("#idcliente_despesa").val(),
         idempresa: Objeto_json.idempresa_vendedor,
@@ -1182,7 +1200,7 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function () 
         scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_cliente_timesheet').val(),
-        url: COMMON_URL_MOBILE + 'search.php',
+        url: COMMON_URL_MOBILE + '/search.php',
         tipo: 'c',
         idempresa: Objeto_json.idempresa_vendedor,
         idsenha: Objeto_json.usuario_id
@@ -1225,7 +1243,7 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function () 
         scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_projeto_timesheet').val(),
-        url: COMMON_URL_MOBILE + 'search.php',
+        url: COMMON_URL_MOBILE + '/search.php',
         tipo: 'p',
         idcliente: $("#codigo_auxiliar").val(),
         idempresa: Objeto_json.idempresa_vendedor,
@@ -1302,7 +1320,7 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
     $("#codigo_atividade").attr('name', 'codigo_atividade');
     $.ajax({
         type: 'GET',
-        url: COMMON_URL_MOBILE + 'search.php?tipo=t&idcliente=' + idcliente + '&idprojeto=' + idprojeto + '&idsenha=' + Objeto_json.usuario_id,
+        url: COMMON_URL_MOBILE + '/search.php?tipo=t&idcliente=' + idcliente + '&idprojeto=' + idprojeto + '&idsenha=' + Objeto_json.usuario_id,
         dataType: "jsonp",
         crossDomain: true
     })
@@ -1334,7 +1352,7 @@ function seleciona_porcentagem_conclusao(item_selected) {
 
     $.ajax({
         type: 'GET',
-        url: COMMON_URL_MOBILE + 'search.php?tipo=percent_conclusao',
+        url: COMMON_URL_MOBILE + '/search.php?tipo=percent_conclusao',
         dataType: "jsonp",
         crossDomain: true
     })
@@ -1373,7 +1391,7 @@ function seleciona_atividade(selecionado)
     {
         $.ajax({
             type: 'GET',
-            url: COMMON_URL_MOBILE + 'search.php?tipo=atividade&idtarefa=' + val_idutbms_fase + '&idsenha=' + Objeto_json.usuario_id + '&idcliente=' + idcliente + '&idprojeto=' + idclienteprojeto,
+            url: COMMON_URL_MOBILE + '/search.php?tipo=atividade&idtarefa=' + val_idutbms_fase + '&idsenha=' + Objeto_json.usuario_id + '&idcliente=' + idcliente + '&idprojeto=' + idclienteprojeto,
             dataType: "jsonp",
             crossDomain: true
         })
@@ -1401,7 +1419,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
     loading('show');
     $.ajax({
         type: 'GET',
-        url: COMMON_URL_MOBILE + 'search.php?tipo=task_parent&idcliente=' + idcliente + '&idprojeto=' + idprojeto + '&idsenha=' + Objeto_json.usuario_id + '&idempresa=' + Objeto_json.idempresa_vendedor + '&idtask=' + selecionado,
+        url: COMMON_URL_MOBILE + '/search.php?tipo=task_parent&idcliente=' + idcliente + '&idprojeto=' + idprojeto + '&idsenha=' + Objeto_json.usuario_id + '&idempresa=' + Objeto_json.idempresa_vendedor + '&idtask=' + selecionado,
         dataType: "jsonp",
         crossDomain: true
     })
@@ -1447,7 +1465,7 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
     loading('show');
     $.ajax({
         type: 'GET',
-        url: COMMON_URL_MOBILE + 'search.php?tipo=task&idcliente=' + idcliente + '&idprojeto=' + idprojeto + '&idsenha=' + Objeto_json.usuario_id + '&idempresa=' + Objeto_json.idempresa_vendedor + '&idtarefa_principal=' + idtarefa_principal,
+        url: COMMON_URL_MOBILE + '/search.php?tipo=task&idcliente=' + idcliente + '&idprojeto=' + idprojeto + '&idsenha=' + Objeto_json.usuario_id + '&idempresa=' + Objeto_json.idempresa_vendedor + '&idtarefa_principal=' + idtarefa_principal,
         dataType: "jsonp",
         crossDomain: true
     })
@@ -1481,8 +1499,7 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 }
 
 
-
-
+//ACOES DE CLIQUE E LOADING
 $(document).delegate('#task_parent', 'change', function () {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
@@ -1503,7 +1520,7 @@ $(document).ready(function () {
         } else {
             if ($(this).attr('mobile') == 'true') {
                 //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
-                link =  'pages.html' + $(this).attr('id');
+                link = 'pages.html' + $(this).attr('id');
             } else {
                 //setar url do sistema, pois o portal é chamado atraves da url
                 link = COMMON_URL + $(this).attr('id');
@@ -1713,7 +1730,7 @@ $(document).ready(function () {
                 $ul.listview("refresh");
                 $.ajax({
                     //url: "http://gd.geobytes.com/AutoCompleteCity",
-                    url: COMMON_URL_MOBILE + 'search.php',
+                    url: COMMON_URL_MOBILE + '/search.php',
                     dataType: "jsonp",
                     crossDomain: true,
                     data: {
@@ -1747,7 +1764,7 @@ $(document).ready(function () {
                 $ul.listview("refresh");
                 $.ajax({
                     //url: "http://gd.geobytes.com/AutoCompleteCity",
-                    url: COMMON_URL_MOBILE + 'search.php',
+                    url: COMMON_URL_MOBILE + '/search.php',
                     dataType: "jsonp",
                     crossDomain: true,
                     data: {
