@@ -1,5 +1,6 @@
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.2.0.8';
+var debug_mode = true;
 
 var Objeto_real = localStorage['mobile_login'];
 
@@ -262,17 +263,29 @@ function notNull(valor) {
 
 //Controle de login
 function mobile_login(obj) {
-	
-	loading('show');
+    
+    if(debug_mode) alert('mobile_login');
+
+    //loading('show');
     var dados = new Object();
+
+    if(debug_mode) alert('dados new Object');
     
     //Retorno do object no valida login
     if (obj) {
+        if(debug_mode) {   
+            alert('Tempo Obj');
+            alert(obj);
+        }
+        
         var dadosArray = JSON.parse(obj);
         dados['USUARIO'] = dadosArray.user_bd;
         dados['SENHA'] = dadosArray.senha;
         dados['URL'] = dadosArray.url;
     } else {
+        
+        if(debug_mode) alert('sem Obj'); 
+        
         dados['USUARIO'] = $("#usuario").val();
         dados['SENHA'] = $("#senha").val();
         dados['URL'] = $("#url").val();
@@ -333,6 +346,9 @@ function mobile_login(obj) {
             count_url = count_url - 10;
             dados['URL'] = dados['URL'].substr(0, count_url);
         }
+        
+        
+        if(debug_mode) alert('efetuar login'); 
 
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
@@ -441,6 +457,9 @@ function ajusteUrl(url) {
 }
 
 function mobile_logout() {
+    
+    if(debug_mode) alert('mobile_logout');
+    
     var dados = new Object();
     var ajax_file = COMMON_URL_MOBILE + '/login_mobile.php?logout=1';
 
@@ -519,6 +538,8 @@ function isArray(o) {
 
 function verifica_logado() {
 	
+        if(debug_mode) alert('verifica_logado');
+        
 	var Objeto_real = localStorage['mobile_login'];
     
 	if (typeof Objeto_real == "undefined") {
@@ -535,16 +556,20 @@ function verifica_logado() {
             crossDomain: true,
             error: function () {
                 
+                if(debug_mode) alert('erro no verifica_logado');
+                
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
                 return false;
             },
             success: function (data) {
 				
-				if(typeof data.idvendedor == 'undefined') {
-					mobile_login(Objeto_real);
-				}
-				
+                if(debug_mode) alert('success no verifica_logado idvendedor:' +  data.idvendedor);
+
+                if(typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
+                        mobile_login(Objeto_real);
+                }
+
                 return 'ok';
             }
         });
@@ -1214,6 +1239,7 @@ $(document).delegate("[id^='idcliente_']", 'click', function () {
     var id = $(this).attr('id');
     var idcliente = id.split('_');
     selecionaValor($(this).text(), "c", idcliente[1]);
+    
     $("#page_timesheet_clientes").html('');
     $("#page_timesheet_sub").show();
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");

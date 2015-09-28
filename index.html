@@ -79,7 +79,7 @@ PROCURAR POR (CUSTOM MULTIDADOS)
             <div class="page-header-inner container">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="javascript:;">
+                    <a class="link" id="mobile_home.html">
                         <img src="img/logomultidados_transparent.png" alt="logo" class="logo-multidados"/>
                     </a>
                     <div class="menu-toggler sidebar-toggler">
@@ -655,6 +655,9 @@ PROCURAR POR (CUSTOM MULTIDADOS)
 			verifica_logado();
 			
             jQuery(document).ready(function () {
+                
+                if(debug_mode) alert('Metronic.init');
+                
                 Metronic.init(); // init metronic core componets
                 Layout.init(); // init layout
 				setSaudacao();
