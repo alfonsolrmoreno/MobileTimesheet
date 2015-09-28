@@ -538,15 +538,17 @@ function isArray(o) {
 
 function verifica_logado() {
 	
-        if(debug_mode) alert('verifica_logado');
-        
-	var Objeto_real = localStorage['mobile_login'];
-    
-	if (typeof Objeto_real == "undefined") {
+    if(debug_mode) alert('verifica_logado');
+
+    var Objeto_real = localStorage['mobile_login'];
+
+    if (typeof Objeto_real == "undefined") {
+
+        if(debug_mode) alert('redirecionar para a tela pages.html#page_login');
+            
         window.location.href = 'pages.html#page_login';
     } else {
-        //var url_ok = ajusteUrl(url.href);
-        //var ajax_file = url_ok + '/mobile/checkServerOnline.php';
+        if(debug_mode) alert('tem Objeto real');
 
         $.ajax({
             type: 'POST',
