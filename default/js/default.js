@@ -1,6 +1,6 @@
 //versao do mobile para mostrar no footer
-var vs_mobile = 'v.2.0.8';
-var debug_mode = true;
+var vs_mobile = 'v.3.0.0';
+var debug_mode = false;
 
 var Objeto_real = localStorage['mobile_login'];
 
@@ -1524,12 +1524,16 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 $(document).delegate('#task_parent', 'change', function () {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
-$(document).on("pageinit", "pages.html#page_login", function () {
-    $resposta = verifica_logado();
-    if ($resposta == 'ok') {
-        window.location.href = "index.html";
-    }
-});
+
+// Inacio 30/09/201
+// antigo, agora o login fica em outro aquivo.
+//$(document).on("pageinit", "pages.html#page_login", function () {
+//    $resposta = verifica_logado();
+//    if ($resposta == 'ok') {
+//        window.location.href = "index.html";
+//    }
+//});
+
 $(document).ready(function () {
     var link = '';
 
@@ -1581,8 +1585,11 @@ $(document).ready(function () {
     $(".name_powered").html('Powered by MultidadosTI &copy;' + vs_mobile);
 
     $(document).on("pageinit", function () {
-		
-		$resposta = verifica_logado();
+	
+    // Inacio 30/09/2015
+    // Agora é só na página index.html     
+    //$resposta = verifica_logado();
+                
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
         if ($("#filtro_data_trabalhada").val() == '') {

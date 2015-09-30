@@ -23,7 +23,7 @@ PROCURAR POR (CUSTOM MULTIDADOS)
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-		
+
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="assets/global/plugins/font-family/font-family.css" rel="stylesheet" type="text/css"/>
         <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
@@ -550,7 +550,7 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                                             <i class="fa fa-th-list"></i> Listar</a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=usuarios&a=ocorrencias&nomenu=1">
+                                        <a class="link" id="?display=portal&m=servicedesk&a=ocorrencias&nomenu=1">
                                             <i class="icon-bar-chart"></i> Portal </a>
                                     </li>
                                     <li>
@@ -652,15 +652,16 @@ PROCURAR POR (CUSTOM MULTIDADOS)
 
         <script>
 
-            //verifica_logado();
-			
+            verifica_logado();
+
             jQuery(document).ready(function () {
-                
-                if(debug_mode) alert('Metronic.init');
-                
+
+                if (debug_mode)
+                    alert('Metronic.init');
+
                 Metronic.init(); // init metronic core componets
                 Layout.init(); // init layout
-				setSaudacao();
+                setSaudacao();
 
                 //popula Menu de Dashboards
                 popMenuDash();
