@@ -1,6 +1,6 @@
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
-var debug_mode = true;
+var debug_mode = false;
 
 var Objeto_real = localStorage['mobile_login'];
 
@@ -546,6 +546,7 @@ function verifica_logado() {
         if(debug_mode) alert('redirecionar para a tela pages.html#page_login');
             
         window.location.href = 'pages.html#page_login';
+		return false;
     } else {
         if(debug_mode) alert('tem Objeto real');
 
