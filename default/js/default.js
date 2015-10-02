@@ -476,7 +476,6 @@ function mobile_logout() {
         },
         error: function () {
             loading('hide');
-            $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
             //caso servidor nao esteja disponivel vamos apenas limpar os dados de conexao e redirecionar para pagina de login
             localStorage.clear();
             window.location.href = 'pages.html#page_login';
@@ -1582,7 +1581,7 @@ $(document).ready(function () {
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;' + vs_mobile);
+    $(".name_powered").html('Powered by MultidadosTI &copy; ' + vs_mobile);
 
     $(document).on("pageinit", function () {
 	
