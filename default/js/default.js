@@ -1,6 +1,6 @@
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
-var debug_mode = false;
+var debug_mode = true;
 
 var Objeto_real = localStorage['mobile_login'];
 
@@ -347,11 +347,16 @@ function mobile_login(obj) {
             dados['URL'] = dados['URL'].substr(0, count_url);
         }
         
-        
         if(debug_mode) alert('efetuar login'); 
 
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
+
+        if(debug_mode) {
+            alert('COMMON_URL_MOBILE: '+COMMON_URL_MOBILE);
+            alert(dados['URL'] + '/mobile/' + ajax_file_url);
+        } 
+
 
         $.ajax({
             type: 'POST',
