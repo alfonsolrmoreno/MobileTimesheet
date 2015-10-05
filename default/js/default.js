@@ -1,6 +1,6 @@
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
-var debug_mode = true;
+var debug_mode = false;
 
 var Objeto_real = localStorage['mobile_login'];
 
@@ -412,6 +412,8 @@ function mobile_login(obj) {
                             }else{
                                 window.location.href = 'index.html';
                             }
+							
+							popMenuDash();
                         }
                     }
                 });
