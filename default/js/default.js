@@ -1,5 +1,5 @@
 //versao do mobile para mostrar no footer
-var vs_mobile = 'v.3.0.1';
+var vs_mobile = 'v.3.0.0';
 var debug_mode = true;
 
 var Objeto_real = localStorage['mobile_login'];
@@ -572,9 +572,6 @@ function verifica_logado() {
                 if(typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
                         mobile_login(Objeto_real);
                 }
-							
-				//popula Menu de Dashboards
-				popMenuDash();
 
                 return 'ok';
             }
@@ -593,6 +590,9 @@ function popMenuDash() {
 	
 	if (debug_mode)
 		alert('Lista os dashs popMenuDash');
+	
+	if (debug_mode)
+		alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
 	
     var dados = new Object();
     var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';

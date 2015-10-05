@@ -667,12 +667,23 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                     alert('Metronic.init');
 
                 Metronic.init(); // init metronic core componets
-                Layout.init(); // init layout
-                setSaudacao();
+                
+				if (debug_mode)
+                    alert('Layout.init');
+
+				
+				Layout.init(); // init layout
+				
+				if (debug_mode)
+                    alert('setSaudacao');
+                
+				setSaudacao();
+							
+				//popula Menu de Dashboards
+				popMenuDash();
+				
             });
-						
-			//popula Menu de Dashboards
-			popMenuDash();
+		
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
