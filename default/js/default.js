@@ -368,10 +368,20 @@ function mobile_login(obj) {
                 url: COMMON_URL_MOBILE
             },
             error: function () {
+                
+                 if(debug_mode) {
+                    alert('ERROR MOBILE');
+                }
+                
                 loading('hide');
                 $().toastmessage('showErrorToast', 'Falha de comunica&ccedil;&atilde;o com o servidor. Verifique sua conex&atilde;o e se a URL est&aacute; correta');
             },
             success: function (data) {
+                
+                 if(debug_mode) {
+                    alert('SUCCESS');
+                }
+                
                 $.ajax({
                     type: 'POST',
                     url: ajax_file,
