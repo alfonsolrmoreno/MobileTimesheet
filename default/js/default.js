@@ -549,6 +549,7 @@ function verifica_logado() {
 		return false;
     } else {
         if(debug_mode) alert('tem Objeto real');
+        if(debug_mode) alert('URL Atual = ' + COMMON_URL_MOBILE);
 
         $.ajax({
             type: 'POST',
@@ -571,6 +572,9 @@ function verifica_logado() {
                 if(typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
                         mobile_login(Objeto_real);
                 }
+							
+				//popula Menu de Dashboards
+				popMenuDash();
 
                 return 'ok';
             }
@@ -586,6 +590,10 @@ function verifica_logado() {
 //############################# MENU ##########################################
 //#############################################################################
 function popMenuDash() {
+	
+	if (debug_mode)
+		alert('Lista os dashs popMenuDash');
+	
     var dados = new Object();
     var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
     $.ajax({
@@ -599,8 +607,6 @@ function popMenuDash() {
     }).then(function (data) {
         if (data) {
             $("#lista_dashboard").html(data);
-        } else {
-            //$().toastmessage('showErrorToast', 'Nao foi possivel recuperar os dashboards para o Menu.');
         }
     });
 }

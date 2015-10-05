@@ -56,7 +56,14 @@ PROCURAR POR (CUSTOM MULTIDADOS)
             .h_iframe        {position:relative;}
             .h_iframe .ratio {display:block;width:100%;height:auto;}
             //.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:100%;}
-            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:350px;}
+            /*.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:350px;}*/
+            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:398px;}
+
+            @media (max-width: 767px){
+                .page-content-wrapper .page-content {
+                    padding: 5px 5px 0px 5px !important;
+                }
+            }
 
         </style>
     </head>
@@ -662,11 +669,8 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                 Metronic.init(); // init metronic core componets
                 Layout.init(); // init layout
                 setSaudacao();
-
-                //popula Menu de Dashboards
-                popMenuDash();
-
             });
+		
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
