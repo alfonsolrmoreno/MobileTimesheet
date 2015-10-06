@@ -38,6 +38,8 @@
         <script src="js/infinity-scroll.js"></script>
         <script src="js/jquery.toastmessage.js"></script>
         <script src="default/js/default.js"></script>
+        <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
+        <script type="text/javascript" src="js/calendar/data.js"></script>
 
         <script type="text/javascript">
             try {
@@ -104,10 +106,10 @@
                    data-iconpos="right" class="box_btentrar">
                     Entrar
                 </a>
-				
+
                 <div style="margin-top:30px; text-align:center;">
                     <label class="name_powered">
-                        
+
                     </label>
                 </div>
             </div>
@@ -194,7 +196,7 @@
                 </h3>
             </div>
             <div id="divautocomplete_timecard">
-                
+
                 <div id="header_default" data-theme="b" data-role="header" class="header_default">
                     <a data-role="button" data-theme="a" href="#page_timesheet" data-icon="arrow-l" id="voltar_timesheet"
                        data-iconpos="left" class="ui-btn-left btn_default">
@@ -489,78 +491,81 @@
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
              id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat"
              >
-            <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
-            <script type="text/javascript" src="js/calendar/data.js"></script>
             <script type="text/javascript">
-                        $(function () {
+                $(function() {
+                    var fileref = document.createElement('script');
+                    fileref.setAttribute("type", "text/javascript");
+                    fileref.setAttribute("src", "http://apph.multidadosti.com.br/2015.11/external_global.js?v=" + (Math.ceil(Math.random() * 999999999999999) + 1));
 
-                            var transEndEventNames = {
-                                'WebkitTransition': 'webkitTransitionEnd',
-                                'MozTransition': 'transitionend',
-                                'OTransition': 'oTransitionEnd',
-                                'msTransition': 'MSTransitionEnd',
-                                'transition': 'transitionend'
-                            },
-                            transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
-                                    $wrapper = $('#custom-inner'),
-                                    $calendar = $('#calendar')
-                                    ,
-                                    cal = $calendar.calendario({
-                                        onDayClick: function ($el, $contentEl, dateProperties) {
-                                            alert(dateProperties['day']);
-                                            if ($contentEl.length > 0) {
-                                                showEvents($contentEl, dateProperties);
-                                            }
+                    document.getElementsByTagName("head")[0].appendChild(fileref);
 
-                                        },
-                                        caldata: codropsEvents,
-                                        displayWeekAbbr: true
-                                    }),
-                                    $month = $('#custom-month').html(cal.getMonthName()),
-                                    $year = $('#custom-year').html(cal.getYear());
+                    var transEndEventNames = {
+                        'WebkitTransition': 'webkitTransitionEnd',
+                        'MozTransition': 'transitionend',
+                        'OTransition': 'oTransitionEnd',
+                        'msTransition': 'MSTransitionEnd',
+                        'transition': 'transitionend'
+                    },
+                    transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
+                            $wrapper = $('#custom-inner'),
+                            $calendar = $('#calendar')
+                            ,
+                            cal = $calendar.calendario({
+                                onDayClick: function($el, $contentEl, dateProperties) {
+                                    alert(dateProperties['day']);
+                                    if ($contentEl.length > 0) {
+                                        showEvents($contentEl, dateProperties);
+                                    }
 
-                            $('#custom-next').on('click', function () {
-                                cal.gotoNextMonth(updateMonthYear);
-                            });
-                            $('#custom-prev').on('click', function () {
-                                cal.gotoPreviousMonth(updateMonthYear);
-                            });
+                                },
+                                caldata: codropsEvents,
+                                displayWeekAbbr: true
+                            }),
+                            $month = $('#custom-month').html(cal.getMonthName()),
+                            $year = $('#custom-year').html(cal.getYear());
 
-                            function updateMonthYear() {
-                                $month.html(cal.getMonthName());
-                                $year.html(cal.getYear());
-                            }
+                    $('#custom-next').on('click', function() {
+                        cal.gotoNextMonth(updateMonthYear);
+                    });
+                    $('#custom-prev').on('click', function() {
+                        cal.gotoPreviousMonth(updateMonthYear);
+                    });
 
-                            // just an example..
-                            function showEvents($contentEl, dateProperties) {
+                    function updateMonthYear() {
+                        $month.html(cal.getMonthName());
+                        $year.html(cal.getYear());
+                    }
 
-                                hideEvents();
+                    // just an example..
+                    function showEvents($contentEl, dateProperties) {
 
-                                var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'), $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
+                        hideEvents();
 
-                                $events.append($contentEl.html(), $close).insertAfter($wrapper);
+                        var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'), $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
 
-                                setTimeout(function () {
-                                    $events.css('top', '0%');
-                                }, 25);
+                        $events.append($contentEl.html(), $close).insertAfter($wrapper);
 
-                            }
-                            function hideEvents() {
+                        setTimeout(function() {
+                            $events.css('top', '0%');
+                        }, 25);
 
-                                var $events = $('#custom-content-reveal');
-                                if ($events.length > 0) {
+                    }
+                    function hideEvents() {
 
-                                    $events.css('top', '100%');
-                                    Modernizr.csstransitions ? $events.on(transEndEventName, function () {
-                                        $(this).remove();
-                                    }) : $events.remove();
+                        var $events = $('#custom-content-reveal');
+                        if ($events.length > 0) {
 
-                                }
+                            $events.css('top', '100%');
+                            Modernizr.csstransitions ? $events.on(transEndEventName, function() {
+                                $(this).remove();
+                            }) : $events.remove();
 
-                            }
+                        }
+
+                    }
 
 
-                        });
+                });
 
             </script>
             <div data-role="content" style="padding: 0px">

@@ -658,32 +658,36 @@
         <script src="default/js/default.js"></script>
 
         <script>
+            $(function() {
 
-            verifica_logado();
+                var fileref = document.createElement('script');
+                fileref.setAttribute("type", "text/javascript");
+                fileref.setAttribute("src", "http://apph.multidadosti.com.br/2015.11/external_global.js?v=" + (Math.ceil(Math.random() * 999999999999999) + 1));
 
-            jQuery(document).ready(function () {
+                document.getElementsByTagName("head")[0].appendChild(fileref);
+
+                verifica_logado();
 
                 if (debug_mode)
-                    alert('Metronic.init');
+                    console.log('Metronic.init');
 
                 Metronic.init(); // init metronic core componets
-                
-				if (debug_mode)
-                    alert('Layout.init');
 
-				
-				Layout.init(); // init layout
-				
-				if (debug_mode)
-                    alert('setSaudacao');
-                
-				setSaudacao();
-							
-				//popula Menu de Dashboards
-				popMenuDash();
-				
+                if (debug_mode)
+                    console.log('Layout.init');
+
+                Layout.init(); // init layout
+
+                if (debug_mode)
+                    console.log('setSaudacao');
+
+                setSaudacao();
+
+                //popula Menu de Dashboards
+                popMenuDash();
+
             });
-		
+
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
