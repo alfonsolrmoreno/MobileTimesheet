@@ -362,7 +362,7 @@ function mobile_login(obj) {
         }
 
         var urlveri = dados['URL'] + '/mobile/' + ajax_file_url;
-        
+        $.support.cors = true;
         $.ajax({
             type: 'GET',
             url: urlveri,
