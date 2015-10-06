@@ -31,9 +31,9 @@
    
     <access origin="*"/>
         
-    <gap:plugin name="cordova-plugin-inappbrowser" source="npm"> 
+    <gap:plugin name="org.apache.cordova.inappbrowser"  source="npm" />
     <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
-    <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
+    <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
     
     <gap:plugin name="com.phonegap.plugin.statusbar" version="1.1.0" /> 
     <feature name="StatusBar">
@@ -41,7 +41,7 @@
     </feature>
     <preference name="stay-in-webview" value="true" />
      
-    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
+    <gap:plugin name="org.apache.cordova.dialogs" source="npm" />
     <feature name="Vibration">
         <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
     </feature>
@@ -50,7 +50,7 @@
         <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
     </feature>
      
-    <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
+    <gap:plugin name="org.apache.cordova.network-information" source="npm" />
     <feature name="NetworkStatus" value="NetworkStatus">
         <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
         <param name="ios-package" value="CDVConnection" />
