@@ -32,6 +32,8 @@
     <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
     <content src='index.html'/>
 
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
+    
     <preference name="orientation" value="portrait" />
     <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
     <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
