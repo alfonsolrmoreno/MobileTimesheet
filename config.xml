@@ -28,109 +28,113 @@
     <name>MultidadosTI</name>
     <description>O aplicativo MultidadosTI</description>
     <author href='http://www.multidadosti.com.br' email='alfonso@multidadosti.com.br'>MultidadosTI Team</author>
-    <access origin='*'/>
-    <!-- <content src="http://mysite.com/myapp.html" /> for external pages -->
-    <content src='index.html'/>
-
-    <preference name="orientation" value="portrait" />
-    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
-    <gap:plugin name="org.apache.cordova.network-information" source="npm" />
-    <gap:plugin name="org.apache.cordova.camera" source="npm" />
-    <gap:plugin name="nl.x-services.plugins.toast" version="2.0.2" />
-    <gap:plugin name="com.adobe.plugins.gaplugin" version="2.4.0" />
-    <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.5.0" />    
-    <gap:plugin name="org.apache.cordova.media-capture" source="npm" />
-    <gap:plugin name="org.apache.cordova.file" source="npm" />
-    <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID-->
-<!--    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />-->
-    <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
-    <gap:plugin name="org.apache.cordova.dialogs" source="npm" />
-    <gap:plugin name="org.apache.cordova.vibration" source="npm" />
-    <gap:plugin name="org.apache.cordova.splashscreen" source="npm" />
-    <gap:plugin name="org.apache.cordova.device-orientation" source="npm" />
-    <gap:plugin name="org.apache.cordova.device-motion" source="npm" />
-    <gap:plugin name="org.apache.cordova.device" source="npm" />
-    <gap:plugin name="org.apache.cordova.contacts" source="npm" />
-    <gap:plugin name="org.apache.cordova.console" source="npm" />
     
-    <feature name="http://api.phonegap.com/1.0/camera"/>
-    <feature name="http://api.phonegap.com/1.0/file"/>
-    <feature name="http://api.phonegap.com/1.0/network"/>
-    <feature name="http://api.phonegap.com/1.0/notification"/>
+    <access origin="*"/>
+        
+    <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
+    <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
+    <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
+    
+    <gap:plugin name="com.phonegap.plugin.statusbar" version="1.1.0" /> 
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>
+    <preference name="stay-in-webview" value="true" />
+     
+    <gap:plugin name="org.apache.cordova.dialogs" source="npm" />
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+     
+    <gap:plugin name="org.apache.cordova.network-information" source="npm" />
+    <feature name="NetworkStatus" value="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
+    <!--
+    <gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay" version="1.2.0" />
+    
+    <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
+    <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
+    
+    <gap:plugin name="org.apache.cordova.media-capture" version="0.3.3" />
+    <gap:plugin name="org.apache.cordova.file" version="1.3.1" />
+    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />
+    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
+    <gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
+    
+    <gap:plugin name="org.apache.cordova.device-orientation" version="0.3.9" />
+    <gap:plugin name="org.apache.cordova.device-motion" version="0.2.10" />
+    <gap:plugin name="org.apache.cordova.device" version="0.2.12" />
 
-    <!-- Preferences for Android -->
-    <!-- Preferences for iOS -->
-    <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
+    <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
+    <gap:plugin name="org.apache.cordova.contacts" version="0.2.13" />
+    <gap:plugin name="org.apache.cordova.console" version="0.2.11" />
+    
+    <feature name='Device'>        
+        <param name='ios-package' value='CDVDevice'/>    
+    </feature>
+    <feature name='Accelerometer'>        
+        <param name='ios-package' value='CDVAccelerometer'/>    
+    </feature>
+    <feature name='Compass'>        
+        <param name='ios-package' value='CDVLocation'/>    
+    </feature>
+    <feature name='Media'>        
+        <param name='ios-package' value='CDVSound'/>    
+    </feature>
+    <feature name='Camera'>        
+        <param name='ios-package' value='CDVCamera'/>    
+    </feature>
+    <feature name='Contacts'>        
+        <param name='ios-package' value='CDVContacts'/>    
+    </feature>
+    <feature name='File'>        
+        <param name='ios-package' value='CDVFile'/>    
+    </feature>
+    <feature name='FileTransfer'>        
+        <param name='ios-package' value='CDVFileTransfer'/>    
+    </feature>
+    <feature name='Capture'>        
+        <param name='ios-package' value='CDVCapture'/>    
+    </feature>
+    <feature name='Battery'>        
+        <param name='ios-package' value='CDVBattery'/>    
+    </feature>
+    <feature name='Echo'>        
+        <param name='ios-package' value='CDVEcho'/>    
+    </feature>
+    -->
+    <feature name='Globalization'>        
+        <param name='ios-package' value='CDVGlobalization'/>    
+    </feature>
+    <feature name='InAppBrowser'>        
+        <param name='ios-package' value='CDVInAppBrowser'/>    
+    </feature>
+    <feature name='Logger'>        
+        <param name='ios-package' value='CDVLogger'/>    
+    </feature>
+    <feature name='LocalStorage'>        
+        <param value='CDVLocalStorage' name='ios-package'/>    
+    </feature>
     <feature name='Geolocation'>
-        <param name='ios-package' value='CDVLocation'/>
-    </feature>
-    <feature name='Device'>
-        <param name='ios-package' value='CDVDevice'/>
-    </feature>
-    <feature name='Accelerometer'>
-        <param name='ios-package' value='CDVAccelerometer'/>
-    </feature>
-    <feature name='Compass'>
-        <param name='ios-package' value='CDVLocation'/>
-    </feature>
-    <feature name='Media'>
-        <param name='ios-package' value='CDVSound'/>
-    </feature>
-    <feature name='Camera'>
-        <param name='ios-package' value='CDVCamera'/>
-    </feature>
-    <feature name='Contacts'>
-        <param name='ios-package' value='CDVContacts'/>
-    </feature>
-    <feature name='File'>
-        <param name='ios-package' value='CDVFile'/>
-    </feature>
-    <feature name='NetworkStatus'>
-        <param name='ios-package' value='CDVConnection'/>
-    </feature>
-    <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID
-    <feature name='FileTransfer'>
-        <param name='ios-package' value='CDVFileTransfer'/>
-    </feature>-->
-    <feature name='Capture'>
-        <param name='ios-package' value='CDVCapture'/>
-    </feature>
-    <feature name='Battery'>
-        <param name='ios-package' value='CDVBattery'/>
-    </feature>
-    <feature name='SplashScreen'>
-        <param name='ios-package' value='CDVSplashScreen'/>
-    </feature>
-    <feature name='Echo'>
-        <param name='ios-package' value='CDVEcho'/>
-    </feature>
-    <feature name='Globalization'>
-        <param name='ios-package' value='CDVGlobalization'/>
-    </feature>
-    <feature name='InAppBrowser'>
-        <param name='ios-package' value='CDVInAppBrowser'/>
-    </feature>
-    <feature name='Logger'>
-        <param name='ios-package' value='CDVLogger'/>
-    </feature>
-    <feature name='LocalStorage'>
-        <param value='CDVLocalStorage' name='ios-package'/>
+        <param name='ios-package' value='CDVLocation'/>    
     </feature>
     
     <preference value='true' name='AllowInlineMediaPlayback'/>
     <preference value='false' name='MediaPlaybackRequiresUserAction'/>
     <preference value='true' name='OpenAllWhitelistURLsInWebView'/>
     
-    <preference value='true' name='AutoHideSplashScreen'/>
     <preference value='cloud' name='BackupWebStorage'/>
     <preference value='false' name='DisallowOverscroll'/>
     <preference value='false' name='EnableViewportScale'/>
-    <preference value='true' name='FadeSplashScreen'/>
-    <preference value='.25' name='FadeSplashScreenDuration'/>
     <preference value='false' name='HideKeyboardFormAccessoryBar'/>
     <preference value='true' name='KeyboardDisplayRequiresUserAction'/>
     <preference value='false' name='KeyboardShrinksView'/>
-    <preference value='true' name='ShowSplashScreenSpinner'/>
     <preference value='false' name='SuppressesIncrementalRendering'/>
     <preference value='gray' name='TopActivityIndicator'/>
     <preference value='0' name='GapBetweenPages'/>
@@ -138,13 +142,7 @@
     <preference value='page' name='PaginationBreakingMode'/>
     <!-- page, column -->
     <preference value='unpaginated' name='PaginationMode'/>
-	
-    <gap:plugin name="com.phonegap.plugin.statusbar" />
-	
-    <preference name="StatusBarOverlaysWebView" value="true"/>
-    <preference name="StatusBarBackgroundColor" value="#EAEAEA" />
-    <preference name="stay-in-webview" value="true" />    
-
+    
     <icon src="icon.png" />
     <icon src="icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />
     <icon src="icon/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
