@@ -364,9 +364,9 @@ function mobile_login(obj) {
         var urlveri = dados['URL'] + '/mobile/' + ajax_file_url;
         
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: urlveri,
-            dataType: "jsonp",
+            dataType: "json",
             timeout: 10000,
             crossDomain: true,
             data: {
