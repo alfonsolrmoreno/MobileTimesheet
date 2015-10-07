@@ -43,6 +43,7 @@ function print_r(arr, level) {
     return dumped_text;
 }
 
+//rudi 07/20/2015 criando codigos para url
 function getUrlVal() {
     var url = $("#url").val();
 
