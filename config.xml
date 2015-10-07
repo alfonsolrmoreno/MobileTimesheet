@@ -23,116 +23,169 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin" version="2.4.0" />
     <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
     
-    <preference name="orientation" value="portrait" />
-    <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.8" />
+    <gap:plugin name="com.phonegap.plugin.statusbar" version="1.1.0" /> 
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>
+    <preference name="stay-in-webview" value="true" />
+     
+    <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Notification">
+        <param name="ios-package" value="CDVNotification" />
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+     
+    <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
+    <feature name="NetworkStatus" value="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
+    <!--
+    <gap:plugin name="de.appplant.cordova.plugin.hidden-statusbar-overlay" version="1.2.0" />
+    
     <gap:plugin name="org.apache.cordova.network-information" version="0.2.12" />
     <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
-    <gap:plugin name="nl.x-services.plugins.toast" version="2.0.2" />
-    <gap:plugin name="com.adobe.plugins.gaplugin" version="2.4.0" />
+    
     <gap:plugin name="org.apache.cordova.media-capture" version="0.3.3" />
     <gap:plugin name="org.apache.cordova.file" version="1.3.1" />
-    <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID-->
-    <!--    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />-->
+    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />
     <gap:plugin name="org.apache.cordova.dialogs" version="0.2.10" />
     <gap:plugin name="org.apache.cordova.vibration" version="0.3.11" />
-    <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
+    
     <gap:plugin name="org.apache.cordova.device-orientation" version="0.3.9" />
     <gap:plugin name="org.apache.cordova.device-motion" version="0.2.10" />
     <gap:plugin name="org.apache.cordova.device" version="0.2.12" />
+
+    <gap:plugin name="org.apache.cordova.geolocation" version="0.3.10" />
     <gap:plugin name="org.apache.cordova.contacts" version="0.2.13" />
     <gap:plugin name="org.apache.cordova.console" version="0.2.11" />
     
-    <feature name="http://api.phonegap.com/1.0/camera" />
-    <feature name="http://api.phonegap.com/1.0/file" />
-    <feature name="http://api.phonegap.com/1.0/network" />
-    <feature name="http://api.phonegap.com/1.0/notification" />
+    <feature name='Device'>        
+        <param name='ios-package' value='CDVDevice'/>    
+    </feature>
+    <feature name='Accelerometer'>        
+        <param name='ios-package' value='CDVAccelerometer'/>    
+    </feature>
+    <feature name='Compass'>        
+        <param name='ios-package' value='CDVLocation'/>    
+    </feature>
+    <feature name='Media'>        
+        <param name='ios-package' value='CDVSound'/>    
+    </feature>
+    <feature name='Camera'>        
+        <param name='ios-package' value='CDVCamera'/>    
+    </feature>
+    <feature name='Contacts'>        
+        <param name='ios-package' value='CDVContacts'/>    
+    </feature>
+    <feature name='File'>        
+        <param name='ios-package' value='CDVFile'/>    
+    </feature>
+    <feature name='FileTransfer'>        
+        <param name='ios-package' value='CDVFileTransfer'/>    
+    </feature>
+    <feature name='Capture'>        
+        <param name='ios-package' value='CDVCapture'/>    
+    </feature>
+    <feature name='Battery'>        
+        <param name='ios-package' value='CDVBattery'/>    
+    </feature>
+    <feature name='Echo'>        
+        <param name='ios-package' value='CDVEcho'/>    
+    </feature>
+    -->
+    <feature name='Globalization'>        
+        <param name='ios-package' value='CDVGlobalization'/>    
+    </feature>
+    <feature name='InAppBrowser'>        
+        <param name='ios-package' value='CDVInAppBrowser'/>    
+    </feature>
+    <feature name='Logger'>        
+        <param name='ios-package' value='CDVLogger'/>    
+    </feature>
+    <feature name='LocalStorage'>        
+        <param value='CDVLocalStorage' name='ios-package'/>    
+    </feature>
+    <feature name='Geolocation'>
+        <param name='ios-package' value='CDVLocation'/>    
+    </feature>
+    
+    <preference value='true' name='AllowInlineMediaPlayback'/>
+    <preference value='false' name='MediaPlaybackRequiresUserAction'/>
+    <preference value='true' name='OpenAllWhitelistURLsInWebView'/>
+    
+    <preference value='cloud' name='BackupWebStorage'/>
+    <preference value='false' name='DisallowOverscroll'/>
+    <preference value='false' name='EnableViewportScale'/>
+    <preference value='false' name='HideKeyboardFormAccessoryBar'/>
+    <preference value='true' name='KeyboardDisplayRequiresUserAction'/>
+    <preference value='false' name='KeyboardShrinksView'/>
+    <preference value='false' name='SuppressesIncrementalRendering'/>
+    <preference value='gray' name='TopActivityIndicator'/>
+    <preference value='0' name='GapBetweenPages'/>
+    <preference value='0' name='PageLength'/>
+    <preference value='page' name='PaginationBreakingMode'/>
+    <!-- page, column -->
+    <preference value='unpaginated' name='PaginationMode'/>
+		
 
-    <!-- Preferences for Android -->
-    <!-- Preferences for iOS -->
-    <!-- unpaginated, leftToRight, topToBottom, bottomToTop, rightToLeft -->
-    <feature name="Geolocation">
-        <param name="ios-package" value="CDVLocation" />
-    </feature>
-    <feature name="Device">
-        <param name="ios-package" value="CDVDevice" />
-    </feature>
-    <feature name="Accelerometer">
-        <param name="ios-package" value="CDVAccelerometer" />
-    </feature>
-    <feature name="Compass">
-        <param name="ios-package" value="CDVLocation" />
-    </feature>
-    <feature name="Media">
-        <param name="ios-package" value="CDVSound" />
-    </feature>
-    <feature name="Camera">
-        <param name="ios-package" value="CDVCamera" />
-    </feature>
-    <feature name="Contacts">
-        <param name="ios-package" value="CDVContacts" />
-    </feature>
-    <feature name="File">
-        <param name="ios-package" value="CDVFile" />
-    </feature>
-    <feature name="NetworkStatus">
-        <param name="ios-package" value="CDVConnection" />
-    </feature>
-    <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID
-    <feature name="FileTransfer">
-        <param name="ios-package" value="CDVFileTransfer" />
-    </feature>-->
-    <feature name="Capture">
-        <param name="ios-package" value="CDVCapture" />
-    </feature>
-    <feature name="Battery">
-        <param name="ios-package" value="CDVBattery" />
-    </feature>
-    <feature name="SplashScreen">
+    <icon src="app_res/images/icons/icon.png" />
+    <!-- iPhone 6 / 6+ -->
+    <icon src="app_res/images/icons/ios/icon_180x180.png" gap:platform="ios" width="180" height="180" />
+
+    <!-- iPhone / iPod Touch  -->
+    <icon src="app_res/images/icons/ios/icon_60x60.png" gap:platform="ios" width="60" height="60" />
+    <icon src="app_res/images/icons/ios/icon_120x120.png" gap:platform="ios" width="120" height="120" />
+
+    <!-- iPad -->
+    <icon src="app_res/images/icons/ios/icon_76x76.png" gap:platform="ios" width="76" height="76" />
+    <icon src="app_res/images/icons/ios/icon_152x152.png" gap:platform="ios" width="152" height="152" />
+
+    <!-- Settings Icon -->
+    <icon src="app_res/images/icons/ios/icon_29x29.png" gap:platform="ios" width="29" height="29" />
+    <icon src="app_res/images/icons/ios/icon_58x58.png" gap:platform="ios" width="58" height="58" />
+
+    <!-- Spotlight Icon -->
+    <icon src="app_res/images/icons/ios/icon_40x40.png" gap:platform="ios" width="40" height="40" />
+    <icon src="app_res/images/icons/ios/icon_80x80.png" gap:platform="ios" width="80" height="80" />
+    
+    <!-- iPhone / iPod Touch -->
+    <icon src="app_res/images/icons/ios/icon_57x57.png" gap:platform="ios" width="57" height="57" />
+    <icon src="app_res/images/icons/ios/icon_114x114.png" gap:platform="ios" width="114" height="114" />
+
+    <!-- iPad -->
+    <icon src="app_res/images/icons/ios/icon_72x72.png" gap:platform="ios" width="72" height="72" />
+    <icon src="app_res/images/icons/ios/icon_144x144.png" gap:platform="ios" width="144" height="144" />
+
+    <!-- iPad Spotlight and Settings Icon -->
+    <icon src="app_res/images/icons/ios/icon_50x50.png" gap:platform="ios" width="50" height="50" />
+    <icon src="app_res/images/icons/ios/icon_100x100.png" gap:platform="ios" width="100" height="100" />
+    
+    <!-- Andoid icons -->
+    <!-- 36x36 -->
+    <icon src="app_res/images/icons/android/icon_36x36.png" gap:platform="android" gap:qualifier="ldpi" />
+    <!-- 48x48 -->
+    <icon src="app_res/images/icons/android/icon_48x48.png" gap:platform="android" gap:qualifier="mdpi" />
+    <!-- 72x72 -->
+    <icon src="app_res/images/icons/android/icon_72x72.png" gap:platform="android" gap:qualifier="hdpi" />
+    <!-- 96x96 -->
+    <icon src="app_res/images/icons/android/icon_96x96.png" gap:platform="android" gap:qualifier="xhdpi" />
+    <!-- 144x144 -->
+    <icon src="app_res/images/icons/android/icon_144x144.png" gap:platform="android" gap:qualifier="xxhdpi" />
+   
+    <!-- Windows Phone icons -->
+    <icon src="app_res/images/icons/wp/icon.png" gap:platform="winphone" />
+    
+    <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" />
+    <feature name="SplashScreen" value="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="ios-package" value="CDVSplashScreen" />
     </feature>
-    <feature name="Echo">
-        <param name="ios-package" value="CDVEcho" />
-    </feature>
-    <feature name="Globalization">
-        <param name="ios-package" value="CDVGlobalization" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="ios-package" value="CDVInAppBrowser" />
-    </feature>
-    <feature name="Logger">
-        <param name="ios-package" value="CDVLogger" />
-    </feature>
-    <feature name="LocalStorage">
-        <param value="CDVLocalStorage" name="ios-package" />
-    </feature>
-    
-    <preference value="true" name="AllowInlineMediaPlayback" />
-    <preference value="false" name="MediaPlaybackRequiresUserAction" />
-    <preference value="true" name="OpenAllWhitelistURLsInWebView" />
-    
-    <preference value="true" name="AutoHideSplashScreen" />
-    <preference value="cloud" name="BackupWebStorage" />
-    <preference value="false" name="DisallowOverscroll" />
-    <preference value="false" name="EnableViewportScale" />
-    <preference value="true" name="FadeSplashScreen" />
-    <preference value=".25" name="FadeSplashScreenDuration" />
-    <preference value="false" name="HideKeyboardFormAccessoryBar" />
-    <preference value="true" name="KeyboardDisplayRequiresUserAction" />
-    <preference value="false" name="KeyboardShrinksView" />
-    <preference value="true" name="ShowSplashScreenSpinner" />
-    <preference value="false" name="SuppressesIncrementalRendering" />
-    <preference value="gray" name="TopActivityIndicator" />
-    <preference value="0" name="GapBetweenPages" />
-    <preference value="0" name="PageLength" />
-    <preference value="page" name="PaginationBreakingMode" />
-    <!-- page, column -->
-    <preference value="unpaginated" name="PaginationMode" />
-	
-    <gap:plugin name="com.phonegap.plugin.statusbar" />
-	
-    <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarBackgroundColor" value="#EAEAEA" />
-    <preference name="stay-in-webview" value="true" />    
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="SplashScreenDelay" value="20000" />
 
     <icon src="icon.png" />
     <icon src="icon/ios/icon-57.png" gap:platform="ios" width="57" height="57" />
