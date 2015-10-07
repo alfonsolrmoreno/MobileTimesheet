@@ -409,10 +409,21 @@ function mobile_login(obj) {
                         senha: dados['SENHA'],
                         url: dados['URL']
                     },
-                    error: function() {
+                    error: function(jqXHR, statusText, error) {
                         loading('hide');
                         $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
-                        //window.location.href = 'pages.html#page_login';
+
+                        console.log('mobile_login error : ');
+                        console.log('statusText = ');
+                        console.dir(statusText);
+                        console.log('error = ');
+                        console.dir(error);
+                        console.log('ajax_file = ');
+                        console.dir(ajax_file);
+                        console.log('jqXHR = ');
+                        console.dir(jqXHR);
+
+                        window.location.href = 'pages.html#page_login';
                     },
                     success: function(data) {
                         if (data['erro']) {
