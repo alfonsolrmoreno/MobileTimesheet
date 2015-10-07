@@ -658,32 +658,27 @@
         <script src="default/js/default.js"></script>
 
         <script>
-
             jQuery(document).ready(function() {
+                if (verifica_logado()) {
+                    if (debug_mode)
+                        alert('Metronic.init');
 
-                verifica_logado();
+                    Metronic.init(); // init metronic core componets
 
-                if (debug_mode)
-                    alert('Metronic.init');
+                    if (debug_mode)
+                        alert('Layout.init');
 
-                Metronic.init(); // init metronic core componets
+                    Layout.init(); // init layout
 
-                if (debug_mode)
-                    alert('Layout.init');
+                    if (debug_mode)
+                        alert('setSaudacao');
 
+                    setSaudacao();
 
-                Layout.init(); // init layout
-
-                if (debug_mode)
-                    alert('setSaudacao');
-
-                setSaudacao();
-
-                //popula Menu de Dashboards
-                popMenuDash();
-
+                    //popula Menu de Dashboards
+                    popMenuDash();
+                }
             });
-
         </script>
         <!-- END JAVASCRIPTS -->
     </body>

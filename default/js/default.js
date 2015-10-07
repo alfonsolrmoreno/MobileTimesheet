@@ -4,6 +4,46 @@ var debug_mode = false;
 
 var Objeto_real = localStorage['mobile_login'];
 
+var arrayDia = new construirArray(7);
+arrayDia[0] = "Domingo";
+arrayDia[1] = "Segunda-Feira";
+arrayDia[2] = "Ter&ccedil;a-Feira";
+arrayDia[3] = "Quarta-Feira";
+arrayDia[4] = "Quinta-Feira";
+arrayDia[5] = "Sexta-Feira";
+arrayDia[6] = "Sabado";
+
+var arrayMes = new construirArray(12);
+arrayMes[0] = "Janeiro";
+arrayMes[1] = "Fevereiro";
+arrayMes[2] = "Mar&ccedil;o";
+arrayMes[3] = "Abril";
+arrayMes[4] = "Maio";
+arrayMes[5] = "Junho";
+arrayMes[6] = "Julho";
+arrayMes[7] = "Agosto";
+arrayMes[8] = "Setembro";
+arrayMes[9] = "Outubro";
+arrayMes[10] = "Novembro";
+arrayMes[11] = "Dezembro";
+
+
+if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
+    var Objeto_json = JSON.parse(Objeto_real)
+    var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
+    var COMMON_URL = Objeto_json.url;
+
+} else {
+    if (typeof getUrlVal() != 'undefined') {
+        var COMMON_URL_MOBILE = getUrlVal() + '/mobile/';
+        var COMMON_URL = getUrlVal() + '/';
+    } else {
+        var COMMON_URL_MOBILE = '';
+        var COMMON_URL = '';
+        var Objeto_json = {};
+    }
+}
+
 function objIsEmpty(obj) {
     if (typeof obj != 'object')
         return true;
@@ -41,7 +81,7 @@ function print_r(arr, level) {
         dumped_text = "===>" + arr + "<===(" + typeof (arr) + ")";
     }
     return dumped_text;
-} 
+}
 
 //rudi 07/20/2015 criando codigos para url
 function getUrlVal() {
@@ -52,23 +92,6 @@ function getUrlVal() {
 
     return url;
 }
-
-if (typeof Objeto_real != 'undefined') {
-    var Objeto_json = JSON.parse(Objeto_real)
-    var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
-    var COMMON_URL = Objeto_json.url;
-
-} else {
-    if (typeof getUrlVal() != 'undefined') {
-        var COMMON_URL_MOBILE = getUrlVal() + '/mobile/';
-        var COMMON_URL = getUrlVal() + '/';
-    } else {
-        var COMMON_URL_MOBILE = '';
-        var COMMON_URL = '';
-        var Objeto_json = {};
-    }
-}
-
 function construirArray(qtdElementos) {
     this.length = qtdElementos
 }
@@ -80,29 +103,6 @@ function getMesExtenso(mes) {
 function getDiaExtenso(dia) {
     return this.arrayDia[dia];
 }
-
-var arrayDia = new construirArray(7);
-arrayDia[0] = "Domingo";
-arrayDia[1] = "Segunda-Feira";
-arrayDia[2] = "Ter&ccedil;a-Feira";
-arrayDia[3] = "Quarta-Feira";
-arrayDia[4] = "Quinta-Feira";
-arrayDia[5] = "Sexta-Feira";
-arrayDia[6] = "Sabado";
-
-var arrayMes = new construirArray(12);
-arrayMes[0] = "Janeiro";
-arrayMes[1] = "Fevereiro";
-arrayMes[2] = "Mar&ccedil;o";
-arrayMes[3] = "Abril";
-arrayMes[4] = "Maio";
-arrayMes[5] = "Junho";
-arrayMes[6] = "Julho";
-arrayMes[7] = "Agosto";
-arrayMes[8] = "Setembro";
-arrayMes[9] = "Outubro";
-arrayMes[10] = "Novembro";
-arrayMes[11] = "Dezembro";
 
 pesq_autocomplete = '';
 
@@ -567,6 +567,7 @@ function isArray(o) {
     return(typeof (o.length) == "undefined") ? false : true;
 }
 
+//rudi 7/10/2015 retornando true tambem, e soh seguindo se for true na index.html
 function verifica_logado() {
 
     if (debug_mode)
@@ -580,10 +581,12 @@ function verifica_logado() {
             alert('redirecionar para a tela pages.html#page_login');
 
         window.location.href = 'pages.html#page_login';
+        
         return false;
     } else {
         if (debug_mode)
             alert('tem Objeto real');
+        
         if (debug_mode)
             alert('URL Atual = ' + COMMON_URL_MOBILE);
 
@@ -594,13 +597,11 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             error: function() {
-
                 if (debug_mode)
                     alert('erro no verifica_logado');
 
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
-                return false;
             },
             success: function(data) {
 
@@ -610,10 +611,10 @@ function verifica_logado() {
                 if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
                     mobile_login(Objeto_real);
                 }
-
-                return 'ok';
             }
         });
+        
+        return true;
     }
 
 }
