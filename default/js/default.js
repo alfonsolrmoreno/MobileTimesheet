@@ -41,7 +41,7 @@ function print_r(arr, level) {
         dumped_text = "===>" + arr + "<===(" + typeof (arr) + ")";
     }
     return dumped_text;
-}
+} 
 
 //rudi 07/20/2015 criando codigos para url
 function getUrlVal() {
