@@ -441,6 +441,8 @@ function mobile_login(obj) {
                             } else {
                                 window.location.href = 'index.html';
                             }
+
+                            popMenuDash();
                         }
                     }
                 });
@@ -589,20 +591,29 @@ function verifica_logado() {
             alert('URL Atual = ' + COMMON_URL_MOBILE);
 
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: COMMON_URL_MOBILE + '/checkServerOnline.php',
-            dataType: "jsonp",
-            jsonpCallback: "res_checkServerOnline",
+            dataType: "json",
             timeout: 1000,
             crossDomain: true,
+            async: false,
             error: function() {
                 if (debug_mode)
                     alert('erro no verifica_logado');
 
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
+                return false;
+            },
+            success: function(data) {
+
+                if (debug_mode)
+                    alert('success no verifica_logado idvendedor:' + data.idvendedor);
+
+                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
+                    mobile_login(Objeto_real);
+                }
             }
-            
         });
         
         return true;
@@ -610,17 +621,6 @@ function verifica_logado() {
 
 }
 
-function res_checkServerOnline(data) {
-
-    if (debug_mode)
-        alert('success no verifica_logado idvendedor:' + data.idvendedor);
-
-    if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
-        mobile_login(Objeto_real);
-    }
-
-    return 'ok';
-}
 //####################### FIM LOGIN ###########################################
 //#############################################################################
 
@@ -646,8 +646,6 @@ function popMenuDash() {
             tipo: 'menu'
         }
     }).then(function(data) {
-        console.log('popMenuDash data');
-        console.dir(data);
         if (data) {
             $("#lista_dashboard").html(data);
         }
