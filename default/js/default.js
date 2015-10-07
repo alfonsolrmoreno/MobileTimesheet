@@ -581,14 +581,16 @@ function verifica_logado() {
             alert('redirecionar para a tela pages.html#page_login');
 
         window.location.href = 'pages.html#page_login';
-        
+
         return false;
     } else {
         if (debug_mode)
             alert('tem Objeto real');
-        
+
         if (debug_mode)
             alert('URL Atual = ' + COMMON_URL_MOBILE);
+
+        var redirecting = false;
 
         $.ajax({
             type: 'GET',
@@ -603,7 +605,7 @@ function verifica_logado() {
 
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
-                return false;
+                redirecting = true;
             },
             success: function(data) {
 
@@ -615,8 +617,8 @@ function verifica_logado() {
                 }
             }
         });
-        
-        return true;
+
+        return redirecting ? false : true;
     }
 
 }
