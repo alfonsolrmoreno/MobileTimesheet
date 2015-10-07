@@ -22,6 +22,8 @@
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <!-- rudi 6/10/2015 manter o cordova no topo -->
+        <script type="text/javascript" src="cordova.js"></script>
 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="assets/global/plugins/font-family/font-family.css" rel="stylesheet" type="text/css"/>
@@ -640,7 +642,6 @@
 
         <!-- SCRIPTS DO MOBILE ANTIGO -->
         <!-- Andre Renovato - 14/04/2015 - Este js é incluido automaticamente pelo phonegap -->
-        <script type="text/javascript" src="cordova.js"></script>
         <!--<script src="js/calendar/modernizr.custom.63321.js"></script>-->
         <!--        <script src="js/jquery-1.9.1.min.js"></script>-->
         <!--<script src="js/jquery.mobile-1.3.1.min.js"></script> -->
@@ -658,31 +659,31 @@
 
         <script>
 
-            verifica_logado();
+            jQuery(document).ready(function() {
 
-            jQuery(document).ready(function () {
+                verifica_logado();
 
                 if (debug_mode)
                     alert('Metronic.init');
 
                 Metronic.init(); // init metronic core componets
-                
-				if (debug_mode)
+
+                if (debug_mode)
                     alert('Layout.init');
 
-				
-				Layout.init(); // init layout
-				
-				if (debug_mode)
+
+                Layout.init(); // init layout
+
+                if (debug_mode)
                     alert('setSaudacao');
-                
-				setSaudacao();
-							
-				//popula Menu de Dashboards
-				popMenuDash();
-				
+
+                setSaudacao();
+
+                //popula Menu de Dashboards
+                popMenuDash();
+
             });
-		
+
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
