@@ -632,7 +632,7 @@ function verifica_logado() {
 //############################# MENU ##########################################
 //#############################################################################
 function popMenuDash() {
-    if ($("#lista_dashboard").length > 0 && $("#lista_dashboard").html() != '') {
+    if ($("#lista_dashboard").length > 0 && $("#lista_dashboard").html() == '') {
         if (debug_mode)
             alert('Lista os dashs popMenuDash');
 
