@@ -572,9 +572,9 @@ function verifica_logado() {
     if (debug_mode)
         alert('verifica_logado');
 
-    var Objeto_real = localStorage['mobile_login'];
+    var Objeto_real = localStorage.getItem('mobile_login')
 
-    if (typeof Objeto_real == "undefined") {
+    if (typeof Objeto_real == "undefined" || !Objeto_real || Objeto_real === null) {
 
         if (debug_mode)
             alert('redirecionar para a tela pages.html#page_login');
