@@ -642,6 +642,8 @@ function popMenuDash() {
             tipo: 'menu'
         }
     }).then(function(data) {
+        console.log('popMenuDash data');
+        console.dir(data);
         if (data) {
             $("#lista_dashboard").html(data);
         }
