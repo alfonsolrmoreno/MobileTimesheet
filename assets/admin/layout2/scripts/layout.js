@@ -2,7 +2,9 @@
 Core script to handle the entire theme and core functions
 **/
 var Layout = function() {
-
+    
+    this.is_init = false;
+    
     var layoutImgPath = 'admin/layout2/img/';
 
     var layoutCssPath = 'admin/layout2/css/';
@@ -554,6 +556,10 @@ var Layout = function() {
             this.initSidebar();
             this.initContent();
             this.initFooter();
+            
+            
+            //rudi 7/10/2015 flag para determinar que o layout foi inicializado
+            this.is_init = true;
         },
 
         //public function to fix the sidebar and content height accordingly

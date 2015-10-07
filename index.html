@@ -675,8 +675,17 @@
 
                     setSaudacao();
 
-                    //popula Menu de Dashboards
-                    popMenuDash();
+                    if (Layout.is_init) {
+                        //popula Menu de Dashboards
+                        popMenuDash();
+                    } else {
+                        var linit_interval = window.setInterval(function() {
+                            if (Layout.is_init) {
+                                window.console.log(linit_interval);
+                                popMenuDash();
+                            }
+                        }, 10);
+                    }
                 }
             });
         </script>

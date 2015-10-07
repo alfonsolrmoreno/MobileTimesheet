@@ -625,10 +625,10 @@ function verifica_logado() {
 //#############################################################################
 function popMenuDash() {
 
-    //if (debug_mode)
+    if (debug_mode)
         alert('Lista os dashs popMenuDash');
 
-    //if (debug_mode)
+    if (debug_mode)
         alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
 
     var dados = new Object();
