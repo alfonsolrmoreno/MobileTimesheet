@@ -256,11 +256,13 @@ function formatNumber(n, dec_sep, round, precision)
 //############## INICIO LOGIN #################################################
 //#############################################################################
 function loading(showOrHide) {
-    $.mobile.loading(showOrHide, {
-        text: 'Carregando...',
-        textVisible: true,
-        theme: 'b'
-    });
+    if (typeof $.mobile != 'undefined' && typeof $.mobile.loading != 'undefined') {
+        $.mobile.loading(showOrHide, {
+            text: 'Carregando...',
+            textVisible: true,
+            theme: 'b'
+        });
+    }
 }
 
 function notNull(valor) {
@@ -435,6 +437,7 @@ function mobile_login(obj) {
                             var Objeto_json = JSON.parse(Objeto_real);
 
                             loading('hide');
+                            popMenuDash();
 
                             if (obj) {
                                 $().toastmessage('showSuccessToast', 'Login realizado com sucesso');
@@ -442,7 +445,6 @@ function mobile_login(obj) {
                                 window.location.href = 'index.html';
                             }
 
-                            popMenuDash();
                         }
                     }
                 });
@@ -630,28 +632,31 @@ function verifica_logado() {
 //############################# MENU ##########################################
 //#############################################################################
 function popMenuDash() {
+    if ($("#lista_dashboard").length > 0 && $("#lista_dashboard").html() != '') {
+        if (debug_mode)
+            alert('Lista os dashs popMenuDash');
 
-    if (debug_mode)
-        alert('Lista os dashs popMenuDash');
+        if (debug_mode)
+            alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
 
-    if (debug_mode)
-        alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
-
-    var dados = new Object();
-    var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
-    $.ajax({
-        type: 'POST',
-        url: ajax_file,
-        dataType: "jsonp",
-        crossDomain: true,
-        data: {
-            tipo: 'menu'
-        }
-    }).then(function(data) {
-        if (data) {
-            $("#lista_dashboard").html(data);
-        }
-    });
+        var dados = new Object();
+        var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
+        $.ajax({
+            type: 'POST',
+            url: ajax_file,
+            dataType: "jsonp",
+            crossDomain: true,
+            data: {
+                tipo: 'menu'
+            }
+        }).then(function(data) {
+            console.log('popmenudash data');
+            console.dir(data);
+            if (data) {
+                $("#lista_dashboard").html(data);
+            }
+        });
+    }
 }
 
 function attrSrcIframe(url) {

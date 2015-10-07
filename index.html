@@ -574,9 +574,8 @@
                                     <span class="selected"></span>
                                     <span class="arrow open"></span>
                                 </a>
-                                <ul id="lista_dashboard" class="sub-menu">
-
-                                </ul>
+                                <!-- rudi, manter zerado esse conteudo : >< -->
+                                <ul id="lista_dashboard" class="sub-menu"></ul>
                             </li>
 
                             <!--<li class="last ">
@@ -661,6 +660,7 @@
     <script>
         $(function() {
             if (verifica_logado()) {
+                 popMenuDash();
                 if (debug_mode)
                     alert('Metronic.init');
 

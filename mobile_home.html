@@ -101,7 +101,7 @@
 
         <script>
             var objuser = localStorage['mobile_login'];
-
+            //rudi 7/10/2015 escondendo o body, soh exibindo se estiver logado
             if (typeof objuser == "undefined" || !objuser || objuser === null) {
 
             } else {
@@ -110,7 +110,7 @@
                     Metronic.init(); // init metronic core components
                     Layout.init(); // init current layout
 
-                    var Objeto_json = JSON.parse(localStorage['mobile_login'])
+                    var Objeto_json = JSON.parse(objuser)
                     $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
                     $('.exibe_user').html(Objeto_json['user_bd']);
                     $('.exibe_url').html(Objeto_json['url']);
