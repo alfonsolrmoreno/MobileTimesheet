@@ -1,12 +1,15 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<widget version="3.0.0"
-        versionCode="300"
-        id="br.com.multidadosti.mobile"
-        xmlns="http://www.w3.org/ns/widgets"
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget xmlns = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
+        id        = "com.phonegap.queropizza"
+        version   = "3.0.1"
+        versionCode="301"
 >
-
+    
+    <!-- rudi 07/10/2015 a versao mais nova (5.2) do cordova crashava no android em qqer tentativa de carregar recursos externos (js, etc)-->
+    <!-- forçando versao antiga -->
+    <preference name="phonegap-version" value="3.7.0" />
 
     <name>MultidadosTI</name>
     
