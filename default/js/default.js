@@ -592,6 +592,7 @@ function verifica_logado() {
             type: 'POST',
             url: COMMON_URL_MOBILE + '/checkServerOnline.php',
             dataType: "jsonp",
+            jsonpCallback: "res_checkServerOnline",
             timeout: 1000,
             crossDomain: true,
             error: function() {
@@ -600,16 +601,8 @@ function verifica_logado() {
 
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
-            },
-            success: function(data) {
-
-                if (debug_mode)
-                    alert('success no verifica_logado idvendedor:' + data.idvendedor);
-
-                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
-                    mobile_login(Objeto_real);
-                }
             }
+            
         });
         
         return true;
@@ -617,6 +610,17 @@ function verifica_logado() {
 
 }
 
+function res_checkServerOnline(data) {
+
+    if (debug_mode)
+        alert('success no verifica_logado idvendedor:' + data.idvendedor);
+
+    if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
+        mobile_login(Objeto_real);
+    }
+
+    return 'ok';
+}
 //####################### FIM LOGIN ###########################################
 //#############################################################################
 
