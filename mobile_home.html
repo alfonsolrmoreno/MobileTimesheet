@@ -31,7 +31,7 @@
         <link href="assets/admin/layout2/css/custom.css" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
     </head>
-    <body class="page-boxed page-header-fixed page-container-bg-solid page-sidebar-closed-hide-logo">
+    <body class="page-boxed page-header-fixed page-container-bg-solid page-sidebar-closed-hide-logo" id="body_mobile_home" style="display:none">
         <div class="container">
             <!-- BEGIN CONTAINER -->
             <div class="">
@@ -100,25 +100,32 @@
         <script src="default/js/feedback_sd.js"></script>
 
         <script>
-            jQuery(document).ready(function () {
-                Metronic.init(); // init metronic core components
-                Layout.init(); // init current layout
+            var objuser = localStorage['mobile_login'];
 
-                var Objeto_json = JSON.parse(localStorage['mobile_login'])
-                $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
-                $('.exibe_user').html(Objeto_json['user_bd']);
-                $('.exibe_url').html(Objeto_json['url']);
-                $('.banco-nome').html(Objeto_json['db']);
+            if (typeof objuser == "undefined" || !objuser || objuser === null) {
+
+            } else {
+                jQuery(document).ready(function() {
+                    $('#body_mobile_home').css('display', '');
+                    Metronic.init(); // init metronic core components
+                    Layout.init(); // init current layout
+
+                    var Objeto_json = JSON.parse(localStorage['mobile_login'])
+                    $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
+                    $('.exibe_user').html(Objeto_json['user_bd']);
+                    $('.exibe_url').html(Objeto_json['url']);
+                    $('.banco-nome').html(Objeto_json['db']);
 
 
-                var link = '';
-                //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
-                $('.link').click(function () {
-                    if (typeof $(this).attr('id') != 'undefined') {
-                        window.location.href = Objeto_json['url'] + $(this).attr('id');
-                    }
-                })
-            });
+                    var link = '';
+                    //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
+                    $('.link').click(function() {
+                        if (typeof $(this).attr('id') != 'undefined') {
+                            window.location.href = Objeto_json['url'] + $(this).attr('id');
+                        }
+                    })
+                });
+            }
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
