@@ -144,6 +144,9 @@
     <!-- retina iPad support: PhoneGap 2.5.0+ only -->
     <icon src="icon/ios/icon-72_at_2x.png" gap:platform="ios" width="144" height="144" />
 
+    <gap:splash src="icon/ios/screen-iphone-portrait.png" width="320" height="480" />
+    <gap:splash src="icon/ios/screen-iphone-portrait.png" gap:platform="android" gap:qualifier="port-mdpi" />
+    
     <gap:splash src="icon/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
     <gap:splash src="icon/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960" />
     <gap:splash src="icon/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136" />
