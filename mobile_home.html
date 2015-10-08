@@ -45,20 +45,37 @@
                             <a class="icon-btn" mobile="true" href="pages.html#page_timesheet">
                                 <i class="icon-calendar"></i>
                                 <div>TimeSheet</div>
-                                <span class="badge badge-info"><b>+</b></span>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
                             </a>
                             <a class="icon-btn" mobile="true" href="pages.html#page_despesa">
                                 <i class="icon-notebook"></i>
                                 <div>Despesas</div>
-                                <span class="badge badge-info"><b>+</b></span>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
                             </a>
                             <a class="icon-btn link" id="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
-                                <i class="fa fa-ticket"></i>
+                                <i class="fa fa-ticket icon-size-mobile"></i>
                                 <div>Ocorrência</div>
-                                <span class="badge badge-info"><b>+</b></span>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
                             </a>
                         </center>
+                        <div class="col-xs-12" style="margin: 8px 0  0  0;">
+                            <form class="form" name="go_form" id="go_form" method="post" action=''>
+                                <div class="form-group">
+                                    <div class="center-block" style="width: 184px;">
+                                        <div class="input-group">
+                                            <div class="input-group-addon" id="box-lupa"><i class="fa fa-search"></i></div>
+                                            <div>
+                                                <input type="number" class="form-control" id="numero" name="numero" placeholder="Nº da OC" style="width: 100px; ">
+                                                <div class="input-group-addon" style="border:none; padding:0px; width:40px;">
+                                                    <button onclick="concatNumeroOC()" id="go" class="btn blue btn-sm" style="border:1px solid #3598dc; display: block; font-size:15px;">GO</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
 
+                        </div>
                         <div class="well" style="padding: 0px;margin-top: 20px;background-color:#F1F3FA;font-size: 11px !important;margin-bottom:0px;">
                             <address>
                                 <div id="feedback_sd"></div> <!-- lista de recados do servicedesk -->
@@ -125,7 +142,14 @@
                         }
                     })
                 });
-            }
+                function concatNumeroOC() {
+                    var numero = $("#numero").val().trim();
+                    if (numero != '') {
+                        var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
+                        $("#go_form").attr('action', url);
+                        $("#go_form").submit();
+                    }
+                }
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
