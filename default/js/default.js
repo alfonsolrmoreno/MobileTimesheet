@@ -1,6 +1,7 @@
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
 var debug_mode = false;
+var debug_js_errors = true;
 
 var Objeto_real = localStorage['mobile_login'];
 
@@ -43,6 +44,48 @@ if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
         var Objeto_json = {};
     }
 }
+
+if (debug_js_errors) {
+    function send_js_error(errorMsg, url, lineNumber, column, errorObj) {
+//erro de NPObject é muito comum quando o client tem extensoes instaladas como guard de bancos online e outros
+        if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf != 'undefined' && errorMsg.indexOf('Error calling method on NPObject') != -1)
+            return;
+        var window_location = {};
+        for (var i in window.location) {
+            if (typeof window.location[i] != "function")
+                window_location[i] = window.location[i];
+        }
+
+        var jsdata = {
+            errorMsg: errorMsg
+            , url: url
+            , lineNumber: lineNumber
+            , column: column
+            , errorObj: errorObj
+            //, browser: get_browser()
+            //, browser_version: get_browser_version()
+            //, trace: printStackTrace()
+        };
+
+        var msg = "erro js : \n";
+
+        for (var i in jsdata)
+            msg += "\n" + i + " : " + jsdata[i];
+
+        alert(msg);
+        
+        return;
+
+        //nao podemos passar o objeto window.location inteiro, da pau
+        for (var p in window.location)
+            if (typeof window.location[p] == 'string')
+                jsdata['window_location_' + p] = window.location[p];
+        var args = {cm: "System_Common->write_log_js_errors", jsdata: jsdata};
+        jpost(args, false, 'json', true);
+    }
+}
+
+window.onerror = send_js_error;
 
 function objIsEmpty(obj) {
     if (typeof obj != 'object')
@@ -87,7 +130,7 @@ function print_r(arr, level) {
 function getUrlVal() {
     var url = $("#url").val();
 
-    if (url == 'ultra')
+    if (typeof url == 'string' && url.toLowerCase() == 'ultra')
         url = 'http://h2.multidadosti.com.br/ultra';
 
     return url;
