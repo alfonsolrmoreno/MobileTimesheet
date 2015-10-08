@@ -21,7 +21,9 @@
     <!-- rudi 9/10/2015 precisa desse plugin de whitelist e essas configs pra funcionar no pgb 5.2+ -->
     <gap:plugin name="cordova-plugin-whitelist" version="1.0.0" source="npm" />
     <access origin="*" />
-    <allow-navigation href="*" />
+    <allow-navigation href="ftp://*/*" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
     <allow-intent href="*" />
 
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
