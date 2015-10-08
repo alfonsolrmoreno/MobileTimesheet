@@ -18,7 +18,10 @@
     
     <author href="http://www.multidadosti.com.br" email="alfonso@multidadosti.com.br">MultidadosTI Team</author>
     
+    <gap:plugin name="cordova-plugin-whitelist" version="1.0.0" source="npm" />
     <access origin="*" />
+    <allow-navigation href="*" />
+    <allow-intent href="*" />
 
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
     <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
