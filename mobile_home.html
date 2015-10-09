@@ -59,22 +59,21 @@
                             </a>
                         </center>
                         <div class="col-xs-12" style="margin: 8px 0  0  0;">
-                            <form class="form" name="go_form" id="go_form" method="post" action=''>
+                            <form class="form" name="go_form" id="go_form" method="post">
                                 <div class="form-group">
                                     <div class="center-block" style="width: 184px;">
                                         <div class="input-group">
                                             <div class="input-group-addon" id="box-lupa"><i class="fa fa-search"></i></div>
                                             <div>
-                                                <input type="number" class="form-control" id="numero" name="numero" placeholder="Nº da OC" style="width: 100px; ">
+                                                <input type="number" class="form-control input-sm" id="numero" name="numero" placeholder="Nº da OC" style="width: 100px; ">
                                                 <div class="input-group-addon" style="border:none; padding:0px; width:40px;">
-                                                    <button onclick="concatNumeroOC()" id="go" class="btn blue btn-sm" style="border:1px solid #3598dc; display: block; font-size:15px;">GO</button>
+                                                    <div onclick='irPara_mobile()' class="btn blue btn-sm">GO</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-
                         </div>
                         <div class="well" style="padding: 0px;margin-top: 20px;background-color:#F1F3FA;font-size: 11px !important;margin-bottom:0px;">
                             <address>
@@ -117,40 +116,55 @@
         <script src="default/js/feedback_sd.js"></script>
 
         <script>
-            var objuser = localStorage['mobile_login'];
-            //rudi 7/10/2015 escondendo o body, soh exibindo se estiver logado
-            if (typeof objuser == "undefined" || !objuser || objuser === null) {
+                                                        var objuser = localStorage['mobile_login'];
+                                                        //rudi 7/10/2015 escondendo o body, soh exibindo se estiver logado
+                                                        if (typeof objuser == "undefined" || !objuser || objuser === null) {
 
-            } else {
-                jQuery(document).ready(function() {
-                    $('#body_mobile_home').css('display', '');
-                    Metronic.init(); // init metronic core components
-                    Layout.init(); // init current layout
+                                                        } else {
+                                                            jQuery(document).ready(function () {
+                                                                $('#body_mobile_home').css('display', '');
+                                                                Metronic.init(); // init metronic core components
+                                                                Layout.init(); // init current layout
 
-                    var Objeto_json = JSON.parse(objuser)
-                    $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
-                    $('.exibe_user').html(Objeto_json['user_bd']);
-                    $('.exibe_url').html(Objeto_json['url']);
-                    $('.banco-nome').html(Objeto_json['db']);
+                                                                var Objeto_json = JSON.parse(objuser)
+                                                                $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
+                                                                $('.exibe_user').html(Objeto_json['user_bd']);
+                                                                $('.exibe_url').html(Objeto_json['url']);
+                                                                $('.banco-nome').html(Objeto_json['db']);
 
 
-                    var link = '';
-                    //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
-                    $('.link').click(function() {
-                        if (typeof $(this).attr('id') != 'undefined') {
-                            window.location.href = Objeto_json['url'] + $(this).attr('id');
-                        }
-                    })
-                });
-                function concatNumeroOC() {
-                    var numero = $("#numero").val().trim();
-                    if (numero != '') {
-                        var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
-                        $("#go_form").attr('action', url);
-                        $("#go_form").submit();
-                    }
-                }
-            }
+                                                                var link = '';
+                                                                //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
+                                                                $('.link').click(function () {
+                                                                    if (typeof $(this).attr('id') != 'undefined') {
+                                                                        window.location.href = Objeto_json['url'] + $(this).attr('id');
+                                                                    }
+                                                                })
+                                                            });
+                                                        }
+
+                                                        function irPara_mobile() {
+                                                            var numero = $("#numero").val().trim();
+                                                            var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
+                                                            $("#go_form").attr('action', url);
+
+                                                            if (numero != '') {
+                                                                $.ajax({
+                                                                    url: COMMON_URL + "/mobile/call_funcs.php",
+                                                                    method: "POST",
+                                                                    dataType: "jsonp",
+                                                                    crossDomain: true,
+                                                                    data: {val: numero, sel: 'oco', func: 'ir_para'},
+                                                                }).done(function (result) {
+
+                                                                    if (result != '0') {
+                                                                        $("#go_form").submit();
+                                                                    } else {
+                                                                        alert('Registro não encontrado, ou você não tem permissão para visualizá-lo');
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
         </script>
         <!-- END JAVASCRIPTS -->
     </body>
