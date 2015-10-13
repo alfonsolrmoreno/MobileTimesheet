@@ -14,7 +14,7 @@
     <preference name='phonegap-version' value='cli-5.2.0' />
     <!-- rudi 9/10/2015 webview novo : <gap:plugin name='org.crosswalk.engine' version='1.3.0' source='pgb' /> -->
 
-    <!-- rudi 14/10/2015 setar versao minima do sdk do android para backward compat (android 2.1+)) -->
+    <!-- rudi 14/10/2015 setar versao minima do sdk do android para backward compat (android 2.3+)) -->
     <preference name="android-minSdkVersion" value="10" />
     
     <name>MultidadosTI</name>
