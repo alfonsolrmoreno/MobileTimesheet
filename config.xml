@@ -10,9 +10,12 @@
     <!-- rudi 07/10/2015 a versao mais nova (5.2) do cordova crashava no android em qqer tentativa de carregar recursos externos (js, etc)-->
     <!-- forçando versao antiga -->
     <!-- rudi 13/10/2015 : <preference name='phonegap-version' value='cli-5.2.0' /> -->
-    <preference name="phonegap-version" value="3.7.0" />
+    <!-- <preference name="phonegap-version" value="3.7.0" /> -->
+    <preference name='phonegap-version' value='cli-5.2.0' />
     <!-- rudi 9/10/2015 webview novo : <gap:plugin name='org.crosswalk.engine' version='1.3.0' source='pgb' /> -->
 
+    <uses-sdk android:minSdkVersion="7" />
+    
     <name>MultidadosTI</name>
     
     <description>O aplicativo MultidadosTI</description>
@@ -21,14 +24,13 @@
     
     <access origin="*" />
     
-    <!-- rudi 9/10/2015 precisa desse plugin de whitelist e essas configs pra funcionar no pgb 5.2+ 
-     <gap:plugin name="cordova-plugin-whitelist" version="1.0.0" source="npm" />
+    <!-- rudi 9/10/2015 precisa desse plugin de whitelist e essas configs pra funcionar no pgb 5.2+  -->
+    <gap:plugin name="cordova-plugin-whitelist" version="1.0.0" source="npm" />
     <allow-navigation href="http://*/*" />
     <allow-navigation href="https://*/*" />
     <allow-navigation href="ftp://*/*" />
     <allow-navigation href="data:*" />
     <allow-intent href="*" />
-    -->
     
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
     <gap:plugin name="org.apache.cordova.geolocation" source="npm" />
