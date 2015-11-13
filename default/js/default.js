@@ -1,11 +1,102 @@
 //versao do mobile para mostrar no footer
-var vs_mobile = 'v.2.0.8';
+var vs_mobile = 'v.3.0.0';
+var debug_mode = false;
+var debug_js_errors = false;
 
 var Objeto_real = localStorage['mobile_login'];
 
+var arrayDia = new construirArray(7);
+arrayDia[0] = "Domingo";
+arrayDia[1] = "Segunda-Feira";
+arrayDia[2] = "Ter&ccedil;a-Feira";
+arrayDia[3] = "Quarta-Feira";
+arrayDia[4] = "Quinta-Feira";
+arrayDia[5] = "Sexta-Feira";
+arrayDia[6] = "Sabado";
 
-//alert('>>>>>>>>>CASE');
-//alert(print_r(localStorage));
+var arrayMes = new construirArray(12);
+arrayMes[0] = "Janeiro";
+arrayMes[1] = "Fevereiro";
+arrayMes[2] = "Mar&ccedil;o";
+arrayMes[3] = "Abril";
+arrayMes[4] = "Maio";
+arrayMes[5] = "Junho";
+arrayMes[6] = "Julho";
+arrayMes[7] = "Agosto";
+arrayMes[8] = "Setembro";
+arrayMes[9] = "Outubro";
+arrayMes[10] = "Novembro";
+arrayMes[11] = "Dezembro";
+
+
+if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
+    var Objeto_json = JSON.parse(Objeto_real)
+    var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
+    var COMMON_URL = Objeto_json.url;
+
+} else {
+    if (typeof getUrlVal() != 'undefined') {
+        var COMMON_URL_MOBILE = getUrlVal() + '/mobile/';
+        var COMMON_URL = getUrlVal() + '/';
+    } else {
+        var COMMON_URL_MOBILE = '';
+        var COMMON_URL = '';
+        var Objeto_json = {};
+    }
+}
+function send_js_error(errorMsg, url, lineNumber, column, errorObj) {
+//erro de NPObject é muito comum quando o client tem extensoes instaladas como guard de bancos online e outros
+    if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf != 'undefined' && errorMsg.indexOf('Error calling method on NPObject') != -1)
+        return;
+    var window_location = {};
+    for (var i in window.location) {
+        if (typeof window.location[i] != "function")
+            window_location[i] = window.location[i];
+    }
+
+    var jsdata = {
+        errorMsg: errorMsg
+        , url: url
+        , lineNumber: lineNumber
+        , column: column
+        , errorObj: errorObj
+                //, browser: get_browser()
+                //, browser_version: get_browser_version()
+                //, trace: printStackTrace()
+    };
+
+    var msg = "erro js : \n";
+
+    for (var i in jsdata)
+        msg += "\n" + i + " : " + jsdata[i];
+
+    alert(msg);
+
+    return;
+
+    //nao podemos passar o objeto window.location inteiro, da pau
+    for (var p in window.location)
+        if (typeof window.location[p] == 'string')
+            jsdata['window_location_' + p] = window.location[p];
+    var args = {cm: "System_Common->write_log_js_errors", jsdata: jsdata};
+    jpost(args, false, 'json', true);
+}
+
+if (debug_js_errors) {
+    window.onerror = send_js_error;
+}
+
+
+function objIsEmpty(obj) {
+    if (typeof obj != 'object')
+        return true;
+    for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
+            return false;
+        }
+    }
+    return true;
+}
 
 function print_r(arr, level) {
     var dumped_text = "";
@@ -35,25 +126,15 @@ function print_r(arr, level) {
     return dumped_text;
 }
 
-if (Objeto_real) {
-    var Objeto_json = JSON.parse(Objeto_real)
-    var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
-    var COMMON_URL = Objeto_json.url;
+//rudi 07/20/2015 criando codigos para url
+function getUrlVal() {
+    var url = $("#url").val();
 
-    //alert('AAAAA >> '+COMMON_URL_MOBILE);
-} else {
-    if (typeof $("#url").val() != 'undefined') {
-        var COMMON_URL_MOBILE = $("#url").val() + '/mobile/';
-        var COMMON_URL = $("#url").val() + '/';
-    } else {
-        var COMMON_URL_MOBILE = '';
-        var COMMON_URL = '';
-        var Objeto_json = {};
-    }
+    if (typeof url == 'string' && url.toLowerCase() == 'ultra')
+        url = 'http://h2.multidadosti.com.br/ultra';
 
-    //alert('BBBBB >> '+COMMON_URL_MOBILE);
+    return url;
 }
-
 function construirArray(qtdElementos) {
     this.length = qtdElementos
 }
@@ -66,44 +147,10 @@ function getDiaExtenso(dia) {
     return this.arrayDia[dia];
 }
 
-var arrayDia = new construirArray(7);
-arrayDia[0] = "Domingo";
-arrayDia[1] = "Segunda-Feira";
-arrayDia[2] = "Ter&ccedil;a-Feira";
-arrayDia[3] = "Quarta-Feira";
-arrayDia[4] = "Quinta-Feira";
-arrayDia[5] = "Sexta-Feira";
-arrayDia[6] = "Sabado";
-
-var arrayMes = new construirArray(12);
-arrayMes[0] = "Janeiro";
-arrayMes[1] = "Fevereiro";
-arrayMes[2] = "Mar&ccedil;o";
-arrayMes[3] = "Abril";
-arrayMes[4] = "Maio";
-arrayMes[5] = "Junho";
-arrayMes[6] = "Julho";
-arrayMes[7] = "Agosto";
-arrayMes[8] = "Setembro";
-arrayMes[9] = "Outubro";
-arrayMes[10] = "Novembro";
-arrayMes[11] = "Dezembro";
-
-
 pesq_autocomplete = '';
 
-//Configuracao jquery.datebox
-/*jQuery.extend(jQuery.mobile.datebox.prototype.options, {
- 'overrideDateFormat': '%d/%m/%Y',
- 'overrideHeaderFormat': '%d/%m/%Y',
- dateFieldOrder: ['d', 'm', 'y']
- });
- if (!supports_html5_storage) {
- alert("Infelizmente, seu navegador não suporta IndexedDB");
- }*/
-
 function clearInputs() {
-    $(":input").each(function () {
+    $(":input").each(function() {
         $(this).val('');
     });
 
@@ -193,7 +240,7 @@ function unformatNumberNoParse(n, num_grp_sep, dec_sep)
     return '';
 }
 //retirado do sugar_3.js, forms.js (utilizado em get_Form_lanctos,  ajax_funcs.js):
-RegExp.escape = function (text)
+RegExp.escape = function(text)
 {
     if (!arguments.callee.sRE)
     {
@@ -252,11 +299,13 @@ function formatNumber(n, dec_sep, round, precision)
 //############## INICIO LOGIN #################################################
 //#############################################################################
 function loading(showOrHide) {
-    $.mobile.loading(showOrHide, {
-        text: 'Carregando...',
-        textVisible: true,
-        theme: 'b'
-    });
+    if (typeof $.mobile != 'undefined' && typeof $.mobile.loading != 'undefined') {
+        $.mobile.loading(showOrHide, {
+            text: 'Carregando...',
+            textVisible: true,
+            theme: 'b'
+        });
+    }
 }
 
 function notNull(valor) {
@@ -269,24 +318,40 @@ function notNull(valor) {
 
 //Controle de login
 function mobile_login(obj) {
-    loading('show');
+
+    if (debug_mode)
+        alert('mobile_login');
+
+    //loading('show');
     var dados = new Object();
-    
+
+    if (debug_mode)
+        alert('dados new Object');
+
     //Retorno do object no valida login
     if (obj) {
+        if (debug_mode) {
+            alert('Tempo Obj');
+            alert(obj);
+        }
+
         var dadosArray = JSON.parse(obj);
         dados['USUARIO'] = dadosArray.user_bd;
         dados['SENHA'] = dadosArray.senha;
         dados['URL'] = dadosArray.url;
     } else {
+
+        if (debug_mode)
+            alert('sem Obj');
+
         dados['USUARIO'] = $("#usuario").val();
         dados['SENHA'] = $("#senha").val();
-        dados['URL'] = $("#url").val();
-        
+        dados['URL'] = getUrlVal();
+
         //valida se todos os campos de login estao preechidos
-        if (!notNull($("#url").val()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())) {
+        if (!notNull(getUrlVal()) || !notNull($("#usuario").val()) || !notNull($("#senha").val())) {
             loading('hide');
-            $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre todas as informa&ccedil;&odblac;es');
+            $().toastmessage('showErrorToast', 'Para acessar o sistema Multidados entre com todas as informa&ccedil;&odblac;es');
             return false;
         }
     }
@@ -340,10 +405,17 @@ function mobile_login(obj) {
             dados['URL'] = dados['URL'].substr(0, count_url);
         }
 
+        if (debug_mode)
+            alert('efetuar login');
+
         var ajax_file = dados['URL'] + '/mobile/login_mobile.php';
         COMMON_URL_MOBILE = dados['URL'] + '/mobile';
 
-        //alert(dados['USUARIO']+' - '+dados['SENHA']+' - '+dados['URL']+' - ');
+        if (debug_mode) {
+            alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
+            alert(dados['URL'] + '/mobile/' + ajax_file_url);
+        }
+
 
         $.ajax({
             type: 'POST',
@@ -354,11 +426,21 @@ function mobile_login(obj) {
             data: {
                 url: COMMON_URL_MOBILE
             },
-            error: function () {
+            error: function() {
+
+                if (debug_mode) {
+                    alert('ERROR MOBILE');
+                }
+
                 loading('hide');
                 $().toastmessage('showErrorToast', 'Falha de comunica&ccedil;&atilde;o com o servidor. Verifique sua conex&atilde;o e se a URL est&aacute; correta');
             },
-            success: function (data) {
+            success: function(data) {
+
+                if (debug_mode) {
+                    alert('SUCCESS');
+                }
+
                 $.ajax({
                     type: 'POST',
                     url: ajax_file,
@@ -370,12 +452,23 @@ function mobile_login(obj) {
                         senha: dados['SENHA'],
                         url: dados['URL']
                     },
-                    error: function () {
+                    error: function(jqXHR, statusText, error) {
                         loading('hide');
                         $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
-                        //window.location.href = 'pages.html#page_login';
+
+                        console.log('mobile_login error : ');
+                        console.log('statusText = ');
+                        console.dir(statusText);
+                        console.log('error = ');
+                        console.dir(error);
+                        console.log('ajax_file = ');
+                        console.dir(ajax_file);
+                        console.log('jqXHR = ');
+                        console.dir(jqXHR);
+
+                        window.location.href = 'pages.html#page_login';
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data['erro']) {
                             loading('hide');
                             $().toastmessage('showErrorToast', data['erro']);
@@ -392,18 +485,21 @@ function mobile_login(obj) {
                                 'codigo_auxiliar': data['codigo_auxiliar'],
                                 'url_foto_user': data['url_foto_user'],
                                 'url_logo_cliente': data['url_logo_cliente'],
-                                'cnpj': data['cnpj']};
+                                'cnpj': data['cnpj'],
+                                'perms_menu': data['perms_menu']};
                             localStorage.setItem('mobile_login', JSON.stringify(Objeto));
                             var Objeto_real = localStorage['mobile_login'];
                             var Objeto_json = JSON.parse(Objeto_real);
-                            
+
                             loading('hide');
-                            
+                            popMenuDash();
+
                             if (obj) {
                                 $().toastmessage('showSuccessToast', 'Login realizado com sucesso');
-                            }else{
+                            } else {
                                 window.location.href = 'index.html';
                             }
+
                         }
                     }
                 });
@@ -449,6 +545,10 @@ function ajusteUrl(url) {
 }
 
 function mobile_logout() {
+
+    if (debug_mode)
+        alert('mobile_logout');
+
     var dados = new Object();
     var ajax_file = COMMON_URL_MOBILE + '/login_mobile.php?logout=1';
 
@@ -463,14 +563,13 @@ function mobile_logout() {
             senha: dados['SENHA'],
             url: dados['URL']
         },
-        error: function () {
+        error: function() {
             loading('hide');
-            $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
             //caso servidor nao esteja disponivel vamos apenas limpar os dados de conexao e redirecionar para pagina de login
             localStorage.clear();
             window.location.href = 'pages.html#page_login';
         },
-        success: function (data) {
+        success: function(data) {
             if (data) {
                 localStorage.clear();
                 window.location.href = 'pages.html#page_login';
@@ -525,34 +624,55 @@ function isArray(o) {
     return(typeof (o.length) == "undefined") ? false : true;
 }
 
+//rudi 7/10/2015 retornando true tambem, e soh seguindo se for true na index.html
 function verifica_logado() {
-    var Objeto_real = localStorage['mobile_login'];
-    //alert(print_r(Objeto_real));
-    if (typeof Objeto_real == "undefined") {
+    if (debug_mode)
+        alert('verifica_logado');
+
+    var Objeto_real = localStorage.getItem('mobile_login')
+
+    if (typeof Objeto_real == "undefined" || !Objeto_real || Objeto_real === null) {
+        if (debug_mode)
+            alert('redirecionar para a tela pages.html#page_login');
+
         window.location.href = 'pages.html#page_login';
+        return false;
     } else {
-        //var url_ok = ajusteUrl(url.href);
-        //var ajax_file = url_ok + '/mobile/checkServerOnline.php';
+        if (debug_mode)
+            alert('tem Objeto real');
+
+        if (debug_mode)
+            alert('URL Atual = ' + COMMON_URL_MOBILE);
+
+        var redirecting = false;
 
         $.ajax({
-            type: 'POST',
+            type: 'GET',
             url: COMMON_URL_MOBILE + '/checkServerOnline.php',
-            dataType: "jsonp",
+            dataType: "json",
             timeout: 1000,
             crossDomain: true,
-            error: function () {
-                //alert('1)- ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
+            async: false,
+            error: function() {
+                if (debug_mode)
+                    alert('erro no verifica_logado');
+
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
                 window.location.href = 'pages.html#page_login';
-                return false;
+                redirecting = true;
             },
-            success: function (data) {
-                mobile_login(Objeto_real);
-                //alert('ok saudacao >> ' + COMMON_URL_MOBILE + '/checkServerOnline.php');
-                setSaudacao();
-                return 'ok';
+            success: function(data) {
+
+                if (debug_mode)
+                    alert('success no verifica_logado idvendedor:' + data.idvendedor);
+
+                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
+                    mobile_login(Objeto_real);
+                }
             }
         });
+
+        return redirecting ? false : true;
     }
 
 }
@@ -564,27 +684,109 @@ function verifica_logado() {
 //############################# MENU ##########################################
 //#############################################################################
 function popMenuDash() {
-    var dados = new Object();
-    var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
-    $.ajax({
-        type: 'POST',
-        url: ajax_file,
-        dataType: "jsonp",
-        crossDomain: true,
-        data: {
-            tipo: 'menu'
-        }
-    }).then(function (data) {
-        if (data) {
-            $("#lista_dashboard").html(data);
-        } else {
-            //$().toastmessage('showErrorToast', 'Nao foi possivel recuperar os dashboards para o Menu.');
-        }
-    });
+    if ($("#lista_dashboard").length > 0 && $("#lista_dashboard").html() == '') {
+
+        var dados = new Object();
+        var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
+        $.ajax({
+            type: 'POST',
+            url: ajax_file,
+            dataType: "jsonp",
+            crossDomain: true,
+            data: {
+                tipo: 'menu'
+            }
+        }).then(function(data) {
+            if (data['erro']) {
+                $("#menu_dashboards").attr("onclick","alert('"+data['erro']+"')");
+            }else{
+                $("#lista_dashboard").html(data);
+            }
+        });
+    }
 }
 
 function attrSrcIframe(url) {
     $("#conteudo").attr("src", COMMON_URL + url);
+}
+
+//Andre Renovato - 11/11/2015
+//Funcao que valida cada item do menu de acordo com o perfil de usuario. Caso nao tenha acesso
+//ao item de menu, vamos abrir uma pagina generica com a msg "SEM ACESSO AO MODULO"
+function permissaoMenu(){
+    Obj = JSON.parse(Objeto_real)
+    var permMenu = Obj['perms_menu'];
+
+    //alert($("#page_timesheet").attr("class"));
+    console.dir(Obj['perms_menu']);
+
+    //============ TIMESHEET ===============//
+    if(permMenu['Timesheet']['novo'] == 'F'){
+        $("#page_timesheet").removeAttr("mobile");
+        $("#page_timesheet").attr("id","sem_acesso");
+    }
+
+    if(permMenu['Timesheet']['listar'] == 'F'){
+        $("#page_relatorio").removeAttr("mobile");
+        $("#page_relatorio").attr("id","sem_acesso");
+    }
+    
+    if(permMenu['Timesheet']['aprovacao'] == 'F'){        
+        $("#aprovar_horas").removeAttr("mobile");
+        $("#aprovar_horas").attr("id","sem_acesso");
+    }
+
+    if(permMenu['Timesheet']['portal'] == 'F'){
+        $("#portal_horas").removeAttr("mobile");
+        $("#portal_horas").attr("id","sem_acesso");
+    }
+    //=============== FIM TIMESHEET ===============//
+
+    //============ DESPESAS ===============//
+    if(permMenu['Despesas']['novo'] == 'F'){
+        $("#page_despesa").removeAttr("mobile");
+        $("#page_despesa").attr("id","sem_acesso");
+    }
+
+    if(permMenu['Despesas']['listar'] == 'F'){
+        $("#relatorio_despesa").removeAttr("mobile");
+        $("#relatorio_despesa").attr("id","sem_acesso");
+    }
+    
+    if(permMenu['Despesas']['aprovacao'] == 'F'){        
+        $("#aprovar_despesas").removeAttr("mobile");
+        $("#aprovar_despesas").attr("id","sem_acesso");
+    }
+
+    if(permMenu['Despesas']['portal'] == 'F'){
+        $("#portal_despesas").removeAttr("mobile");
+        $("#portal_despesas").attr("id","sem_acesso");
+    }
+    //=============== FIM DESPESAS ===============//
+
+    //============ OCORRENCIA ===============//
+    if(permMenu['Ocorrencias']['novo'] == 'F'){
+        $("#add_ocorrencia").removeAttr("mobile");
+        $("#add_ocorrencia").attr("id","sem_acesso");
+    }
+
+    if(permMenu['Ocorrencias']['listar'] == 'F'){
+        $("#listar_ocorrencia").removeAttr("mobile");
+        $("#listar_ocorrencia").attr("id","sem_acesso");
+    }
+    
+    if(permMenu['Ocorrencias']['aprovacao'] == 'F'){        
+        $("#aprovar_ocorrencia").removeAttr("mobile");
+        $("#aprovar_ocorrencia").attr("id","sem_acesso");
+    }
+
+    if(permMenu['Ocorrencias']['portal'] == 'F'){
+        $("#portal_ocorrencia").removeAttr("mobile");
+        $("#portal_ocorrencia").attr("id","sem_acesso");
+    }
+    //=============== FIM OCORRENCIA ===============//
+
+
 }
 
 //############################# FIM MENU ######################################
@@ -627,9 +829,9 @@ function salvar_timesheet()
             dados: dados,
             tipo: 'timesheet'
         }
-    }).then(function (data)
+    }).then(function(data)
     {
-        //alert(data);
+
         loading('hide');
         if (data == 'Timesheet salvo com sucesso') {
             $().toastmessage('showSuccessToast', data);
@@ -715,7 +917,7 @@ function upload() {
         processData: false,
         crossdomain: true
     })
-            .then(function (data) {
+            .then(function(data) {
                 if (data == "Arquivo inválido!" || data == "Erro no arquivo") {
                     $("#arquivo_md5").val('');
                     $().toastmessage('showErrorToast', data);
@@ -723,7 +925,6 @@ function upload() {
                     $("#arquivo_md5").val(data);
                 }
 
-                //alert("Ocorreu um erro ao enviar a foto selecionada.");
                 loading('hide');
             });
 }
@@ -762,7 +963,7 @@ function salvar_despesa()
             tipo: 'despesa',
             idsenha: Objeto_json.usuario_id
         }
-    }).then(function (data)
+    }).then(function(data)
     {
         loading('hide');
         if (data == 'T') {
@@ -792,7 +993,7 @@ function buscar_despesa(data) {
                 idsenha: Objeto_json.usuario_id,
                 idempresa_vendedor: Objeto_json.idempresa_vendedor
             }
-        }).then(function (data)
+        }).then(function(data)
         {
             $("#list_despesa").html(data);
             $("#list_despesa").listview("refresh");
@@ -803,8 +1004,8 @@ function buscar_despesa(data) {
 
 dados_servicos = new Object();
 //Pega valores para editar despesa
-$(document).delegate('#list_despesa .btn-despesa', 'click', function () {
-    $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
+$(document).delegate('#list_despesa .btn-despesa', 'click', function() {
+    $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
         loading('show');
     });
 
@@ -820,10 +1021,9 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                 dataType: "jsonp",
                 crossDomain: true,
                 async: false,
-                afterSend: function () {
-                    alert('antes?')
+                afterSend: function() {
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.idlctodespesa != '') {
                         $("#idlctodespesa").val(data.idlctodespesa);
                     }
@@ -851,7 +1051,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                         $("#page_despesa").trigger('create');
                     }
                     geraDespesa(data.idclienteprojeto, data.idservicos);
-                    $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
+                    $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
                         loading('hide');
                     });
                 },
@@ -859,13 +1059,13 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                     idlctosdespesa: idlctosdespesa,
                     tipo: 'despesa'
                 }
-            })).then(function () {
+            })).then(function() {
 
     });
 });
-$(document).on("pagecreate", function () {
+$(document).on("pagecreate", function() {
     $(".photopopup").on({
-        popupbeforeposition: function () {
+        popupbeforeposition: function() {
             var maxHeight = $(window).height() - 60 + "px";
             $(".photopopup img").css("max-height", maxHeight);
         }
@@ -886,7 +1086,7 @@ function deletaArquivo() {
                 idarquivo: idarquivo,
                 tipo: 'deletar'
             }
-        }).then(function (data)
+        }).then(function(data)
         {
             $("#arquivo_md5").val('');
         });
@@ -917,14 +1117,14 @@ function geraDespesa(idclienteprojeto, selecionado) {
             idclienteprojeto: idclienteprojeto,
             tipo: 'despesaServico'
         }
-    }).then(function (data)
+    }).then(function(data)
     {
         //console.dir(data);
 
         dados_servicos = data.data;
         var options = '<option value="" ' + selected_first + '>Selecione uma despesa</option>';
         $("#idtabpreco").val(data['idtabpreco']);
-        jQuery.each(data.select, function (i, val) {
+        jQuery.each(data.select, function(i, val) {
             selected = '';
             if (i == selecionado)
                 selected = 'selected="selected"';
@@ -944,7 +1144,7 @@ function calcula_total_despesa() {
 }
 
 //Pega dados do  que foi clicado e deleta apaga
-$(document).delegate('#list_despesa .delete_despesa', 'click', function () {
+$(document).delegate('#list_despesa .delete_despesa', 'click', function() {
     idlctodespesa = $(this).attr('id');
     loading('show');
     if (confirm('Deseja excluir esta despesa?')) {
@@ -959,7 +1159,7 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function () {
                 tipo: 'despesa_excluir',
                 idsenha: Objeto_json.usuario_id
             }
-        }).then(function (data)
+        }).then(function(data)
         {
             if (data == 'T') {
                 $().toastmessage('showSuccessToast', 'Despesa inativada com sucesso!');
@@ -1000,7 +1200,7 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 }
 
 //Lista clientes despesa
-$(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
+$(document).delegate('#page_despesa #selecione_cliente', 'click', function() {
     $("#page_despesa_sub").hide();
     $("#save_despesa_top").hide();
 
@@ -1027,17 +1227,17 @@ $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
 
     });
     $("#page_despesa #voltar_despesa").attr("href", "javascript:;");
-    $('#page_despesa #voltar_despesa').click(function ()
+    $('#page_despesa #voltar_despesa').click(function()
     {
         $("#page_despesa_clientes").html('');
-        $("#page_despesa_sub").show(function () {
+        $("#page_despesa_sub").show(function() {
             $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
             $("#divautocomplete_despesa").hide();
         });
     });
 });
 //pega click ao listar clientes despesa
-$(document).delegate("#page_despesa [id^='idcliente_']", 'click', function () {
+$(document).delegate("#page_despesa [id^='idcliente_']", 'click', function() {
 //$("#page_despesa > [id^='idcliente_']").on('click', function() {
     $("#divautocomplete_despesa").hide();
     $("#voltar_despesa").attr("href", "#relatorio_despesa");
@@ -1048,7 +1248,7 @@ $(document).delegate("#page_despesa [id^='idcliente_']", 'click', function () {
     $("#page_despesa_sub").show();
 });
 //LISTA PROJETOS DESPESA
-$(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
+$(document).delegate('#page_despesa #selecione_projeto', 'click', function() {
     pesq_autocomplete = 'p';
     $("#divautocomplete_despesa").show();
     $('input[data-type="search"]').val('');
@@ -1073,17 +1273,17 @@ $(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
         idsenha: Objeto_json.usuario_id
     });
     $("#page_despesa #voltar_despesa").attr("href", "javascript:;");
-    $('#page_despesa #voltar_despesa').click(function ()
+    $('#page_despesa #voltar_despesa').click(function()
     {
         $("#page_despesa_projetos").html('');
-        $("#page_despesa_sub").show(function () {
+        $("#page_despesa_sub").show(function() {
             $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
             $("#divautocomplete_despesa").hide();
         });
     });
 });
 //pega click ao listar projetos
-$(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
+$(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
     $("#divautocomplete_despesa").hide();
     $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
     var id = $(this).attr('id');
@@ -1119,7 +1319,7 @@ function buscar_timesheet(data) {
                 idsenha: Objeto_json.usuario_id,
                 idempresa_vendedor: Objeto_json.idempresa_vendedor
             }
-        }).then(function (data)
+        }).then(function(data)
         {
             $("#list").html(data);
             $("#list").listview("refresh");
@@ -1130,7 +1330,7 @@ function buscar_timesheet(data) {
 
 
 //Editar: Pega dados do idtimecard que foi clicado na lista faz select e envia pra outra página
-$(document).delegate('#list .btn-timesheet', 'click', function () {
+$(document).delegate('#list .btn-timesheet', 'click', function() {
     idtimecard = $(this).attr('id');
     //var args = {cm: 'Timesheet->getTimecard', idtimecard: idtimecard};
     var ajax_file = COMMON_URL_MOBILE + '/retorna_timecard.php';
@@ -1142,7 +1342,7 @@ $(document).delegate('#list .btn-timesheet', 'click', function () {
         data: {
             idtimecard: idtimecard
         }
-    }).then(function (data)
+    }).then(function(data)
     {
         loading('show');
         codigo_atividade = data.idatividade_utbms;
@@ -1181,7 +1381,7 @@ $(document).delegate('#list .btn-timesheet', 'click', function () {
     });
 });
 //Lista clientes no timesheet
-$(document).delegate('#page_timesheet #selecione_cliente', 'click', function () {
+$(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
     pesq_autocomplete = 'c';
     $("#divautocomplete_timecard").show();
     $('input[data-type="search"]').val('');
@@ -1206,27 +1406,28 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function () 
         idsenha: Objeto_json.usuario_id
     });
     $("#page_timesheet #voltar_timesheet").attr("href", "javascript:;");
-    $('#page_timesheet #voltar_timesheet').click(function ()
+    $('#page_timesheet #voltar_timesheet').click(function()
     {
         $("#page_timesheet_clientes").html('');
-        $("#page_timesheet_sub").show(function () {
+        $("#page_timesheet_sub").show(function() {
             $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
             $("#divautocomplete_timecard").hide();
         });
     });
 });
 //pega click ao listar clientes
-$(document).delegate("[id^='idcliente_']", 'click', function () {
+$(document).delegate("[id^='idcliente_']", 'click', function() {
     $("#divautocomplete_timecard").hide();
     var id = $(this).attr('id');
     var idcliente = id.split('_');
     selecionaValor($(this).text(), "c", idcliente[1]);
+
     $("#page_timesheet_clientes").html('');
     $("#page_timesheet_sub").show();
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
 });
 //Seleciona o projeto
-$(document).delegate('#page_timesheet #selecione_projeto', 'click', function () {
+$(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
     pesq_autocomplete = 'p';
     $("#divautocomplete_timecard").show();
     $('input[data-type="search"]').val('');
@@ -1250,17 +1451,17 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function () 
         idsenha: Objeto_json.usuario_id
     });
     $("#page_timesheet #voltar_timesheet").attr("href", "javascript:;");
-    $('#page_timesheet #voltar_timesheet').click(function ()
+    $('#page_timesheet #voltar_timesheet').click(function()
     {
         $("#page_timesheet_projetos").html('');
-        $("#page_timesheet_sub").show(function () {
+        $("#page_timesheet_sub").show(function() {
             $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
             $("#divautocomplete_timecard").hide();
         });
     });
 });
 //pega click ao listar projetos
-$(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
+$(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
     $("#divautocomplete_timecard").hide();
     var id = $(this).attr('id');
     var idclienteprojeto = id.split('_');
@@ -1281,7 +1482,7 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
 });
 
 //Pega dados do idtimecard que foi clicado e deleta
-$(document).delegate('#list .delete_timesheet', 'click', function () {
+$(document).delegate('#list .delete_timesheet', 'click', function() {
     idtimecard = $(this).attr('id');
     if (confirm('Deseja apagar esse Timecard ?')) {
         var ajax_file = COMMON_URL_MOBILE + '/save_lanctos.php';
@@ -1295,7 +1496,7 @@ $(document).delegate('#list .delete_timesheet', 'click', function () {
                 tipo: 'timesheet_excluir',
                 idsenha: Objeto_json.usuario_id
             }
-        }).then(function (data)
+        }).then(function(data)
         {
             if (data == 'T') {
                 $().toastmessage('showSuccessToast', 'Timecard exclu&iacute;do com sucesso!');
@@ -1324,14 +1525,14 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
         dataType: "jsonp",
         crossDomain: true
     })
-            .then(function (response)
+            .then(function(response)
             {
                 if (selecionado_fase == 0 || typeof selecionado_fase == 'undefined') {
                     selecionado_fase = "";
                     var selected_first = "selected='selected'";
                 }
                 var options = '<option value="" ' + selected_first + '>Selecione uma fase</option>';
-                $.each(response, function (key, val) {
+                $.each(response, function(key, val) {
                     selected = '';
                     if (val.idutbms == selecionado_fase)
                         selected = 'selected="selected"';
@@ -1357,9 +1558,9 @@ function seleciona_porcentagem_conclusao(item_selected) {
         crossDomain: true
     })
 
-            .then(function (response) {
+            .then(function(response) {
                 var options = '';
-                $.each(response, function (key, val) {
+                $.each(response, function(key, val) {
                     selected = item_selected ? item_selected : '';
 
                     selected = val == selected ? 'selected="selected"' : '';
@@ -1395,11 +1596,11 @@ function seleciona_atividade(selecionado)
             dataType: "jsonp",
             crossDomain: true
         })
-                .then(function (response)
+                .then(function(response)
                 {
                     var items = [];
                     var options = '<option value="">Escolha uma atividade</option>';
-                    $.each(response, function (key, val) {
+                    $.each(response, function(key, val) {
                         selected = '';
                         if (selecionado == val.idutbms) {
                             selected = "selected='selected'";
@@ -1423,7 +1624,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
         dataType: "jsonp",
         crossDomain: true
     })
-            .then(function (response)
+            .then(function(response)
             {
                 selecionado_parent = response.selecionado;
 
@@ -1435,7 +1636,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                     var selected_first = "selected='selected'";
                 }
                 var options = '<option value="" ' + selected_first + ' >Selecione uma tarefa</option>';
-                $.each(response.select_tarefas, function (key, val) {
+                $.each(response.select_tarefas, function(key, val) {
                     selected = '';
                     if (selecionado_parent == key) {
                         selected = "selected='selected'";
@@ -1469,14 +1670,14 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
         dataType: "jsonp",
         crossDomain: true
     })
-            .then(function (response)
+            .then(function(response)
             {
                 if (selecionado == 0 || typeof selecionado == 'undefined') {
                     selecionado = "";
                     var selected_first = "selected='selected'";
                 }
                 var options = '<option value="" ' + selected_first + '>Selecione uma atividade</option>';
-                $.each(response.select_atividades, function (key, val) {
+                $.each(response.select_atividades, function(key, val) {
                     selected = '';
                     if (selecionado == key) {
                         selected = "selected='selected'";
@@ -1500,34 +1701,68 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
 
 
 //ACOES DE CLIQUE E LOADING
-$(document).delegate('#task_parent', 'change', function () {
+$(document).delegate('#task_parent', 'change', function() {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
-$(document).on("pageinit", "pages.html#page_login", function () {
-    $resposta = verifica_logado();
-    if ($resposta == 'ok') {
-        window.location.href = "index.html";
-    }
-});
-$(document).ready(function () {
+
+// Inacio 30/09/201
+// antigo, agora o login fica em outro aquivo.
+//$(document).on("pageinit", "pages.html#page_login", function () {
+//    $resposta = verifica_logado();
+//    if ($resposta == 'ok') {
+//        window.location.href = "index.html";
+//    }
+//});
+
+$(document).ready(function() {
     var link = '';
 
-    //Acao do click no menu, onde encaminha para pagina correta.
-    $('.link').click(function () {
+    //Acao do click dos botoes de atalho na home(mobile_home.html), onde encaminha para pagina correta.
+    $('.linkHome').click(function() {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
-        if ($(this).attr('id') == 'mobile_home.html') {
-            link = "mobile_home.html";
+        if($(this).attr('id') == 'sem_acesso'){
+            link = Objeto_json['url'] + '/timesheet/multidados/module/';
+            window.location.href = link;
         } else {
             if ($(this).attr('mobile') == 'true') {
                 //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
-                link = 'pages.html' + $(this).attr('id');
+                link = Objeto_json['url'] + '/mobile/pages.html#' + $(this).attr('id');
+                window.location.href = link;
             } else {
                 //setar url do sistema, pois o portal é chamado atraves da url
-                link = COMMON_URL + $(this).attr('id');
-                alert(link);
+                //Andre Renovato - 12/11/2015
+                //nao estamos mais tratando pelo id porque o jquery apresentava problema ao tentar setar o id para fazer alguma ação, provavelmente
+                //por causa dos caracteres "?#=". Neste caso no menu os links externos vamos remover a url que ficava no id e jogar para o novo paramentro link, 
+                //e o id vai ficar com o nome da acao menu. Ex. Aprovar Horas (id="aprov_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1")                
+                //link = COMMON_URL + $(this).attr('id');
+                link = Objeto_json['url'] + '/' + $(this).attr('link');
+                window.location.href = link;
             }
         }
-        //alert('22LINK: '+link);
+    })  
+
+    //Acao do click no menu, onde encaminha para pagina correta.
+    $('.link').click(function() {
+        //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
+        if ($(this).attr('id') == 'mobile_home.html') {
+            link = "mobile_home.html";
+        } else if($(this).attr('id') == 'sem_acesso'){
+            link = COMMON_URL + '/timesheet/multidados/module/';
+        } else {
+            if ($(this).attr('mobile') == 'true') {
+                //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
+                link = 'pages.html#' + $(this).attr('id');
+            } else {
+                //setar url do sistema, pois o portal é chamado atraves da url
+                //Andre Renovato - 12/11/2015
+                //nao estamos mais tratando pelo id porque o jquery apresentava problema ao tentar setar o id para fazer alguma ação, provavelmente
+                //por causa dos caracteres "?#=". Neste caso no menu os links externos vamos remover a url que ficava no id e jogar para o novo paramentro link, 
+                //e o id vai ficar com o nome da acao menu. Ex. Aprovar Horas (id="aprov_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1")                
+                //link = COMMON_URL + $(this).attr('id');
+                link = COMMON_URL + $(this).attr('link');
+            }
+        }
+
         if ($(this).attr('id')) {
             //console.log(link);
             //loading('show');
@@ -1552,16 +1787,20 @@ $(document).ready(function () {
     data_hoje = dia + "/" + mes + "/" + data.getFullYear();
     //#########################################################################
 
-    //Configuraç?o alert
+    //Configuracao alert
     $().toastmessage({
         position: 'middle-center',
         type: 'success'
     });
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy;' + vs_mobile);
+    $(".name_powered").html('Powered by MultidadosTI &copy; ' + vs_mobile);
 
-    $(document).on("pageinit", function () {
-        $resposta = verifica_logado();
+    $(document).on("pageinit", function() {
+
+        // Inacio 30/09/2015
+        // Agora é só na página index.html     
+        //$resposta = verifica_logado();
+
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
         if ($("#filtro_data_trabalhada").val() == '') {
@@ -1574,39 +1813,39 @@ $(document).ready(function () {
         buscar_timesheet($("#filtro_data_trabalhada").val());
         buscar_despesa($("#dateinput2").val());
     });
-    $("#botao_entrar").click(function ()
+    $("#botao_entrar").click(function()
     {
         mobile_login();
     });
-    $("#icon_sair").click(function ()
+    $("#icon_sair").click(function()
     {
         mobile_logout();
     });
-    $("#save_timecard_top").click(function ()
+    $("#save_timecard_top").click(function()
     {
         salvar_timesheet();
     });
-    $("#save_timecard_bottom").click(function ()
+    $("#save_timecard_bottom").click(function()
     {
         salvar_timesheet();
     });
-    $("#save_despesa_top").click(function ()
+    $("#save_despesa_top").click(function()
     {
         salvar_despesa();
     });
-    $("#save_despesa_bottom").click(function ()
+    $("#save_despesa_bottom").click(function()
     {
         salvar_despesa();
     });
     ua = navigator.userAgent.toLowerCase();
     //verifica se é ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
-        $("#filtro_data_trabalhada").change(function ()
+        $("#filtro_data_trabalhada").change(function()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
     } else {
-        $("#filtro_data_trabalhada").change(function ()
+        $("#filtro_data_trabalhada").change(function()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
@@ -1632,21 +1871,21 @@ $(document).ready(function () {
          $("#barra_status_ios").css("background", "#EAEAEA");
          */
 
-        $("#dateinput2").change(function ()
+        $("#dateinput2").change(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
     } else {
-        $("#dateinput2").change(function ()
+        $("#dateinput2").change(function()
         {
             buscar_despesa($("#dateinput2").val());
         });
     }
 
-    $(document).delegate('#codigo_fase', 'change', function () {
+    $(document).delegate('#codigo_fase', 'change', function() {
         seleciona_atividade(0);
     });
-    $("#vlr_unitario").blur(function ()
+    $("#vlr_unitario").blur(function()
     {
         if ($("#vlr_unitario").val() != '') {
             if ($("#qtde_despesa").val() == 0 || $("#qtde_despesa").val() == '') {
@@ -1657,22 +1896,22 @@ $(document).ready(function () {
             $("#vlr_unitario").val(valor_unitario);
         }
     });
-    $("#qtde_despesa").blur(function ()
+    $("#qtde_despesa").blur(function()
     {
         calcula_total_despesa();
     });
-    $("#novo_timecard_top").click(function ()
+    $("#novo_timecard_top").click(function()
     {
         clearInputs();
         $("#page_timesheet #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_trabalhada").val(data_hoje);
     });
-    $("#novo_despesa_top").click(function () {
+    $("#novo_despesa_top").click(function() {
         clearInputs();
         $("#arquivo_md5").val('');
         $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-        $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
+        $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
             loading('hide');
         });
         $("#page_despesa #selecione_cliente .ui-btn-text").text('Buscar Cliente');
@@ -1680,13 +1919,13 @@ $(document).ready(function () {
         $("#data_lcto").val(data_hoje);
     });
 
-    $("#icon_timesheet").click(function ()
+    $("#icon_timesheet").click(function()
     {
         $('#filtro_data_trabalhada').val(data_hoje);
         $('#filtro_data_trabalhada').trigger('change');
     })
 
-    $("#icon_despesa").click(function ()
+    $("#icon_despesa").click(function()
     {
         $('#dateinput2').val(data_hoje);
         $('#dateinput2').trigger('change');
@@ -1694,7 +1933,7 @@ $(document).ready(function () {
 
 
     //DESPESA: pega dados do idserviço conforme selecionado
-    $("#codigo_despesa").change(function () {
+    $("#codigo_despesa").change(function() {
         idservico = $("#codigo_despesa option:selected").val();
         var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
         dados_despesa = (dados_servicos[idservico]);
@@ -1718,8 +1957,8 @@ $(document).ready(function () {
     $("#divautocomplete_timecard").hide();
     $("#divautocomplete_despesa").hide();
     //ajax de pesquisa cliente/projeto
-    $(document).on("pageinit", "#page_despesa", function () {
-        $("#autocomplete_cli").on("listviewbeforefilter", function (e, data) {
+    $(document).on("pageinit", "#page_despesa", function() {
+        $("#autocomplete_cli").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
                     $input = $(data.input),
                     value = $input.val(),
@@ -1742,7 +1981,7 @@ $(document).ready(function () {
                         mode: 'ajax'
                     }
                 })
-                        .then(function (response) {
+                        .then(function(response) {
                             $("#page_despesa_clientes").html('');
                             $("#page_despesa_projetos").html('');
                             $ul.html(response);
@@ -1752,8 +1991,8 @@ $(document).ready(function () {
             }
         });
     });
-    $(document).on("pageinit", "#page_timesheet", function () {
-        $("#autocomplete_prj").on("listviewbeforefilter", function (e, data) {
+    $(document).on("pageinit", "#page_timesheet", function() {
+        $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
                     $input = $(data.input),
                     value = $input.val(),
@@ -1776,7 +2015,7 @@ $(document).ready(function () {
                         mode: 'ajax'
                     }
                 })
-                        .then(function (response) {
+                        .then(function(response) {
                             $("#page_timesheet_clientes").html('');
                             $("#page_timesheet_projetos").html('');
                             $ul.html(response);
@@ -1788,7 +2027,7 @@ $(document).ready(function () {
     });
 
     //Verifica se existe user logado    
-    if (Objeto_json) {
+    if (!objIsEmpty(Objeto_json)) {
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;

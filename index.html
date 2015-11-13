@@ -1,14 +1,3 @@
-<!--
-Andre Renovato - 17/09/2015
-MOBILE ARQUIVOS IMPORTANTES
-
-CSS COM ITENS CUSTOMIZADOS
-PROCURAR POR (CUSTOM MULTIDADOS)
-- layout.css
-- grey.css
-- css.css
--->
-
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
@@ -16,6 +5,16 @@ PROCURAR POR (CUSTOM MULTIDADOS)
 <html lang="en" class="no-js">
     <!--<![endif]-->
     <!-- BEGIN HEAD -->
+    <!-- rudi 6/10/2015 : nao ponha comentarios html antes do <html>
+    Andre Renovato - 17/09/2015
+    MOBILE ARQUIVOS IMPORTANTES
+
+    CSS COM ITENS CUSTOMIZADOS
+    PROCURAR POR (CUSTOM MULTIDADOS)
+    - layout.css
+    - grey.css
+    - css.css
+    -->
     <head>
         <meta charset="utf-8"/>
         <title>Mobile - MultidadosTi</title>
@@ -23,6 +22,8 @@ PROCURAR POR (CUSTOM MULTIDADOS)
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <!-- rudi 6/10/2015 manter o cordova no topo -->
+        <script type="text/javascript" src="cordova.js"></script>
 
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <link href="assets/global/plugins/font-family/font-family.css" rel="stylesheet" type="text/css"/>
@@ -56,7 +57,14 @@ PROCURAR POR (CUSTOM MULTIDADOS)
             .h_iframe        {position:relative;}
             .h_iframe .ratio {display:block;width:100%;height:auto;}
             //.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:100%;}
-            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:350px;}
+            /*.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:350px;}*/
+            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:398px;}
+
+            @media (max-width: 767px){
+                .page-content-wrapper .page-content {
+                    padding: 5px 5px 0px 5px !important;
+                }
+            }
 
         </style>
     </head>
@@ -79,7 +87,7 @@ PROCURAR POR (CUSTOM MULTIDADOS)
             <div class="page-header-inner container">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a href="javascript:;">
+                    <a class="link" id="mobile_home.html">
                         <img src="img/logomultidados_transparent.png" alt="logo" class="logo-multidados"/>
                     </a>
                     <div class="menu-toggler sidebar-toggler">
@@ -438,12 +446,22 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                                             <i class="icon-lock"></i> Lock Screen </a>
                                     </li>
                                     -->
-                                    <!--<li>
-                                        <a id="banco-nome" href="javascript:;"> </a>
-                                    </li>-->
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="fa fa-database"></i> <span class="banco-nome"></span> 
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;">
+                                            <i class="fa fa-user"></i> <span class="exibe_user"></span>
+                                        </a>
+                                    </li>
+                                    <li class="divider">
+                                    </li>
                                     <li>
                                         <a id="icon_sair" href="javascript:;">
-                                            <i class="icon-key"></i> Desconectar </a>
+                                            <i class="icon-key"></i> Desconectar 
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -490,20 +508,20 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        <a class="link" mobile="true" id="#page_timesheet">
+                                        <a class="link" mobile="true" id="page_timesheet">
                                             <i class="fa fa-plus"></i>Novo</a>
                                     </li>
                                     <li>
-                                        <!--                                        <a class="link" id="mobile_lista_timesheet.html">-->
-                                        <a class="link" mobile="true" id="#page_relatorio">
+                                        <!--<a class="link" id="mobile_lista_timesheet.html">-->
+                                        <a class="link" mobile="true" id="page_relatorio">
                                             <i class="fa fa-th-list"></i>Listar</a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=usuarios&a=timesheet&nomenu=1">
+                                        <a class="link" id="portal_horas" link="?display=portal&m=usuarios&a=timesheet&nomenu=1">
                                             <i class="icon-bar-chart"></i>Portal</a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1">
+                                        <a class="link" id="aprovar_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1">
                                             <i class="fa fa-check-square-o"></i> Aprovação Horas(Cliente)</a>
                                     </li>
                                 </ul>
@@ -516,20 +534,20 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        <a class="link" mobile="true" id="#page_despesa">
+                                        <a class="link" mobile="true" id="page_despesa">
                                             <i class="fa fa-plus"></i> Novo</a>
                                     </li>
                                     <li>
-                                        <a class="link" mobile="true" id="#relatorio_despesa">
+                                        <a class="link" mobile="true" id="relatorio_despesa">
                                             <i class="fa fa-th-list"></i> Listar</a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=usuarios&a=despesas&nomenu=1">
+                                        <a class="link" id="portal_despesas" link="?display=portal&m=usuarios&a=despesas&nomenu=1">
                                             <i class="icon-bar-chart"></i> Portal </a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=despesas&a=despesas_aprovacoes_portal&nomenu=1">
-                                            <i class="fa fa-check-square-o"></i> Aprovação Despesas(Cliente)</a>
+                                        <a class="link" id="aprovar_despesas" link="?display=portal&m=despesas&a=despesas_aprovacoes_portal&nomenu=1">
+                                            <i class="fa fa-check-square-o"></i> Aprovação Despesas(Cliente) </a>
                                     </li>
                                 </ul>
                             </li>
@@ -542,36 +560,35 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                                 </a>
                                 <ul class="sub-menu">
                                     <li>
-                                        <a class="link" id="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
+                                        <a class="link" id="add_ocorrencia" link="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
                                             <i class="fa fa-plus"></i> Novo </a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=servicedesk&a=consultar_ocs_portal&nomenu=1">
+                                        <a class="link" id="listar_ocorrencia" link="?display=portal&m=servicedesk&a=consultar_ocs_portal&nomenu=1&modal=false">
                                             <i class="fa fa-th-list"></i> Listar</a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=usuarios&a=ocorrencias&nomenu=1">
+                                        <a class="link" id="portal_ocorrencia" link="?display=portal&m=servicedesk&a=ocorrencias&nomenu=1">
                                             <i class="icon-bar-chart"></i> Portal </a>
                                     </li>
                                     <li>
-                                        <a class="link" id="?display=portal&m=servicedesk&a=aprovacoes_ocs_portal&nomenu=1">
+                                        <a class="link" id="aprovar_ocorrencia" link="?display=portal&m=servicedesk&a=aprovacoes_ocs_portal&nomenu=1">
                                             <i class="fa fa-check-square-o"></i> Aprovação </a>
                                     </li>
                                 </ul>
                             </li>
-                            <li>
-                                <a href="javascript:;">
+                            <li class="last">
+                                <a href="javascript:;" id="menu_dashboards">
                                     <i class="icon-bar-chart"></i>
                                     <span class="title">Dashboards</span>
                                     <span class="selected"></span>
                                     <span class="arrow open"></span>
                                 </a>
-                                <ul id="lista_dashboard" class="sub-menu">
-
-                                </ul>
+                                <!-- rudi, manter zerado esse conteudo : >< -->
+                                <ul id="lista_dashboard" class="sub-menu"></ul>
                             </li>
 
-                            <!--<li class="last ">
+                            <!--<li class="last">
                                 <a id="icon_sair" class="" href="javascript:;">
                                     <i class="icon-logout"></i>
                                     <span class="title">Desconectar</span>
@@ -634,10 +651,9 @@ PROCURAR POR (CUSTOM MULTIDADOS)
 
         <!-- SCRIPTS DO MOBILE ANTIGO -->
         <!-- Andre Renovato - 14/04/2015 - Este js é incluido automaticamente pelo phonegap -->
-        <script type="text/javascript" src="cordova.js"></script>
         <!--<script src="js/calendar/modernizr.custom.63321.js"></script>-->
         <!--        <script src="js/jquery-1.9.1.min.js"></script>-->
-        <script src="js/jquery.mobile-1.3.1.min.js"></script>
+        <!--<script src="js/jquery.mobile-1.3.1.min.js"></script> -->
         <!--<script src="js/codiqa.ext.min.js"></script>
         <script src="js/mobile-multidados.js"></script>
         <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
@@ -646,23 +662,42 @@ PROCURAR POR (CUSTOM MULTIDADOS)
                 <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.datebox.min.js"></script>
                 <script type="text/javascript" src="js/jquery.mobile.datebox.i8n.pt-BR.js"></script>-->
         <!-- configuracoes Multidados -->
+        
         <script src="js/infinity-scroll.js"></script>
         <script src="js/jquery.toastmessage.js"></script>
         <script src="default/js/default.js"></script>
-
-        <script>
-            jQuery(document).ready(function () {
-                Metronic.init(); // init metronic core componets
-                Layout.init(); // init layout
-
-                verifica_logado();
-
-                //popula Menu de Dashboards
-                popMenuDash();
-
-            });
-        </script>
         <!-- END JAVASCRIPTS -->
     </body>
+    <script>
+        $(function () {
+            if (verifica_logado()) {
+                popMenuDash(); //recupera menu dashboards
+                Metronic.init(); // init metronic core componets
+                Layout.init(); // init layout
+                setSaudacao(); //inclui saudacao (nome user, dia ano e mes)             
+                
+                //Andre Renovato - 11/11/2015
+                //Incluindo nome do banco e user no menu desconectar
+                var namedb = Objeto_json['db'];
+                var nomeuser = Objeto_json['user_bd'];
+                $('.banco-nome').html(namedb.toLowerCase());
+                $('.exibe_user').html(nomeuser.toLowerCase());
+                
+                if (Layout.is_init) {
+                    //popula Menu de Dashboards
+                    popMenuDash();
+                } else {
+                    var linit_interval = window.setInterval(function () {
+                        if (Layout.is_init) {
+                            window.console.log(linit_interval);
+                            popMenuDash();
+                        }
+                    }, 10);
+                }
+                
+                permissaoMenu(); //recupera permissao de menu
+            }
+        });
+    </script>
     <!-- END BODY -->
 </html>

@@ -31,7 +31,7 @@
         <link href="assets/admin/layout2/css/custom.css" rel="stylesheet" type="text/css"/>
         <!-- END THEME STYLES -->
     </head>
-    <body class="page-boxed page-header-fixed page-container-bg-solid page-sidebar-closed-hide-logo">
+    <body class="page-boxed page-header-fixed page-container-bg-solid page-sidebar-closed-hide-logo" id="body_mobile_home" style="display:none">
         <div class="container">
             <!-- BEGIN CONTAINER -->
             <div class="">
@@ -42,29 +42,47 @@
                             <img src="img/logomultidados.png" alt="logo" class="logo-multidados" style="max-width: 250px;max-height: 200px;"/>
                             <br>
                             <br>
-                            <a class="icon-btn" mobile="true" href="pages.html#page_timesheet">
+                            <!--<a class="icon-btn" mobile="true" href="pages.html#page_timesheet">-->
+                            <a class="linkHome icon-btn" mobile="true" id="page_timesheet">
                                 <i class="icon-calendar"></i>
                                 <div>TimeSheet</div>
-                                <span class="badge badge-info"><b>+</b></span>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
                             </a>
-                            <a class="icon-btn" mobile="true" href="pages.html#page_despesa">
+                            <!--<a class="icon-btn" mobile="true" href="pages.html#page_despesa">-->
+                            <a class="linkHome icon-btn" mobile="true" id="page_despesa">
                                 <i class="icon-notebook"></i>
                                 <div>Despesas</div>
-                                <span class="badge badge-info"><b>+</b></span>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
                             </a>
-                            <a class="icon-btn link" id="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
-                                <i class="fa fa-ticket"></i>
+                            <a class="icon-btn linkHome" link="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
+                                <i class="fa fa-ticket icon-size-mobile"></i>
                                 <div>Ocorrência</div>
-                                <span class="badge badge-info"><b>+</b></span>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
                             </a>
                         </center>
-
+                        <div class="col-xs-12" style="margin: 8px 0  0  0;">
+                            <form class="form" name="go_form" id="go_form" method="post">
+                                <div class="form-group">
+                                    <div class="center-block" style="width: 184px;">
+                                        <div class="input-group">
+                                            <div class="input-group-addon" id="box-lupa"><i class="fa fa-search"></i></div>
+                                            <div>
+                                                <input type="number" class="form-control input-sm" id="numero" name="numero" placeholder="Nº da OC" style="width: 100px; ">
+                                                <div class="input-group-addon" style="border:none; padding:0px; width:40px;">
+                                                    <div onclick='irPara_mobile()' class="btn blue btn-sm">GO</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="well" style="padding: 0px;margin-top: 20px;background-color:#F1F3FA;font-size: 11px !important;margin-bottom:0px;">
                             <address>
-                                <div id="recados_sd"></div> <!-- lista de recados do servicedesk -->
-                                <strong>Login:</strong> <span class="exibe_user"></span><br>
+                                <div id="feedback_sd"></div> <!-- lista de recados do servicedesk -->
+                                <!-- <strong>Login:</strong> <span class="exibe_user"></span><br>-->
                                 <strong>URL:</strong> <span class="exibe_url"></span><br>
-                                <strong>BANCO:</strong> <span class="banco-nome"></span><br>
+                                <!-- <strong>BANCO:</strong> <span class="banco-nome"></span><br>-->
                             </address>
                         </div>
                     </div>
@@ -96,27 +114,55 @@
         <script src="js/jquery.toastmessage.js"></script>
         <script src="default/js/default.js"></script>
 
+        <!-- Script que carrega mensagens do servicedesk na home -->
+        <script src="default/js/feedback_sd.js"></script>
+
         <script>
-            jQuery(document).ready(function () {
-                Metronic.init(); // init metronic core components
-                Layout.init(); // init current layout
+            var objuser = localStorage['mobile_login'];
+            //rudi 7/10/2015 escondendo o body, soh exibindo se estiver logado
+            if (typeof objuser == "undefined" || !objuser || objuser === null) {
 
-                var Objeto_json = JSON.parse(localStorage['mobile_login'])
-                $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
-                $('.exibe_user').html(Objeto_json['user_bd']);
-                $('.exibe_url').html(Objeto_json['url']);
-                $('.banco-nome').html(Objeto_json['db']);
+            } else {
+                jQuery(document).ready(function () {
+                    $('#body_mobile_home').css('display', '');
+                    Metronic.init(); // init metronic core components
+                    Layout.init(); // init current layout
 
+                    var Objeto_json = JSON.parse(objuser)
+                    $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
+                    $('.exibe_url').html(Objeto_json['url']);
+                    
+                    //Andre Renovato - 11/11/2015
+                    //Agora o nome do banco e login esta sendo inserido em index.html
+                    //$('.banco-nome').html(Objeto_json['db']);
+                    //$('.exibe_user').html(Objeto_json['user_bd']);
 
-                var link = '';
-                //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
-                $('.link').click(function () {
-                    if (typeof $(this).attr('id') != 'undefined') {
-                        window.location.href = Objeto_json['url'] + $(this).attr('id');
-                    }
-                })
+                    permissaoMenu(); //recupera permissao de menu                    
+                });
+            }
 
-            });
+            function irPara_mobile() {
+                var numero = $("#numero").val().trim();
+                var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
+                $("#go_form").attr('action', url);
+
+                if (numero != '') {
+                    $.ajax({
+                        url: COMMON_URL + "/mobile/call_funcs.php",
+                        method: "POST",
+                        dataType: "jsonp",
+                        crossDomain: true,
+                        data: {val: numero, sel: 'oco', func: 'ir_para'},
+                    }).done(function (result) {
+
+                        if (result != '0') {
+                            $("#go_form").submit();
+                        } else {
+                            alert('Registro não encontrado, ou você não tem permissão para visualizá-lo');
+                        }
+                    });
+                }
+            }
         </script>
         <!-- END JAVASCRIPTS -->
     </body>

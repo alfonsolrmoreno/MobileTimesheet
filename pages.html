@@ -7,6 +7,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+        <!-- rudi 6/10/2015 manter o cordova no topo -->
         <!-- Andre Renovato - 14/04/2015 - Este js é incluido automaticamente pelo phonegap -->
         <script type="text/javascript" src="cordova.js"></script>
 
@@ -37,6 +38,8 @@
         <script src="js/infinity-scroll.js"></script>
         <script src="js/jquery.toastmessage.js"></script>
         <script src="default/js/default.js"></script>
+        <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
+        <script type="text/javascript" src="js/calendar/data.js"></script>
 
         <script type="text/javascript">
             try {
@@ -81,17 +84,17 @@
                     <p>&nbsp;</p>
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_url">
-                    <label for="url">
-                        URL do Sistema
+                    <label for="url"> 
+                        URL ou código do Sistema
                     </label>
-                    <input name="url" id="url" placeholder="" value="" type="text">
+                    <input name="url" id="url" placeholder="" value="" type="text" autocomplete="off" autocorrect="off" autocapitalize="off">
                     <span class="info-url">Informe ou copie a url de seu sistema pela web. Ex:&nbsp;http://multidadosti.com.br/vmulti</span>
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_usuario">
                     <label for="usuario">
                         Usu&aacute;rio
                     </label>
-                    <input name="usuario" id="usuario" placeholder="" value="" type="text">
+                    <input name="usuario" id="usuario" placeholder="" value="" type="text" autocomplete="off" autocorrect="off" autocapitalize="off">
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_senha">
                     <label for="senha">
@@ -103,6 +106,11 @@
                    data-iconpos="right" class="box_btentrar">
                     Entrar
                 </a>
+
+                <div style="margin-top:30px; text-align:center;">
+                    <label class="name_powered">
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -187,7 +195,19 @@
                 </h3>
             </div>
             <div id="divautocomplete_timecard">
-                <ul id="autocomplete_prj" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
+
+                <div id="header_default" data-theme="b" data-role="header" class="header_default">
+                    <a data-role="button" data-theme="a" href="#page_timesheet" data-icon="arrow-l" id="voltar_timesheet"
+                       data-iconpos="left" class="ui-btn-left btn_default">
+                        Voltar
+                    </a>
+                    <h3 id="header" class="header">
+                        Busca
+                    </h3>
+                </div>
+                <div style="margin-top:10px">
+                    <ul id="autocomplete_prj" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
+                </div>
             </div>
             <div    id="page_timesheet_clientes"></div>
             <div    id="page_timesheet_projetos"></div>
@@ -252,22 +272,23 @@
                     <label for="hora_inicial">
                         Hora Inicial
                     </label>
-                    <input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
+                    <!--<input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>-->
+                    <input name="hora_inicial" id="hora_inicial" type="time">
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="hora_final">
                         Hora Final
                     </label>
-                    <input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >
+                    <!--<input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
+                    <input name="hora_inicial" id="hora_final" type="time">
                 </div>
                 <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
                     <label for="narrativa_principal">
                         Narrativa
                     </label>
-                    <textarea name="narrativa_principal" id="narrativa_principal" placeholder=""></textarea>
+                    <textarea name="narrativa_principal" id="narrativa_principal" placeholder="" style="height:100px !important;"></textarea>
                 </div>
-                <a id="save_timecard_bottom" data-role="button" href="#page_timesheet"
-                   data-icon="check" data-iconpos="right" class="box_form btn_default" >
+                <a id="save_timecard_bottom" data-role="button" href="#page_timesheet" data-icon="check" data-iconpos="right" class="box_form btn_default">
                     Salvar
                 </a>
             </div>
@@ -341,7 +362,18 @@
                 </h3>
             </div>
             <div id="divautocomplete_despesa">
-                <ul id="autocomplete_cli" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
+                <div id="header_default" data-theme="b" data-role="header" class="header_default">
+                    <a data-role="button" data-theme="a" href="#page_despesa" data-icon="arrow-l" id="voltar_despesa"
+                       data-iconpos="left" class="ui-btn-left btn_default">
+                        Voltar
+                    </a>
+                    <h3 id="header" class="header">
+                        Busca
+                    </h3>
+                </div>
+                <div style="margin-top:10px">
+                    <ul id="autocomplete_cli" class="lista-infinity" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busca" data-theme="c" style="font-weight: normal !important;"></ul>
+                </div>
             </div>
             <div id="page_despesa_clientes" ></div>
             <div id="page_despesa_projetos">
@@ -448,7 +480,7 @@
                     <label for="textarea2" class="ui-input-text">
                         Narrativa
                     </label>
-                    <textarea name="narrativa_principal_despesa" id="narrativa_principal_despesa" placeholder=""></textarea>
+                    <textarea name="narrativa_principal_despesa" id="narrativa_principal_despesa" placeholder="" style="height:100px !important;"></textarea>
                 </div>
                 <div id="btn_save_despesa">
                     <a id="save_despesa_bottom" data-role="button" href="javascript:;" data-icon="check" data-iconpos="right" class="box_form btn_default">Salvar</a>
@@ -459,78 +491,76 @@
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
              id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat"
              >
-            <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
-            <script type="text/javascript" src="js/calendar/data.js"></script>
             <script type="text/javascript">
-                        $(function () {
+                $(function() {
 
-                            var transEndEventNames = {
-                                'WebkitTransition': 'webkitTransitionEnd',
-                                'MozTransition': 'transitionend',
-                                'OTransition': 'oTransitionEnd',
-                                'msTransition': 'MSTransitionEnd',
-                                'transition': 'transitionend'
-                            },
-                            transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
-                                    $wrapper = $('#custom-inner'),
-                                    $calendar = $('#calendar')
-                                    ,
-                                    cal = $calendar.calendario({
-                                        onDayClick: function ($el, $contentEl, dateProperties) {
-                                            alert(dateProperties['day']);
-                                            if ($contentEl.length > 0) {
-                                                showEvents($contentEl, dateProperties);
-                                            }
+                    var transEndEventNames = {
+                        'WebkitTransition': 'webkitTransitionEnd',
+                        'MozTransition': 'transitionend',
+                        'OTransition': 'oTransitionEnd',
+                        'msTransition': 'MSTransitionEnd',
+                        'transition': 'transitionend'
+                    },
+                    transEndEventName = transEndEventNames[ Modernizr.prefixed('transition') ],
+                            $wrapper = $('#custom-inner'),
+                            $calendar = $('#calendar')
+                            ,
+                            cal = $calendar.calendario({
+                                onDayClick: function($el, $contentEl, dateProperties) {
+                                    alert(dateProperties['day']);
+                                    if ($contentEl.length > 0) {
+                                        showEvents($contentEl, dateProperties);
+                                    }
 
-                                        },
-                                        caldata: codropsEvents,
-                                        displayWeekAbbr: true
-                                    }),
-                                    $month = $('#custom-month').html(cal.getMonthName()),
-                                    $year = $('#custom-year').html(cal.getYear());
+                                },
+                                caldata: codropsEvents,
+                                displayWeekAbbr: true
+                            }),
+                            $month = $('#custom-month').html(cal.getMonthName()),
+                            $year = $('#custom-year').html(cal.getYear());
 
-                            $('#custom-next').on('click', function () {
-                                cal.gotoNextMonth(updateMonthYear);
-                            });
-                            $('#custom-prev').on('click', function () {
-                                cal.gotoPreviousMonth(updateMonthYear);
-                            });
+                    $('#custom-next').on('click', function() {
+                        cal.gotoNextMonth(updateMonthYear);
+                    });
+                    $('#custom-prev').on('click', function() {
+                        cal.gotoPreviousMonth(updateMonthYear);
+                    });
 
-                            function updateMonthYear() {
-                                $month.html(cal.getMonthName());
-                                $year.html(cal.getYear());
-                            }
+                    function updateMonthYear() {
+                        $month.html(cal.getMonthName());
+                        $year.html(cal.getYear());
+                    }
 
-                            // just an example..
-                            function showEvents($contentEl, dateProperties) {
+                    // just an example..
+                    function showEvents($contentEl, dateProperties) {
 
-                                hideEvents();
+                        hideEvents();
 
-                                var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'), $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
+                        var $events = $('<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateProperties.monthname + ' ' + dateProperties.day + ', ' + dateProperties.year + '</h4></div>'), $close = $('<span class="custom-content-close"></span>').on('click', hideEvents);
 
-                                $events.append($contentEl.html(), $close).insertAfter($wrapper);
+                        $events.append($contentEl.html(), $close).insertAfter($wrapper);
 
-                                setTimeout(function () {
-                                    $events.css('top', '0%');
-                                }, 25);
+                        setTimeout(function() {
+                            $events.css('top', '0%');
+                        }, 25);
 
-                            }
-                            function hideEvents() {
+                    }
+                    function hideEvents() {
 
-                                var $events = $('#custom-content-reveal');
-                                if ($events.length > 0) {
+                        var $events = $('#custom-content-reveal');
+                        if ($events.length > 0) {
 
-                                    $events.css('top', '100%');
-                                    Modernizr.csstransitions ? $events.on(transEndEventName, function () {
-                                        $(this).remove();
-                                    }) : $events.remove();
+                            $events.css('top', '100%');
+                            Modernizr.csstransitions ? $events.on(transEndEventName, function() {
+                                $(this).remove();
+                            }) : $events.remove();
 
-                                }
+                        }
 
-                            }
+                    }
 
 
-                        });
+                });
 
             </script>
             <div data-role="content" style="padding: 0px">
