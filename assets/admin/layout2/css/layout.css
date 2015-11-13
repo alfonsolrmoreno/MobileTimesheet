@@ -435,7 +435,7 @@ Page Header
 /* CUSTOM MULTIDADOS - OCULTANDO LOGO QUANDO ESTIVER EM TELA GRANDE */
 .page-header.navbar .page-top > .saudacao-init {
     float:left; 
-    width: 223px;   
+    width: 220px;   
 }
 .page-header.navbar .page-top div > .saudacao {
     display: inline-block;

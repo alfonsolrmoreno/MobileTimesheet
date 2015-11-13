@@ -39,11 +39,17 @@
                 <div class="">
                     <div class="page-content">
                         <center>
+							<h3>Centro de Serviços Compartilhados</h3>
                             <img src="img/logomultidados.png" alt="logo" class="logo-multidados" style="max-width: 250px;max-height: 200px;"/>
                             <br>
                             <br>
+<<<<<<< HEAD
                             <!--<a class="icon-btn" mobile="true" href="pages.html#page_timesheet">-->
                             <a class="linkHome icon-btn" mobile="true" id="page_timesheet">
+=======
+							<!--
+                            <a class="icon-btn" mobile="true" href="pages.html#page_timesheet">
+>>>>>>> origin/master
                                 <i class="icon-calendar"></i>
                                 <div>TimeSheet</div>
                                 <span class="badge badge-info larger-badge"><b>+</b></span>
@@ -53,11 +59,35 @@
                                 <i class="icon-notebook"></i>
                                 <div>Despesas</div>
                                 <span class="badge badge-info larger-badge"><b>+</b></span>
+<<<<<<< HEAD
                             </a>
                             <a class="icon-btn linkHome" link="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
                                 <i class="fa fa-ticket icon-size-mobile"></i>
                                 <div>Ocorrência</div>
                                 <span class="badge badge-info larger-badge"><b>+</b></span>
+=======
+                            </a>-->
+							<a class="icon-btn link" id="?display=portal&m=servicedesk&a=abrir_oc_portal&nomenu=1">
+                                <i class="fa fa-ticket icon-size-mobile"></i>
+                                <div>Ocorrência</div>
+                                <span class="badge badge-info larger-badge"><b>+</b></span>
+                            </a>
+							<a class="icon-btn link" id="?display=portal&m=servicedesk&a=consultar_ocs_portal&nomenu=1&modal=false">
+                                <i class="fa fa-th-list"></i>
+                                <div>Consultar</div>
+                            </a>
+							<a class="icon-btn link" id="?display=portal&m=servicedesk&a=ocorrencias&nomenu=1">
+                                <i class="fa fa-desktop"></i>
+                                <div>Portal</div>
+                            </a>
+							<a class="icon-btn link" id="?display=portal&m=servicedesk&a=aprovacoes_ocs_portal&nomenu=1">
+                                <i class="fa fa-check-square-o"></i>
+                                <div>Aprovar Ocs</div>
+                            </a>
+							<a class="icon-btn link" id="?display=portal&m=dashboards&a=view_dashboard_portal&iddashboards=9&nomenu=1&menuItem=1">
+                                <i class="fa fa-bar-chart-o"></i>
+                                <div>Dashboards</div>
+>>>>>>> origin/master
                             </a>
                         </center>
                         <div class="col-xs-12" style="margin: 8px 0  0  0;">
@@ -77,14 +107,22 @@
                                 </div>
                             </form>
                         </div>
+<<<<<<< HEAD
                         <div class="well" style="padding: 0px;margin-top: 20px;background-color:#F1F3FA;font-size: 11px !important;margin-bottom:0px;">
                             <address>
                                 <div id="feedback_sd"></div> <!-- lista de recados do servicedesk -->
                                 <!-- <strong>Login:</strong> <span class="exibe_user"></span><br>-->
+=======
+						<!--
+                        <div class="well" style="padding: 0px;margin-top: 20px;background-color:#F1F3FA;font-size: 11px !important;margin-bottom:0px;">
+                            <address>
+                                <div id="feedback_sd"></div> <!-- lista de recados do servicedesk 
+                                <strong>Login:</strong> <span class="exibe_user"></span><br>
+>>>>>>> origin/master
                                 <strong>URL:</strong> <span class="exibe_url"></span><br>
                                 <!-- <strong>BANCO:</strong> <span class="banco-nome"></span><br>-->
                             </address>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <!-- END CONTENT -->
@@ -118,6 +156,7 @@
         <script src="default/js/feedback_sd.js"></script>
 
         <script>
+<<<<<<< HEAD
             var objuser = localStorage['mobile_login'];
             //rudi 7/10/2015 escondendo o body, soh exibindo se estiver logado
             if (typeof objuser == "undefined" || !objuser || objuser === null) {
@@ -163,6 +202,57 @@
                     });
                 }
             }
+=======
+                                                        var objuser = localStorage['mobile_login'];
+                                                        //rudi 7/10/2015 escondendo o body, soh exibindo se estiver logado
+                                                        if (typeof objuser == "undefined" || !objuser || objuser === null) {
+
+                                                        } else {
+                                                            jQuery(document).ready(function () {
+                                                                $('#body_mobile_home').css('display', '');
+                                                                Metronic.init(); // init metronic core components
+                                                                Layout.init(); // init current layout
+
+                                                                var Objeto_json = JSON.parse(objuser)
+                                                                $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
+                                                                $('.exibe_user').html(Objeto_json['user_bd']);
+                                                                $('.exibe_url').html(Objeto_json['url']);
+                                                                $('.banco-nome').html(Objeto_json['db']);
+
+
+                                                                var link = '';
+                                                                //Acao do click do servicedesk em home, encaminha para pagina abertura ocorrencia
+                                                                $('.link').click(function () {
+                                                                    if (typeof $(this).attr('id') != 'undefined') {
+                                                                        window.location.href = Objeto_json['url'] + $(this).attr('id');
+                                                                    }
+                                                                })
+                                                            });
+                                                        }
+
+                                                        function irPara_mobile() {
+                                                            var numero = $("#numero").val().trim();
+                                                            var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
+                                                            $("#go_form").attr('action', url);
+
+                                                            if (numero != '') {
+                                                                $.ajax({
+                                                                    url: COMMON_URL + "/mobile/call_funcs.php",
+                                                                    method: "POST",
+                                                                    dataType: "jsonp",
+                                                                    crossDomain: true,
+                                                                    data: {val: numero, sel: 'oco', func: 'ir_para'},
+                                                                }).done(function (result) {
+
+                                                                    if (result != '0') {
+                                                                        $("#go_form").submit();
+                                                                    } else {
+                                                                        alert('Registro não encontrado, ou você não tem permissão para visualizá-lo');
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+>>>>>>> origin/master
         </script>
         <!-- END JAVASCRIPTS -->
     </body>

@@ -66,6 +66,7 @@ function send_js_error(errorMsg, url, lineNumber, column, errorObj) {
     };
 
     var msg = "erro js : \n";
+<<<<<<< HEAD
 
     for (var i in jsdata)
         msg += "\n" + i + " : " + jsdata[i];
@@ -74,6 +75,16 @@ function send_js_error(errorMsg, url, lineNumber, column, errorObj) {
 
     return;
 
+=======
+
+    for (var i in jsdata)
+        msg += "\n" + i + " : " + jsdata[i];
+
+    alert(msg);
+
+    return;
+
+>>>>>>> origin/master
     //nao podemos passar o objeto window.location inteiro, da pau
     for (var p in window.location)
         if (typeof window.location[p] == 'string')
@@ -626,16 +637,28 @@ function isArray(o) {
 
 //rudi 7/10/2015 retornando true tambem, e soh seguindo se for true na index.html
 function verifica_logado() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
     if (debug_mode)
         alert('verifica_logado');
 
     var Objeto_real = localStorage.getItem('mobile_login')
 
     if (typeof Objeto_real == "undefined" || !Objeto_real || Objeto_real === null) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
         if (debug_mode)
             alert('redirecionar para a tela pages.html#page_login');
 
         window.location.href = 'pages.html#page_login';
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
         return false;
     } else {
         if (debug_mode)
@@ -685,6 +708,14 @@ function verifica_logado() {
 //#############################################################################
 function popMenuDash() {
     if ($("#lista_dashboard").length > 0 && $("#lista_dashboard").html() == '') {
+<<<<<<< HEAD
+=======
+        if (debug_mode)
+            alert('Lista os dashs popMenuDash');
+
+        if (debug_mode)
+            alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
+>>>>>>> origin/master
 
         var dados = new Object();
         var ajax_file = COMMON_URL_MOBILE + '/getDashboards.php';
@@ -697,9 +728,15 @@ function popMenuDash() {
                 tipo: 'menu'
             }
         }).then(function(data) {
+<<<<<<< HEAD
             if (data['erro']) {
                 $("#menu_dashboards").attr("onclick","alert('"+data['erro']+"')");
             }else{
+=======
+            console.log('popmenudash data');
+            console.dir(data);
+            if (data) {
+>>>>>>> origin/master
                 $("#lista_dashboard").html(data);
             }
         });
@@ -1754,12 +1791,16 @@ $(document).ready(function() {
                 link = 'pages.html#' + $(this).attr('id');
             } else {
                 //setar url do sistema, pois o portal é chamado atraves da url
+<<<<<<< HEAD
                 //Andre Renovato - 12/11/2015
                 //nao estamos mais tratando pelo id porque o jquery apresentava problema ao tentar setar o id para fazer alguma ação, provavelmente
                 //por causa dos caracteres "?#=". Neste caso no menu os links externos vamos remover a url que ficava no id e jogar para o novo paramentro link, 
                 //e o id vai ficar com o nome da acao menu. Ex. Aprovar Horas (id="aprov_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1")                
                 //link = COMMON_URL + $(this).attr('id');
                 link = COMMON_URL + $(this).attr('link');
+=======
+                link = COMMON_URL + $(this).attr('id');
+>>>>>>> origin/master
             }
         }
 
