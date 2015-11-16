@@ -58,7 +58,7 @@
             .h_iframe .ratio {display:block;width:100%;height:auto;}
             //.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:100%;}
             /*.h_iframe iframe {position:relative;top:0;left:0;width:100%; height:350px;}*/
-            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:398px;}
+            .h_iframe iframe {position:relative;top:0;left:0;width:100%; height:100%;}
 
             @media (max-width: 767px){
                 .page-content-wrapper .page-content {
@@ -694,9 +694,18 @@
                         }
                     }, 10);
                 }
-                
                 permissaoMenu(); //recupera permissao de menu
             }
+			
+            //Andre Renovato - 16/11
+            //Feito por Ig, apenas repliquei para nossa versao.
+            //Realiza ajuste do iframe
+			if($(window).width() == 600 && $(window).width() == 1024) {
+				$('.wrapper').css('position', 'relative');
+				$('.wrapper').css('top', $('.page-top').height());
+			}            
+			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height() - $('.page-footer').height());
+
         });
     </script>
     <!-- END BODY -->

@@ -812,6 +812,8 @@ function salvar_timesheet()
     dados['idclienteprojeto'] = $("#codigo").val();
     dados['hora'] = $("#hora_inicial").val();
     dados['hora_fim'] = $("#hora_final").val();
+    dados['intervalo_ini'] = $("#intervalo_hr_inicial").val();
+    dados['intervalo_fim'] = $("#intervalo_hr_final").val();    
     dados['idtarefa_utbms'] = $("#codigo_fase").val();
     dados['idatividade_utbms'] = $("#codigo_atividade").val();
     dados['idtask_parent'] = $("#task_parent").val();
@@ -1132,7 +1134,10 @@ function geraDespesa(idclienteprojeto, selecionado) {
         });
         $("#codigo_despesa").html(options);
         loading('hide');
-        $("#codigo_despesa").selectmenu("refresh");
+        //$("#codigo_despesa").selectmenu("refresh");
+        $(document).bind('pageinit', function() {
+            $('#codigo_despesa').selectmenu('refresh');
+        });        
     });
 }
 
@@ -1357,7 +1362,10 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
             //Andre Renovato - 24-06-2014
             //NOVO USANDO SELECTBOX
             $("#porc_conclusao_atividade").val();
-            $("select#porc_conclusao_atividade").selectmenu("refresh");
+            //$("select#porc_conclusao_atividade").selectmenu("refresh");
+            $(document).bind('pageinit', function() {
+                $('select#porc_conclusao_atividade').selectmenu('refresh');
+            });               
 
             //ANTIGO USANDO SLIDER
             //$(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
@@ -1539,7 +1547,10 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
                     options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
                 });
                 $("#codigo_fase").html(options);
-                $("select#codigo_fase").selectmenu("refresh");
+                //$("select#codigo_fase").selectmenu("refresh");
+                $(document).bind('pageinit', function() {
+                    $('select#codigo_fase').selectmenu('refresh');
+                });                 
                 loading('hide');
                 if (selecionado_atividade != 0)
                     seleciona_atividade(selecionado_atividade);
@@ -1569,7 +1580,10 @@ function seleciona_porcentagem_conclusao(item_selected) {
                 });
 
                 $("#porc_conclusao_atividade").html(options);
-                $("select#porc_conclusao_atividade").selectmenu("refresh");
+                //$("select#porc_conclusao_atividade").selectmenu("refresh");
+                $(document).bind('pageinit', function() {
+                    $('select#porc_conclusao_atividade').selectmenu('refresh');
+                });                 
                 loading('hide');
             });
 }
@@ -1608,7 +1622,10 @@ function seleciona_atividade(selecionado)
                         options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
                     });
                     $("#codigo_atividade").html(options);
-                    $("select#codigo_atividade").selectmenu("refresh");
+                    //$("select#codigo_atividade").selectmenu("refresh");
+                    $(document).bind('pageinit', function() {
+                        $('select#codigo_atividade').selectmenu('refresh');
+                    });                     
                     loading('hide');
                 });
     }
@@ -1653,7 +1670,10 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                     $('#fase_task').append('<input type="hidden" name="codigo_fase" id="codigo_fase" >');
                 }
                 $('#codigo_fase').val(response.select_tarefas_hidden);
-                $("select#task_parent").selectmenu("refresh");
+                //$("select#task_parent").selectmenu("refresh");
+                $(document).bind('pageinit', function() {
+                    $('select#task_parent').selectmenu('refresh');
+                });                   
                 loading('hide');
 
                 if (selecionado != '')
@@ -1694,7 +1714,10 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
                     $('#atividade_task').append('<input type="hidden" name="codigo_atividade" id="codigo_atividade" >');
                 }
                 $('#codigo_atividade').val(response.select_atividades_hidden);
-                $("select#task").selectmenu("refresh");
+                //$("select#task").selectmenu("refresh");
+                $(document).bind('pageinit', function() {
+                    $('select#task').selectmenu('refresh');
+                });                      
                 loading('hide');
             });
 }
@@ -1715,8 +1738,13 @@ $(document).delegate('#task_parent', 'change', function() {
 //});
 
 $(document).ready(function() {
+    //exibe campos de intervalo para apontar horas
+    $("#div_intervalo").hide()
+    $("#monstrarIntervalo").click(function() {
+        $("#div_intervalo").toggle();
+     }); 
+    
     var link = '';
-
     //Acao do click dos botoes de atalho na home(mobile_home.html), onde encaminha para pagina correta.
     $('.linkHome').click(function() {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
