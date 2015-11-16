@@ -700,11 +700,12 @@
             //Andre Renovato - 16/11
             //Feito por Ig, apenas repliquei para nossa versao.
             //Realiza ajuste do iframe
+            alert('width: '+$(window).width()+' - height: '+$('.page-top').height());
 			if($(window).width() == 600 && $(window).width() == 1024) {
 				$('.wrapper').css('position', 'relative');
 				$('.wrapper').css('top', $('.page-top').height());
 			}            
-			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height() - $('.page-footer').height());
+			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height()+(80) - $('.page-footer').height());
 
         });
     </script>
