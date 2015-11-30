@@ -272,16 +272,38 @@
                     <label for="hora_inicial">
                         Hora Inicial
                     </label>
-                    <!--<input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>-->
-                    <input name="hora_inicial" id="hora_inicial" type="time">
+                    <input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="hora_final">
                         Hora Final
                     </label>
-                    <!--<input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
-                    <input name="hora_inicial" id="hora_final" type="time">
+                    <input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >
                 </div>
+                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+                    <div id="monstrarIntervalo" style="width: -moz-max-content">
+                        <img data-transition="slide" src="img/icon_intervalo.png" width="32" height="32"/>
+                        <label> Exibir Intervalo </label>
+                    </div>                  
+                </div>
+                <!-- Intervalo -->
+                <div id="div_intervalo">
+                    <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+                        <label>
+                            Intervalo Inicial
+                        </label>
+                        <input name="intervalo_hr_inicial" id="intervalo_hr_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
+                    </div>
+                    <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
+                        <label>
+                            Intervalo Final
+                        </label>
+                        <input name="intervalo_hr_final" id="intervalo_hr_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
+                    </div>
+                </div>
+                
+                
+                
                 <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
                     <label for="narrativa_principal">
                         Narrativa
@@ -423,14 +445,15 @@
                     <label for="vlr_unitario">
                         Valor Unitário
                     </label>
-                    <input name="vlr_unitario" id="vlr_unitario" placeholder="" value="" type="text">
+                    <input name="vlr_unitario" id="vlr_unitario" placeholder="" value="" type="text">                   
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="qtde_despesa">
                         Qtde.
                     </label>
-                    <input name="qtde_despesa" id="qtde_despesa" placeholder="" value="" type="number" >
+                    <input name="qtde_despesa" id="qtde_despesa" placeholder="" value="" type="number">                    
                 </div>
+
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="valor_total">
                         Valor Total
@@ -453,9 +476,17 @@
                 </div>
 
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
-                    <div id="uploadArquivo" style="width: -moz-max-content">
+                    <div id="uploadArquivo" style="">
                         <img data-transition="slide" title="Fotografar documento" src="img/blue_cam2.png" width="32" height="32"/>
                         <label for="arq_despesa"> Anexar Documento </label>
+                        <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
+                            <div id="popup_imagem"> </div>
+                        </form>
+                        <!-- Lista de tipo foto/upload -->
+                        <div id="optionsUpload" data-role="controlgroup" data-type="horizontal">
+                            <a href="#" class="btn_default" data-role="button">Foto</a>
+                            <a href="#" class="btn_default" data-role="button">Galeria</a>
+                        </div>
                     </div>
                     <!--
                     <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
@@ -465,16 +496,9 @@
                         <div    id="popup_imagem">
                         </div>
                     </form>-->
-                    <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
-                        <div id="popup_imagem"> </div>
-                    </form>
+               
                 </div>
-                <!-- Lista de tipo foto/upload -->
-                <div id="optionsUpload"  data-role="controlgroup">
-                    <a href="#" class="btn_default" onclick="capturePhoto()" data-role="button">Tirar foto</a>
-                    <a href="#" class="btn_default" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Escolher da biblioteca</a>
-                    <a href="#" id="cancel_upload" data-theme="a" data-role="button">Cancelar</a>
-                </div>
+
 
                 <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
                     <label for="textarea2" class="ui-input-text">

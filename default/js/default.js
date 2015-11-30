@@ -34,6 +34,12 @@ if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
     var COMMON_URL_MOBILE = Objeto_json.url + '/mobile/';
     var COMMON_URL = Objeto_json.url;
 
+    //definindo pagina padrao Home
+    if(Objeto_json.page_home && Objeto_json.page_home != 'undefined'){
+        var pageHome = Objeto_json.page_home + '.html';
+    }else{
+        var pageHome = "mobile_home.html";
+    }
 } else {
     if (typeof getUrlVal() != 'undefined') {
         var COMMON_URL_MOBILE = getUrlVal() + '/mobile/';
@@ -44,6 +50,38 @@ if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
         var Objeto_json = {};
     }
 }
+
+function irPara_mobile() {
+    var numero = $("#numero").val().trim();
+    var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
+    
+    //Andre Renovato - 25/11/2015
+    //caso nao tenha permissao visualizar ocorrencias, retorna para sem acesso ao modulo
+    if(Objeto_json['perms_menu']['Ocorrencias']['pesquisa_go'] == 'F'){
+        //var link = Objeto_json['url'] + '/timesheet/multidados/module/';
+        //window.location.href = link;
+    }
+
+    $("#go_form").attr('action', url);
+
+    if (numero != '') {
+        $.ajax({
+            url: COMMON_URL + "/mobile/call_funcs.php",
+            method: "POST",
+            dataType: "jsonp",
+            crossDomain: true,
+            data: {val: numero, sel: 'oco', func: 'ir_para'},
+        }).done(function (result) {
+            if (result == '1') {
+                $("#go_form").submit();
+            } else {
+                //alert('Registro não encontrado, ou você não tem permissão para visualizá-lo');
+                alert(result);
+            }
+        });
+    }
+}
+
 function send_js_error(errorMsg, url, lineNumber, column, errorObj) {
 //erro de NPObject é muito comum quando o client tem extensoes instaladas como guard de bancos online e outros
     if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf != 'undefined' && errorMsg.indexOf('Error calling method on NPObject') != -1)
@@ -318,11 +356,11 @@ function notNull(valor) {
 
 //Controle de login
 function mobile_login(obj) {
+    loading('show');
 
     if (debug_mode)
         alert('mobile_login');
 
-    //loading('show');
     var dados = new Object();
 
     if (debug_mode)
@@ -486,7 +524,8 @@ function mobile_login(obj) {
                                 'url_foto_user': data['url_foto_user'],
                                 'url_logo_cliente': data['url_logo_cliente'],
                                 'cnpj': data['cnpj'],
-                                'perms_menu': data['perms_menu']};
+                                'perms_menu': data['perms_menu'],
+                                'page_home': data['page_home']};
                             localStorage.setItem('mobile_login', JSON.stringify(Objeto));
                             var Objeto_real = localStorage['mobile_login'];
                             var Objeto_json = JSON.parse(Objeto_real);
@@ -784,9 +823,16 @@ function permissaoMenu(){
         $("#portal_ocorrencia").removeAttr("mobile");
         $("#portal_ocorrencia").attr("id","sem_acesso");
     }
+    
+    //Verifica se possui dashboard padrao definido, marca sem acesso ou o link do dash
+    if(permMenu['Ocorrencias']['dashboard_padrao'] == 'F' || permMenu['Ocorrencias']['dashboard_padrao'] == undefined){
+        $("#dashboard_padrao").attr("id","sem_acesso");
+    }else{
+        var idDash = permMenu['Ocorrencias']['dashboard_padrao'];
+        var lnk = "?display=portal&m=dashboards&a=view_dashboard_portal&iddashboards="+idDash+"&nomenu=1&menuItem=1";
+        $("#dashboard_padrao").attr("link",lnk);
+    }
     //=============== FIM OCORRENCIA ===============//
-
-
 }
 
 //############################# FIM MENU ######################################
@@ -1354,7 +1400,6 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         if (data.idtimecard != '') {
             $("#idtimecard").val(data.idtimecard);
         }
-
         //Verifica se é project
         if (data.idtask != '') {
             $("#porcentagem_conclusao").show();
@@ -1385,6 +1430,10 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         hora_final = (data.dt_hr_final.substr(11, 5));
         $("#hora_inicial").val(hora_inicial);
         $("#hora_final").val(hora_final);
+        
+        $("#intervalo_hr_inicial").val(data.intervalo_hr_inicial);
+        $("#intervalo_hr_final").val(data.intervalo_hr_final);
+        
         $("#narrativa_principal").val(data.narrativa_principal);
     });
 });
@@ -1533,28 +1582,25 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
         dataType: "jsonp",
         crossDomain: true
     })
-            .then(function(response)
-            {
-                if (selecionado_fase == 0 || typeof selecionado_fase == 'undefined') {
-                    selecionado_fase = "";
-                    var selected_first = "selected='selected'";
-                }
-                var options = '<option value="" ' + selected_first + '>Selecione uma fase</option>';
-                $.each(response, function(key, val) {
-                    selected = '';
-                    if (val.idutbms == selecionado_fase)
-                        selected = 'selected="selected"';
-                    options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
-                });
-                $("#codigo_fase").html(options);
-                //$("select#codigo_fase").selectmenu("refresh");
-                $(document).bind('pageinit', function() {
-                    $('select#codigo_fase').selectmenu('refresh');
-                });                 
-                loading('hide');
-                if (selecionado_atividade != 0)
-                    seleciona_atividade(selecionado_atividade);
-            });
+    .then(function(response)
+    {
+        if (selecionado_fase == 0 || typeof selecionado_fase == 'undefined') {
+            selecionado_fase = "";
+            var selected_first = "selected='selected'";
+        }
+        var options = '<option value="" ' + selected_first + '>Selecione uma fase</option>';
+        $.each(response, function(key, val) {
+            selected = '';
+            if (val.idutbms == selecionado_fase)
+                selected = 'selected="selected"';
+            options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
+        });
+        $("#codigo_fase").html(options);
+        $('select#codigo_fase').selectmenu('refresh');
+        loading('hide');
+        if (selecionado_atividade != 0)
+            seleciona_atividade(selecionado_atividade);
+    });
 }
 
 //Andre Renovato - 26/06/2014 - oc:13190
@@ -1622,10 +1668,7 @@ function seleciona_atividade(selecionado)
                         options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
                     });
                     $("#codigo_atividade").html(options);
-                    //$("select#codigo_atividade").selectmenu("refresh");
-                    $(document).bind('pageinit', function() {
-                        $('select#codigo_atividade').selectmenu('refresh');
-                    });                     
+                    $('select#codigo_atividade').selectmenu('refresh');
                     loading('hide');
                 });
     }
@@ -1745,7 +1788,7 @@ $(document).ready(function() {
      }); 
     
     var link = '';
-    //Acao do click dos botoes de atalho na home(mobile_home.html), onde encaminha para pagina correta.
+    //Acao do click dos botoes de atalho na home(mobile_home.html / mobile_crm_home.html), onde encaminha para pagina correta.
     $('.linkHome').click(function() {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
         if($(this).attr('id') == 'sem_acesso'){
@@ -1772,8 +1815,9 @@ $(document).ready(function() {
     //Acao do click no menu, onde encaminha para pagina correta.
     $('.link').click(function() {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
-        if ($(this).attr('id') == 'mobile_home.html') {
-            link = "mobile_home.html";
+        //if ($(this).attr('id') == 'mobile_home.html') {
+        if ($(this).attr('id') == 'page_home') {
+            link = pageHome;
         } else if($(this).attr('id') == 'sem_acesso'){
             link = COMMON_URL + '/timesheet/multidados/module/';
         } else {
@@ -1791,16 +1835,8 @@ $(document).ready(function() {
             }
         }
 
-        if ($(this).attr('id')) {
-            //console.log(link);
-            //loading('show');
-            $("#conteudo").attr("src", link);
-            //loading('hide');
-        } else {
-            //loading('show');
-            $("#conteudo").attr("src", "mobile_home.html");
-            //loading('hide');
-        }
+        //Andre Renovato - 16/11/2015
+        $("#conteudo").attr("src", link);
     })
 
     //Pega data do dia ########################################################
@@ -1920,7 +1956,8 @@ $(document).ready(function() {
                 $("#qtde_despesa").val(1);
             }
             calcula_total_despesa();
-            valor_unitario = parseFloat($("#vlr_unitario").val().replace(',', '.'));
+            //valor_unitario = parseFloat($("#vlr_unitario").val().replace(',', '.'));
+            valor_unitario = formatNumber(unformatNumber(this.value, ',', '.', 2, 2), ',', '.', 2, 2);
             $("#vlr_unitario").val(valor_unitario);
         }
     });
@@ -1988,9 +2025,9 @@ $(document).ready(function() {
     $(document).on("pageinit", "#page_despesa", function() {
         $("#autocomplete_cli").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
-                    $input = $(data.input),
-                    value = $input.val(),
-                    html = "";
+            $input = $(data.input),
+            value = $input.val(),
+            html = "";
             $ul.html("");
             if (value && value.length > 0) {
                 $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
@@ -2062,4 +2099,5 @@ $(document).ready(function() {
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
         $('head').append(scriptAppend);
     }
-});
+    
+});//fim doc ready

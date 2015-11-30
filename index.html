@@ -87,7 +87,8 @@
             <div class="page-header-inner container">
                 <!-- BEGIN LOGO -->
                 <div class="page-logo">
-                    <a class="link" id="mobile_home.html">
+                    <!--<a class="link" id="mobile_home.html">-->
+                    <a class="link" id="page_home">
                         <img src="img/logomultidados_transparent.png" alt="logo" class="logo-multidados"/>
                     </a>
                     <div class="menu-toggler sidebar-toggler">
@@ -494,7 +495,7 @@
                         <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
                         <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
                             <li class="start">
-                                <a class="link" id="mobile_home.html">
+                                <a class="link" id="page_home">
                                     <!--<i class="icon-power"></i>-->
                                     <i class="icon-home"></i>
                                     <span class="title">Home</span>
@@ -605,7 +606,8 @@
                     <div class="page-content">
                         <div class="wrapper">
                             <div class="h_iframe">
-                                <iframe id="conteudo" src="mobile_home.html" frameborder="0" allowfullscreen></iframe>
+                                <!--<iframe id="conteudo" src="mobile_home.html" frameborder="0" allowfullscreen></iframe>-->
+                                <iframe id="conteudo" src="" frameborder="0" allowfullscreen></iframe>
                             </div>
                         </div>
                     </div>
@@ -670,6 +672,10 @@
     </body>
     <script>
         $(function () {
+            //Andre Renovato - 16/11/2015
+            //Carregando home padrao
+            $("#conteudo").attr("src", pageHome);
+            
             if (verifica_logado()) {
                 popMenuDash(); //recupera menu dashboards
                 Metronic.init(); // init metronic core componets
@@ -694,24 +700,18 @@
                         }
                     }, 10);
                 }
-                permissaoMenu(); //recupera permissao de menu
+                permissaoMenu(); //recupera permissao de menu e atalhos
             }
 			
             //Andre Renovato - 16/11
             //Feito por Ig, apenas repliquei para nossa versao.
             //Realiza ajuste do iframe
             //alert('width: '+$(window).width()+' - height: '+$(window).height());
-			//galaxy tab 3
-            if($(window).width() == 600 && $(window).width() == 999) {
-				$('.wrapper').css('position', 'relative');
-				$('.wrapper').css('top', $('.page-top').height());
-			}            
 			if($(window).width() == 600 && $(window).width() == 1024) {
 				$('.wrapper').css('position', 'relative');
 				$('.wrapper').css('top', $('.page-top').height());
-			}            
-			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height()+(80) - $('.page-footer').height());
-
+			}
+			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height() - $('.page-footer').height());
         });
     </script>
     <!-- END BODY -->
