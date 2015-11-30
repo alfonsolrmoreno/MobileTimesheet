@@ -484,8 +484,8 @@
                         </form>
                         <!-- Lista de tipo foto/upload -->
                         <div id="optionsUpload" data-role="controlgroup" data-type="horizontal">
-                            <a href="#" class="btn_default" data-role="button">Foto</a>
-                            <a href="#" class="btn_default" data-role="button">Galeria</a>
+                            <a href="#" class="btn_default" onclick="capturePhoto()" data-role="button">Foto</a>
+                            <a href="#" class="btn_default" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Galeria</a>
                         </div>
                     </div>
                     <!--
