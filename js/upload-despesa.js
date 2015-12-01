@@ -1,13 +1,9 @@
-
-//var pictureSource = navigator.camera.PictureSourceType;   // picture source
-//var destinationType = navigator.camera.DestinationType; // sets the format of returned value
-
 var retries = 0;
 
-
-$(document).ready(function () {   
+$(document).ready(function () {
+    alert('Bem vindo');
     //default div botoes upload fechados
-    $("#optionsUpload").hide()
+    /*$("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
         //somente no editar, quando e nova foto, os botoes podem ser visualizados para escolher ou tirar nova foto.
         if(!$("#idarquivo").val()){
@@ -16,14 +12,12 @@ $(document).ready(function () {
      });
      $("#cancel_upload").click(function() {
         $("#optionsUpload").toggle();
-     });     
+     });*/
 })
 
 function cam_clearCache() {
     navigator.camera.cleanup();
 }
-//obj = {prop:123}
-
 
 var sendpic_win = function (r) {
     if(r.response.length > 0){
@@ -67,6 +61,7 @@ var sendpic_fail = function (error) {
 };
 
 function onCapturePhoto(fileURI) {
+    alert('CCCCC');
     var options = new FileUploadOptions();
     options.fileKey = "file";
     options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
@@ -78,13 +73,15 @@ function onCapturePhoto(fileURI) {
 }
 
 function capturePhoto(sourceType) {
+    alert(1);
     if(!navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
     }else{
         loading('show', 'Enviando foto, aguarde...');
         
-        if (!sourceType)
+        if (!sourceType){
             sourceType = Camera.PictureSourceType.CAMERA;
+        }
 
         navigator.camera.getPicture(onCapturePhoto, onFail, {
             //quality: 100,
@@ -98,9 +95,10 @@ function capturePhoto(sourceType) {
             sourceType: sourceType
         });
     }
+    alert(2);
 }
 
 function onFail(message) {
     loading('hide');
-    //alert('Camera falhou ao tirar a foto: ' + message);
+    alert('Camera falhou ao tirar a foto: ' + message);
 }
