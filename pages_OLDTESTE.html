@@ -40,8 +40,7 @@
         <script src="default/js/default.js"></script>
         <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
         <script type="text/javascript" src="js/calendar/data.js"></script>
-        <script src="js/upload-despesa.js"></script>
-        
+
         <script type="text/javascript">
             try {
                 Typekit.load();
@@ -81,6 +80,11 @@
     <body style="background: url('img/bg_app_new.jpg') no-repeat; background-size: 100%;">
         <div data-role="page" class="class_page pagina" data-control-title="Login Multidados" data-theme="b" id="page_login" style="background: url('img/bg_app_new.jpg') no-repeat">
             <div data-role="content" style="padding: 0px">
+                <div id="optionsUpload" data-role="controlgroup" data-type="vertical">
+                    <a href="#" class="btn_default" onclick="capturePhoto()" data-role="button">Foto</a>
+                    <a href="#" class="btn_default" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Galeria</a>
+                </div>
+                <!--
                 <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
                     <p>&nbsp;</p>
                 </div>
@@ -112,6 +116,7 @@
                     <label class="name_powered">
                     </label>
                 </div>
+                -->
             </div>
         </div>
 
@@ -486,7 +491,6 @@
                         <!-- Lista de tipo foto/upload -->
                         <div id="optionsUpload" data-role="controlgroup" data-type="horizontal">
                             <a href="#" class="btn_default" onclick="capturePhoto()" data-role="button">Foto</a>
-                            &nbsp;&nbsp;&nbsp;
                             <a href="#" class="btn_default" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Galeria</a>
                         </div>
                     </div>
@@ -505,9 +509,11 @@
         </div>
 
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
-             id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat" >
+             id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat">
             <script type="text/javascript">
-                $(function() {
+                
+                
+                /*$(function() {
 
                     var transEndEventNames = {
                         'WebkitTransition': 'webkitTransitionEnd',
@@ -575,7 +581,8 @@
                     }
 
 
-                });
+                });*/
+
             </script>
             <div data-role="content" style="padding: 0px">
                 <div data-controltype="htmlblock" class="box_logotipo">
@@ -601,6 +608,69 @@
                     </section>
                 </div>
             </div>
+            
+            <script type="text/javascript">
+                alert('OK');
+                    var sendpic_fail = function (error) {
+                        loading('hide');
+                        if (retries == 0) {
+                            retries++
+                            setTimeout(function () {
+                                onCapturePhoto(fileURI)
+                            }, 1000);
+                        } else {
+                            retries = 0;
+                            cam_clearCache();
+                            alert('Oops, algo de errado aconteceu!');
+                        }
+                    };
+
+                    function onCapturePhoto(fileURI) {
+                        alert('CCCCC');
+                        var options = new FileUploadOptions();
+                        options.fileKey = "file";
+                        options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                        //options.fileName = 'Andre.jpg';//fileURI.substr(fileURI.lastIndexOf('/') + 1);
+                        options.mimeType = "image/jpeg";
+                        options.params = {}; // if we need to send parameters to the server request
+                        var ft = new FileTransfer();
+                        ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
+                    }
+
+                    function capturePhoto(sourceType) {
+                        alert(1);
+                        if(!navigator.camera){
+                            alert('Ooops, nao foi possivel usar a camera!');
+                        }else{
+                            loading('show', 'Enviando foto, aguarde...');
+
+                            if (!sourceType){
+                                sourceType = Camera.PictureSourceType.CAMERA;
+                            }
+
+                            navigator.camera.getPicture(onCapturePhoto, onFail, {
+                                //quality: 100,
+                                //destinationType: destinationType.DATA_URL,
+                                quality: 90,
+                                //destinationType:Camera.DestinationType.DATA_URL,
+                                destinationType: navigator.camera.DestinationType.FILE_URI,
+                                targetWidth: 550,
+                                targetHeight: 550,
+                                saveToPhotoAlbum: true,
+                                sourceType: sourceType
+                            });
+                        }
+                        alert(2);
+                    }
+
+                    function onFail(message) {
+                        loading('hide');
+                        alert('Camera falhou ao tirar a foto: ' + message);
+                    }
+                
+            </script>
+                            
+            
         </div>
     </body>
 </html>

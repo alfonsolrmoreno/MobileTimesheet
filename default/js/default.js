@@ -58,8 +58,8 @@ function irPara_mobile() {
     //Andre Renovato - 25/11/2015
     //caso nao tenha permissao visualizar ocorrencias, retorna para sem acesso ao modulo
     if(Objeto_json['perms_menu']['Ocorrencias']['pesquisa_go'] == 'F'){
-        //var link = Objeto_json['url'] + '/timesheet/multidados/module/';
-        //window.location.href = link;
+        var link = Objeto_json['url'] + '/timesheet/multidados/module/';
+        window.location.href = link;
     }
 
     $("#go_form").attr('action', url);
@@ -2092,12 +2092,13 @@ $(document).ready(function() {
     });
 
     //Verifica se existe user logado    
-    if (!objIsEmpty(Objeto_json)) {
+    /*if (!objIsEmpty(Objeto_json)) {
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
+
         $('head').append(scriptAppend);
-    }
+    }*/
     
 });//fim doc ready
