@@ -67,7 +67,6 @@ var sendpic_fail = function (error) {
 };
 
 function onCapturePhoto(fileURI) {
-    alert('1001 - onCapturePhoto');
     var options = new FileUploadOptions();
     options.fileKey = "file";
     options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
@@ -75,24 +74,18 @@ function onCapturePhoto(fileURI) {
     options.mimeType = "image/jpeg";
     options.params = {}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
-    
-    alert('2002 - onCapturePhoto');
     ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
-    
-    alert('3003 - onCapturePhoto');
 }
 
 function capturePhoto(sourceType) {
-    alert('1 - capturePhoto');
     if(!navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
     }else{
-        alert('2 - capturePhoto');
         loading('show', 'Enviando foto, aguarde...');
         
         if (!sourceType)
             sourceType = Camera.PictureSourceType.CAMERA;
-        alert('3 - capturePhoto');
+
         navigator.camera.getPicture(onCapturePhoto, onFail, {
             //quality: 100,
             //destinationType: destinationType.DATA_URL,
@@ -104,9 +97,7 @@ function capturePhoto(sourceType) {
             saveToPhotoAlbum: true,
             sourceType: sourceType
         });
-        alert('4 - capturePhoto');
     }
-    alert('saindo - capturePhoto');
 }
 
 function onFail(message) {
