@@ -80,6 +80,11 @@
     <body style="background: url('img/bg_app_new.jpg') no-repeat; background-size: 100%;">
         <div data-role="page" class="class_page pagina" data-control-title="Login Multidados" data-theme="b" id="page_login" style="background: url('img/bg_app_new.jpg') no-repeat">
             <div data-role="content" style="padding: 0px">
+                <div id="optionsUpload" data-role="controlgroup" data-type="vertical">
+                    <a href="#" class="btn_default" onclick="capturePhoto()" data-role="button">Foto</a>
+                    <a href="#" class="btn_default" onclick="capturePhoto(Camera.PictureSourceType.SAVEDPHOTOALBUM)" data-role="button">Galeria</a>
+                </div>
+                <!--
                 <div id="box_logotipo" data-controltype="htmlblock" class="box_logotipo">
                     <p>&nbsp;</p>
                 </div>
@@ -111,6 +116,7 @@
                     <label class="name_powered">
                     </label>
                 </div>
+                -->
             </div>
         </div>
 
