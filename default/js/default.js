@@ -34,9 +34,9 @@ arrayMes[11] = "Dezembro";
     if (!objIsEmpty(Objeto_json)) {
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
-        var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
+        var x = '/js/upload-despesa.js?v=' + rand;
         var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
+        alert(scriptAppend);
         $('head').append(scriptAppend);
     }
     
-ready
