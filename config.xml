@@ -33,7 +33,7 @@
     <content src='index.html'/>
 
     <preference name="orientation" value="portrait" />
-<plugin name="com.adobe.plugins.gaplugin" source="pgb" spec="n/a" />
+<plugin name="com.adobe.plugins.gaplugin" source="pgb" spec="2.4.0" />
 <plugin name="com.phonegap.plugin.statusbar" source="pgb" spec="1.1.0" />
 <plugin name="com.phonegap.plugins.pushplugin" source="pgb" spec="n/a" />
 <plugin name="nl.x-services.plugins.socialsharing" source="pgb" spec="4.3.8" />
