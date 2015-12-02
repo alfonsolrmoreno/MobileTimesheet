@@ -53,6 +53,11 @@
     <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID-->
     <!--    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />-->
     
+    <!-- MODO DEBUG -->
+    <gap:config-file platform="android" parent="/manifest">
+         <application android:debuggable="true" />
+    </gap:config-file>    
+    
     <plugin name="com.adobe.plugins.gaplugin" source="pgb" />
     <plugin name="com.phonegap.plugin.statusbar" source="pgb" />
     <plugin name="com.phonegap.plugins.pushplugin" source="pgb"/>
