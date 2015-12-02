@@ -2151,7 +2151,7 @@ var sendpic_fail = function (error) {
 };
 
 function onCapturePhoto(fileURI) {
-    alert('CCCCC');
+    alert('EM DEFAULT JS');
     var options = new FileUploadOptions();
     options.fileKey = "file";
     options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
@@ -2163,7 +2163,7 @@ function onCapturePhoto(fileURI) {
 }
 
 function capturePhoto(sourceType) {
-    alert(1);
+    alert('CAPTUREPHOTO EM DEFAULT JS');
     if(!navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
     }else{
