@@ -2168,7 +2168,7 @@ function onCapturePhoto(fileURI) {
     ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
 }
 
-function capturePhoto(sourceType) {
+function capturePhoto1(sourceType) {
     alert('CAPTUREPHOTO EM DEFAULT JS');
     if(!navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
