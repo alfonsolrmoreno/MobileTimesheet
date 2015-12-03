@@ -2168,8 +2168,14 @@ function onCapturePhoto(fileURI) {
     ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
 }
 
-function capturePhoto1(sourceType) {
-    alert('CAPTUREPHOTO EM DEFAULT JS');
+function capturePhoto(sourceType) {
+
+  if (window.cordova) {
+    alert('window.cordova is available');
+  } else {
+    alert('window.cordova NOT available');
+  }
+
     if(!navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
     }else{
