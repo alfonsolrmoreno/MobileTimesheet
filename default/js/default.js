@@ -1,3 +1,9 @@
+window.onerror = function(errorMsg, url, lineNumber, column, errorObj) {
+    if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1)
+        return;
+    alert(errorMsg + "\n" + url + "\n" + lineNumber);
+}
+
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
 var debug_mode = false;

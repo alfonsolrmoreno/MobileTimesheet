@@ -1,7 +1,4 @@
-var retries = 0;
-
 $(document).ready(function () {
-    alert('Bem vindo');
     //default div botoes upload fechados
     /*$("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
@@ -14,6 +11,8 @@ $(document).ready(function () {
         $("#optionsUpload").toggle();
      });*/
 })
+/*
+var retries = 0;
 
 function cam_clearCache() {
     navigator.camera.cleanup();
@@ -102,3 +101,4 @@ function onFail(message) {
     loading('hide');
     alert('Camera falhou ao tirar a foto: ' + message);
 }
+*/
