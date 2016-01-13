@@ -2098,10 +2098,12 @@ $(document).ready(function() {
             cancelText: 'Cancelar',
             setText: 'Selecionar'
         });
+        
         $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
             //theme: 'mobiscroll',
             //theme: 'android-ics',
             //display: 'inline',
+            closeOnOverlay: false,
             display: 'bubble',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
@@ -2109,6 +2111,8 @@ $(document).ready(function() {
             cancelText: 'Cancelar',
             setText: 'Selecionar'            
         });
+        
+        $('#hora_final').focus();
         
         
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
