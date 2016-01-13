@@ -2099,10 +2099,11 @@ $(document).ready(function() {
             setText: 'Selecionar'
         });
         
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
+        $('#hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
             //theme: 'mobiscroll',
             //theme: 'android-ics',
             //display: 'inline',
+            focusTrap: false,
             closeOnOverlay: false,
             display: 'bubble',
             timeFormat: 'HH:ii',
@@ -2112,8 +2113,19 @@ $(document).ready(function() {
             setText: 'Selecionar'            
         });
         
-        $('#hora_final').focus();
-        
+        $('#hora_inicial').mobiscroll().time({
+            //theme: 'mobiscroll',
+            //theme: 'android-ics',
+            //display: 'inline',
+            focusTrap: true,
+            closeOnOverlay: false,
+            display: 'bubble',
+            timeFormat: 'HH:ii',
+            timeWheels: 'HHii',
+            headerText: false,
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'            
+        });
         
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
