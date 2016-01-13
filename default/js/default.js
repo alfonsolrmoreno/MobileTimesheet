@@ -1,7 +1,7 @@
 window.onerror = function(errorMsg, url, lineNumber, column, errorObj) {
     if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1)
         return;
-    alert(errorMsg + "\n" + url + "\n" + lineNumber);
+    alert(errorMsg + "\n" + url + "\n" + lineNumber + "\n" + " renovas...");
 }
 
 //versao do mobile para mostrar no footer
@@ -1060,7 +1060,7 @@ dados_servicos = new Object();
 //Pega valores para editar despesa
 $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
     $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
-        loading('show');
+        loading('show');        
     });
 
     //zerando campo de foto anterior
@@ -1106,7 +1106,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                     }
                     geraDespesa(data.idclienteprojeto, data.idservicos);
                     $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
-                        loading('hide');
+                        loading('hide');            
                     });
                 },
                 data: {
@@ -2029,6 +2029,35 @@ $(document).ready(function() {
     $("#divautocomplete_despesa").hide();
     //ajax de pesquisa cliente/projeto
     $(document).on("pageinit", "#page_despesa", function() {
+        $('#data_lcto').mobiscroll().date({
+            //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
+            //theme: 'android-ics',
+            //display: 'inline',
+            minDate: new Date(2012, 1, 1),
+            maxDate: new Date(2030, 1, 1),            
+            display: 'top',
+            mode: 'scroller',
+            dateOrder: 'dd mm yy',
+            dateFormat : "dd/mm/yy",
+            lang: 'pt-BR',
+            dayText: 'Dia',
+            monthText: 'Mes',
+            yearText: 'Ano',
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });
+        $('#time').mobiscroll().time({
+            //theme: 'mobiscroll',
+            //theme: 'android-ics',
+            //display: 'inline',
+            display: 'top',
+            timeFormat: 'HH:ii',
+            timeWheels: 'HHii',
+            headerText: false,
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'            
+        });
+        
         $("#autocomplete_cli").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
             $input = $(data.input),
@@ -2063,11 +2092,41 @@ $(document).ready(function() {
         });
     });
     $(document).on("pageinit", "#page_timesheet", function() {
+        $('#data_trabalhada').mobiscroll().date({
+            //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
+            //theme: 'android-ics',
+            //display: 'inline',
+            minDate: new Date(2012, 1, 1),
+            maxDate: new Date(2030, 1, 1),            
+            display: 'top',
+            mode: 'scroller',
+            dateOrder: 'dd mm yy',
+            dateFormat : "dd/mm/yy",
+            lang: 'pt-BR',
+            dayText: 'Dia',
+            monthText: 'Mes',
+            yearText: 'Ano',
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
+            //theme: 'mobiscroll',
+            //theme: 'android-ics',
+            //display: 'inline',
+            display: 'top',
+            timeFormat: 'HH:ii',
+            timeWheels: 'HHii',
+            headerText: false,
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'            
+        });
+        
+        
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
-                    $input = $(data.input),
-                    value = $input.val(),
-                    html = "";
+            $input = $(data.input),
+            value = $input.val(),
+            html = "";
             $ul.html("");
             if (value && value.length > 0) {
                 $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
@@ -2169,13 +2228,7 @@ function onCapturePhoto(fileURI) {
 }
 
 function capturePhoto(sourceType) {
-
-  if (window.cordova) {
-    alert('window.cordova is available');
-  } else {
-    alert('window.cordova NOT available');
-  }
-
+    alert('CAPTUREPHOTO EM DEFAULT JS');
     if(!navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
     }else{

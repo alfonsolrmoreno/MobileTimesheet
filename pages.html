@@ -24,14 +24,16 @@
 
         <script src="js/jquery-1.9.1.min.js"></script>
         <script src="js/jquery.mobile-1.3.1.min.js"></script>
+<!--        <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.js"></script>
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />-->
         <script src="js/codiqa.ext.min.js"></script>
         <script src="js/mobile-multidados.js"></script>
 
-        <script type="text/javascript" src="js/jquery.mousewheel.min.js"></script>
-        <script type="text/javascript" src="js/jqm-datebox-1.4.0.core.min.js"></script>
-        <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.calbox.min.js"></script>
-        <script type="text/javascript" src="js/jqm-datebox-1.4.0.mode.datebox.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mobile.datebox.i8n.pt-BR.js"></script>
+        <!-- NOVO PLUGINS DE DATA E HORA COM SCROOLL  -->
+        <link rel="stylesheet" href="css/mobiscroll-2.4.custom.min.css" />    
+        <script src="js/mobiscroll-2.4.custom.min.js"></script>          
+        <!-- FIM NOVO PLUGINS DE DATA E HORA COM SCROOLL -->
+        
 
         <!-- configuracoes Multidados -->
         <link href="default/css/css.css" rel="stylesheet">
@@ -41,7 +43,7 @@
         <script type="text/javascript" src="js/calendar/jquery.calendario.js"></script>
         <script type="text/javascript" src="js/calendar/data.js"></script>
 
-        <script type="text/javascript">
+        <script type="text/javascript">            
             try {
                 Typekit.load();
             } catch (e) {
@@ -218,7 +220,9 @@
                     <label for="data_trabalhada">
                         Data
                     </label>
-                    <input name="data_trabalhada" id="data_trabalhada" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}' >
+                    <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
+                    <!--<input name="data_trabalhada" id="data_trabalhada" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}' >-->
+                    <input name="data_trabalhada" id="data_trabalhada" value="" >
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="search_cliente">
@@ -272,13 +276,17 @@
                     <label for="hora_inicial">
                         Hora Inicial
                     </label>
-                    <input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
+                    <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
+                    <!--<input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>-->
+                    <input name="hora_inicial" id="hora_inicial" >
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="hora_final">
                         Hora Final
                     </label>
-                    <input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >
+                    <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
+                    <!--<input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
+                    <input name="hora_final" id="hora_final" >
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <div id="monstrarIntervalo" style="width: -moz-max-content">
@@ -292,13 +300,17 @@
                         <label>
                             Intervalo Inicial
                         </label>
-                        <input name="intervalo_hr_inicial" id="intervalo_hr_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
+                        <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
+                        <!--<input name="intervalo_hr_inicial" id="intervalo_hr_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
+                        <input name="intervalo_hr_inicial" id="intervalo_hr_inicial" >                        
                     </div>
                     <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                         <label>
                             Intervalo Final
                         </label>
-                        <input name="intervalo_hr_final" id="intervalo_hr_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>
+                        <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
+                        <!--<input name="intervalo_hr_final" id="intervalo_hr_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
+                        <input name="intervalo_hr_final" id="intervalo_hr_final" >                          
                     </div>
                 </div>
                 
@@ -410,8 +422,11 @@
                     <label for="textinput8" class="ui-input-text" >
                         Data
                     </label>
-                    <input name="data_lcto" id="data_lcto" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}'  >
+                    <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
+                    <!--<input name="data_lcto" id="data_lcto" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}'>-->
+                    <input name="data_lcto" id="data_lcto" value="" class="i-txt">
                 </div>
+                
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="textinput9" >
                         Cliente
@@ -441,17 +456,22 @@
                         </option>
                     </select>
                 </div>
+                
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="vlr_unitario">
-                        Valor Unitário
-                    </label>
-                    <input name="vlr_unitario" id="vlr_unitario" placeholder="" value="" type="text">                   
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="qtde_despesa">
-                        Qtde.
-                    </label>
-                    <input name="qtde_despesa" id="qtde_despesa" placeholder="" value="" type="number">                    
+                    <fieldset class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <label for="vlr_unitario">
+                                Valor Unitário 
+                            </label>        
+                            <input name="vlr_unitario" id="vlr_unitario" placeholder="" value="" type="text">    
+                        </div>
+                        <div class="ui-block-b ">
+                            <label for="qtde_despesa">
+                                Qtde.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </label>        
+                            <input name="qtde_despesa" id="qtde_despesa" placeholder="" value="" type="number"> 
+                        </div>	   
+                    </fieldset>     
                 </div>
 
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
@@ -460,21 +480,24 @@
                     </label>
                     <input name="valor_total" id="valor_total" value="" type="number" readonly="true" />
                 </div>
+                
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="local_despesa">
-                        Local da Despesa
-                    </label>
-                    <input name="local_despesa" id="local_despesa" placeholder="" value=""
-                           type="text">
-                </div>
-                <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
-                    <label for="num_documento">
-                        Nº do documento
-                    </label>
-                    <input name="num_documento" id="num_documento" placeholder="" value=""
-                           type="text">
-                </div>
-
+                    <fieldset class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <label for="local_despesa">
+                                Local Despesa
+                            </label>
+                            <input name="local_despesa" id="local_despesa" placeholder="" value="" type="text">
+                        </div>
+                        <div class="ui-block-b">
+                            <label for="num_documento">
+                                Nº documento
+                            </label>
+                            <input name="num_documento" id="num_documento" placeholder="" value="" type="text">
+                        </div>	   
+                    </fieldset>     
+                </div>                
+ 
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
                     <div id="uploadArquivo" style="">
                         <img data-transition="slide" title="Fotografar documento" src="img/blue_cam2.png" width="32" height="32"/>
@@ -505,7 +528,7 @@
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
              id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat">
             <script type="text/javascript">
-                $(function() {
+                /*$(function() {
                     var transEndEventNames = {
                         'WebkitTransition': 'webkitTransitionEnd',
                         'MozTransition': 'transitionend',
@@ -568,7 +591,7 @@
                             }) : $events.remove();
                         }
                     }
-                });
+                });*/
             </script>
             <div data-role="content" style="padding: 0px">
                 <div data-controltype="htmlblock" class="box_logotipo">
