@@ -1,7 +1,9 @@
+//Este evento serve para exibir qualquer erro de javascript.
 window.onerror = function(errorMsg, url, lineNumber, column, errorObj) {
-    if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1)
+    if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1){
         return;
-    alert(errorMsg + "\n" + url + "\n" + lineNumber + "\n" + " renovas...");
+    }
+    alert("Desculpe, um erro ocorreu: \n"+errorMsg + "\n" + url + "\n" + lineNumber + "\n");
 }
 
 //versao do mobile para mostrar no footer
@@ -2110,7 +2112,7 @@ $(document).ready(function() {
         $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
             //theme: 'mobiscroll',
             //theme: 'android-ics',
-            display: 'bottom',
+            display: 'bubble',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
             headerText: false,
