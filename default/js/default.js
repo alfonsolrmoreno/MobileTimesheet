@@ -2099,32 +2099,23 @@ $(document).ready(function() {
             setText: 'Selecionar'
         });
         
-        $('#hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
-            //theme: 'mobiscroll',
-            //theme: 'android-ics',
-            //display: 'inline',
-            focusTrap: false,
-            closeOnOverlay: false,
-            display: 'bubble',
-            timeFormat: 'HH:ii',
-            timeWheels: 'HHii',
-            headerText: false,
-            cancelText: 'Cancelar',
-            setText: 'Selecionar'            
-        });
+        /* PROPRIEDADE display:
+        'modal' - The component appears as a popup at the center of the viewport.
+        'inline' - If called on div element, the component is placed inside the div (overwriting existing content), otherwise is placed after the original element.
+        'bubble' - The component appears as a bubble positioned to the element defined by the 'anchor' setting. By default the anchor is the original element.
+        'top' - The component appears docked to the top of the viewport.
+        'bottom' - The component appears docked to the bottom of the viewport.
+        */             
         
-        $('#hora_inicial').mobiscroll().time({
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
             //theme: 'mobiscroll',
             //theme: 'android-ics',
-            //display: 'inline',
-            focusTrap: true,
-            closeOnOverlay: false,
-            display: 'bubble',
+            display: 'modal',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
             headerText: false,
             cancelText: 'Cancelar',
-            setText: 'Selecionar'            
+            setText: 'Selecionar'
         });
         
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
