@@ -2035,7 +2035,7 @@ $(document).ready(function() {
             //display: 'inline',
             minDate: new Date(2012, 1, 1),
             maxDate: new Date(2030, 1, 1),            
-            display: 'top',
+            display: 'bubble',
             mode: 'scroller',
             dateOrder: 'dd mm yy',
             dateFormat : "dd/mm/yy",
@@ -2045,17 +2045,6 @@ $(document).ready(function() {
             yearText: 'Ano',
             cancelText: 'Cancelar',
             setText: 'Selecionar'
-        });
-        $('#time').mobiscroll().time({
-            //theme: 'mobiscroll',
-            //theme: 'android-ics',
-            //display: 'inline',
-            display: 'top',
-            timeFormat: 'HH:ii',
-            timeWheels: 'HHii',
-            headerText: false,
-            cancelText: 'Cancelar',
-            setText: 'Selecionar'            
         });
         
         $("#autocomplete_cli").on("listviewbeforefilter", function(e, data) {
@@ -2098,7 +2087,7 @@ $(document).ready(function() {
             //display: 'inline',
             minDate: new Date(2012, 1, 1),
             maxDate: new Date(2030, 1, 1),            
-            display: 'top',
+            display: 'bubble',
             mode: 'scroller',
             dateOrder: 'dd mm yy',
             dateFormat : "dd/mm/yy",
@@ -2113,7 +2102,7 @@ $(document).ready(function() {
             //theme: 'mobiscroll',
             //theme: 'android-ics',
             //display: 'inline',
-            display: 'top',
+            display: 'bubble',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
             headerText: false,
