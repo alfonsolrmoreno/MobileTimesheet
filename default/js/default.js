@@ -1779,7 +1779,7 @@ $(document).delegate('#task_parent', 'change', function() {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
 
-// Inacio 30/09/201
+// Inacio 30/09/2015
 // antigo, agora o login fica em outro aquivo.
 //$(document).on("pageinit", "pages.html#page_login", function () {
 //    $resposta = verifica_logado();
@@ -1788,12 +1788,16 @@ $(document).delegate('#task_parent', 'change', function() {
 //    }
 //});
 
+//TODA ACAO COMUM EM JAVASCRIPT DEVE SER TRATADA AQUI
 $(document).ready(function() {
     //exibe campos de intervalo para apontar horas
     $("#div_intervalo").hide()
     $("#monstrarIntervalo").click(function() {
         $("#div_intervalo").toggle();
      }); 
+
+  
+    
     
     var link = '';
     //Acao do click dos botoes de atalho na home(mobile_home.html / mobile_crm_home.html), onde encaminha para pagina correta.
@@ -2082,7 +2086,8 @@ $(document).ready(function() {
             }
         });
     });
-    $(document).on("pageinit", "#page_timesheet", function() {
+    $(document).on("pageinit", "#page_timesheet", function() { 
+        
         $('#data_trabalhada').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
             //theme: 'android-ics',
@@ -2107,18 +2112,31 @@ $(document).ready(function() {
         'bubble' - The component appears as a bubble positioned to the element defined by the 'anchor' setting. By default the anchor is the original element.
         'top' - The component appears docked to the top of the viewport.
         'bottom' - The component appears docked to the bottom of the viewport.
-        */             
-        
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
+        */        
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('position', true).time({
             //theme: 'mobiscroll',
             //theme: 'android-ics',
+            mode: 'scroller',
             display: 'bubble',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
             headerText: false,
             cancelText: 'Cancelar',
-            setText: 'Selecionar'
+            setText: 'Selecionar',
+            onBeforeShow: function (inst) {
+                //inst.settings.readonly = true;
+                //event.preventDefault();
+                //$('html,body').animate({
+                    //scrollTop:$(this.hash).offset().top
+                    //scrollTop: $( $("#fase_task") ).offset().top
+                //}, 800);
+            }            
         });
+        
+        $("#hora_inicial").click(function(event){
+            //alert(1111);
+
+       });        
         
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
