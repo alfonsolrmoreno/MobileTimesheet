@@ -1790,6 +1790,12 @@ $(document).delegate('#task_parent', 'change', function() {
 
 //TODA ACAO COMUM EM JAVASCRIPT DEVE SER TRATADA AQUI
 $(document).ready(function() {
+//    alert('AAA');
+//    var pai = parent.document.renovas; 
+//    var filho = pai.nome.value;
+//    alert('bbb');
+    
+    
     //exibe campos de intervalo para apontar horas
     $("#div_intervalo").hide()
     $("#monstrarIntervalo").click(function() {
@@ -2113,11 +2119,11 @@ $(document).ready(function() {
         'top' - The component appears docked to the top of the viewport.
         'bottom' - The component appears docked to the bottom of the viewport.
         */        
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('position', true).time({
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
             //theme: 'mobiscroll',
             //theme: 'android-ics',
             mode: 'scroller',
-            display: 'bubble',
+            display: 'top',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
             headerText: false,
@@ -2125,12 +2131,14 @@ $(document).ready(function() {
             setText: 'Selecionar',
             onBeforeShow: function (inst) {
                 //inst.settings.readonly = true;
-                //event.preventDefault();
-                //$('html,body').animate({
+                event.preventDefault();
+                $('html,body').animate({
                     //scrollTop:$(this.hash).offset().top
-                    //scrollTop: $( $("#fase_task") ).offset().top
-                //}, 800);
-            }            
+                    scrollTop: $( $("#topo") ).offset().top
+                }, 800);
+                //alert('antes');
+                //$('#renovas', parent.document).css('display','none');
+            }
         });
         
         $("#hora_inicial").click(function(event){
