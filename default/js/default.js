@@ -2139,11 +2139,12 @@ $(document).ready(function () {
             onBeforeShow: function (inst) {
                 //inst.settings.readonly = true;
                 //alert('antes');
-                event.preventDefault();
-                $('html,body').animate({
+                //event.preventDefault();
+                //$('html,body').animate({
                     //scrollTop:$(this.hash).offset().top
-                    scrollTop: $($("#page_timesheet_sub")).offset().top
-                }, 0);
+                    //scrollTop: $($("#page_timesheet_sub")).offset().top
+                //}, 0);
+                window.location.href = '#topo';
                 //$('#renovas', parent.document).css('display','none');
             }
         });

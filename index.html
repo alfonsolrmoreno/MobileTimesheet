@@ -726,7 +726,10 @@
 			if($(window).width() == 600 && $(window).width() == 1024) {
 				$('.wrapper').css('position', 'relative');
 				$('.wrapper').css('top', $('.page-top').height());
+				
 			}
+            $('.h_iframe').css('top', '70px');
+            
 			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height() - $('.page-footer').height());
 
         });
