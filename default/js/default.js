@@ -2128,7 +2128,7 @@ $(document).ready(function() {
             headerText: false,
             cancelText: 'Cancelar',
             setText: 'Selecionar',
-            anchor: $('#data_trab')
+            anchor: $('#hora_ini')
             /*onBeforeShow: function (inst) {
                 $('#hora_inicial_div').css('display','none');
                 //alert('antes');
