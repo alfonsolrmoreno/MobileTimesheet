@@ -2122,19 +2122,15 @@ $(document).ready(function() {
         $('#hora_inicial').mobiscroll().time({
             //theme: 'mobiscroll',
             mode: 'scroller',
-            display: 'inline',
+            display: 'bubble',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
             headerText: false,
             cancelText: 'Cancelar',
-            setText: 'Selecionar'
+            setText: 'Selecionar',
+            anchor: $('#data_trab')
             /*onBeforeShow: function (inst) {
-                //inst.settings.readonly = true;
-                event.preventDefault();
-                $('html,body').animate({
-                    //scrollTop:$(this.hash).offset().top
-                    scrollTop: $( $("#topo") ).offset().top
-                }, 800);
+                $('#hora_inicial_div').css('display','none');
                 //alert('antes');
                 //$('#renovas', parent.document).css('display','none');
             }*/
