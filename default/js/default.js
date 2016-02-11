@@ -1788,6 +1788,96 @@ $(document).delegate('#task_parent', 'change', function() {
 //    }
 //});
 
+var retries = 0;
+
+function cam_clearCache() {
+    navigator.camera.cleanup();
+}
+
+var sendpic_win = function (r) {
+    if(r.response.length > 0){
+        var result = eval('('+r.response+')'); //transformando a string em objeto para acessar cada objeto
+        
+        $("#arquivo_md5").val(r.response);
+        localStorage.setItem('foto', result.nome_arquivo_temp);
+        var visu = '<div data-mini="true" data-role="controlgroup" data-type="horizontal"><img width="25%" src="' + COMMON_URL_MOBILE+'/temp_mobile/'+result.nome_arquivo_temp + '"></div>';
+        $("#popup_imagem").empty().append('<br>'+visu);       
+
+        loading('hide');
+        $("#optionsUpload").toggle();
+        $().toastmessage('showSuccessToast', 'Upload de foto realizado com sucesso');
+
+    }
+};
+
+function showfoto() {
+    $('#popup_imagem').html('');
+    var foto = localStorage.getItem('foto');
+    //alert('nome da foto:::> '+foto);
+    if (foto) { 
+        var picurl = COMMON_URL_MOBILE + 'view_anexo.php?foto=' + foto;
+        //alert('caminhoURL: >> '+picurl);
+        $('#popup_imagem').html('Anexo:<br><img width="50%" src="' + picurl + '">');
+    }
+}
+
+var sendpic_fail = function (error) {
+    loading('hide');
+    if (retries == 0) {
+        retries++
+        setTimeout(function () {
+            onCapturePhoto(fileURI)
+        }, 1000);
+    } else {
+        retries = 0;
+        cam_clearCache();
+        alert('Oops, algo de errado aconteceu!');
+    }
+};
+
+function onCapturePhoto(fileURI) {
+    alert('EM DEFAULT JS');
+    var options = new FileUploadOptions();
+    options.fileKey = "file";
+    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    //options.fileName = 'Andre.jpg';//fileURI.substr(fileURI.lastIndexOf('/') + 1);
+    options.mimeType = "image/jpeg";
+    options.params = {}; // if we need to send parameters to the server request
+    var ft = new FileTransfer();
+    ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
+}
+
+function capturePhoto(sourceType) {
+    alert('CAPTUREPHOTO EM DEFAULT JS');
+    if(!navigator.camera){
+        alert('Ooops, nao foi possivel usar a camera!');
+    }else{
+        loading('show', 'Enviando foto, aguarde...');
+        
+        if (!sourceType){
+            sourceType = Camera.PictureSourceType.CAMERA;
+        }
+
+        navigator.camera.getPicture(onCapturePhoto, onFail, {
+            //quality: 100,
+            //destinationType: destinationType.DATA_URL,
+            quality: 90,
+            //destinationType:Camera.DestinationType.DATA_URL,
+            destinationType: navigator.camera.DestinationType.FILE_URI,
+            targetWidth: 550,
+            targetHeight: 550,
+            saveToPhotoAlbum: true,
+            sourceType: sourceType
+        });
+    }
+    alert(2);
+}
+
+function onFail(message) {
+    loading('hide');
+    alert('Camera falhou ao tirar a foto: ' + message);
+}
+
 //TODA ACAO COMUM EM JAVASCRIPT DEVE SER TRATADA AQUI
 $(document).ready(function() {
     //exibe campos de intervalo para apontar horas
@@ -2083,21 +2173,12 @@ $(document).ready(function() {
             }
         });
     });
-    $(document).on("pageinit", "#page_timesheet", function() { 
-        
-        
-        $('#data_trab').click(function(){
-            if($('#data_trabalhada_div').css('display') == 'none'){
-                $('#data_trabalhada_div').css('display','block');
-            }else{
-                $('#data_trabalhada_div').css('display','none');
-            }
-        })
-        
+    
+    $(document).on("pageinit", "#page_timesheet", function() {
         $('#data_trabalhada').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
             //theme: 'android-ics',
-            display: 'inline',
+            display: 'top',
             minDate: new Date(2012, 1, 1),
             maxDate: new Date(2030, 1, 1),
             mode: 'scroller',
@@ -2118,31 +2199,56 @@ $(document).ready(function() {
         'top' - The component appears docked to the top of the viewport.
         'bottom' - The component appears docked to the bottom of the viewport.
         */        
-        //$('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
-        $('#hora_inicial').mobiscroll().time({
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
             //theme: 'mobiscroll',
             mode: 'scroller',
-            display: 'bubble',
+            display: 'inline',
             timeFormat: 'HH:ii',
             timeWheels: 'HHii',
+            hourText: 'Horas',
+            minuteText: 'Minutos',
             headerText: false,
             cancelText: 'Cancelar',
-            setText: 'Selecionar',
-            anchor: $('#hora_ini')
-            /*onBeforeShow: function (inst) {
-                $('#hora_inicial_div').css('display','none');
-                //alert('antes');
-                //$('#renovas', parent.document).css('display','none');
-            }*/
+            setText: 'Selecionar'
         });
 
-        $('#hora_ini').click(function(){
-            if($('#hora_inicial_div').css('display') == 'none'){
-                $('#hora_inicial_div').css('display','block');
-            }else{
-                $('#hora_inicial_div').css('display','none');
-            }
+        $(this.id).click(function(){
+          alert(this.id);  
         })
+        $('.click_datetime').click(function(){
+            var id_campo;
+            var id_campo_div;
+            switch(this.id) {
+                case 'hora_ini':
+                    id_campo = '#hora_inicial';
+                    id_campo_div = '#hora_inicial_div';
+                    break;
+                case 'hora_fim':
+                    id_campo = '#hora_final';
+                    id_campo_div = '#hora_final_div';
+                    break;
+                case 'intervalo_hr_ini':
+                    id_campo = '#intervalo_hr_inicial';
+                    id_campo_div = '#intervalo_hr_inicial_div';
+                    break;
+                case 'intervalo_hr_fim':
+                    id_campo = '#intervalo_hr_final';
+                    id_campo_div = '#intervalo_hr_final_div';
+                    break;
+            };
+            
+            //alert("campo: "+id_campo+" - div: "+id_campo_div+ " clicado: "+ this.id);
+            
+            if($(id_campo_div).css('display') == 'none'){
+                $(id_campo_div).css('display','block');
+            }else{
+                //$(id_campo_div).css('display','none');
+                $(id_campo_div).slideUp();
+                var x = $(id_campo).mobiscroll('getValues');
+                $("#"+this.id).val(x[0].value);
+            }            
+        })
+     
 
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
@@ -2167,16 +2273,36 @@ $(document).ready(function() {
                         mode: 'ajax'
                     }
                 })
-                        .then(function(response) {
-                            $("#page_timesheet_clientes").html('');
-                            $("#page_timesheet_projetos").html('');
-                            $ul.html(response);
-                            $ul.listview("refresh");
-                            $ul.trigger("updatelayout");
-                        });
+                .then(function(response) {
+                    $("#page_timesheet_clientes").html('');
+                    $("#page_timesheet_projetos").html('');
+                    $ul.html(response);
+                    $ul.listview("refresh");
+                    $ul.trigger("updatelayout");
+                });
             }
         });
     });
+    $(document).on("pageinit", "#page_relatorio", function() {
+        $('#filtro_data_trabalhada').mobiscroll().date({
+            //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
+            //theme: 'android-ics',
+            display: 'top',
+            minDate: new Date(2012, 1, 1),
+            maxDate: new Date(2030, 1, 1),
+            mode: 'scroller',
+            dateOrder: 'dd mm yy',
+            dateFormat : "dd/mm/yy",
+            lang: 'pt-BR',
+            dayText: 'Dia',
+            monthText: 'Mes',
+            yearText: 'Ano',
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });        
+    });
+
+
 
     //Verifica se existe user logado    
     /*if (!objIsEmpty(Objeto_json)) {
@@ -2189,93 +2315,3 @@ $(document).ready(function() {
     }*/
     
 });//fim doc ready
-
-var retries = 0;
-
-function cam_clearCache() {
-    navigator.camera.cleanup();
-}
-
-var sendpic_win = function (r) {
-    if(r.response.length > 0){
-        var result = eval('('+r.response+')'); //transformando a string em objeto para acessar cada objeto
-        
-        $("#arquivo_md5").val(r.response);
-        localStorage.setItem('foto', result.nome_arquivo_temp);
-        var visu = '<div data-mini="true" data-role="controlgroup" data-type="horizontal"><img width="25%" src="' + COMMON_URL_MOBILE+'/temp_mobile/'+result.nome_arquivo_temp + '"></div>';
-        $("#popup_imagem").empty().append('<br>'+visu);       
-
-        loading('hide');
-        $("#optionsUpload").toggle();
-        $().toastmessage('showSuccessToast', 'Upload de foto realizado com sucesso');
-
-    }
-};
-
-function showfoto() {
-    $('#popup_imagem').html('');
-    var foto = localStorage.getItem('foto');
-    //alert('nome da foto:::> '+foto);
-    if (foto) { 
-        var picurl = COMMON_URL_MOBILE + 'view_anexo.php?foto=' + foto;
-        //alert('caminhoURL: >> '+picurl);
-        $('#popup_imagem').html('Anexo:<br><img width="50%" src="' + picurl + '">');
-    }
-}
-
-var sendpic_fail = function (error) {
-    loading('hide');
-    if (retries == 0) {
-        retries++
-        setTimeout(function () {
-            onCapturePhoto(fileURI)
-        }, 1000);
-    } else {
-        retries = 0;
-        cam_clearCache();
-        alert('Oops, algo de errado aconteceu!');
-    }
-};
-
-function onCapturePhoto(fileURI) {
-    alert('EM DEFAULT JS');
-    var options = new FileUploadOptions();
-    options.fileKey = "file";
-    options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
-    //options.fileName = 'Andre.jpg';//fileURI.substr(fileURI.lastIndexOf('/') + 1);
-    options.mimeType = "image/jpeg";
-    options.params = {}; // if we need to send parameters to the server request
-    var ft = new FileTransfer();
-    ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
-}
-
-function capturePhoto(sourceType) {
-    alert('CAPTUREPHOTO EM DEFAULT JS');
-    if(!navigator.camera){
-        alert('Ooops, nao foi possivel usar a camera!');
-    }else{
-        loading('show', 'Enviando foto, aguarde...');
-        
-        if (!sourceType){
-            sourceType = Camera.PictureSourceType.CAMERA;
-        }
-
-        navigator.camera.getPicture(onCapturePhoto, onFail, {
-            //quality: 100,
-            //destinationType: destinationType.DATA_URL,
-            quality: 90,
-            //destinationType:Camera.DestinationType.DATA_URL,
-            destinationType: navigator.camera.DestinationType.FILE_URI,
-            targetWidth: 550,
-            targetHeight: 550,
-            saveToPhotoAlbum: true,
-            sourceType: sourceType
-        });
-    }
-    alert(2);
-}
-
-function onFail(message) {
-    loading('hide');
-    alert('Camera falhou ao tirar a foto: ' + message);
-}

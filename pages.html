@@ -222,10 +222,7 @@
                     </label>
                     <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
                     <!--<input name="data_trabalhada" id="data_trabalhada" value=""  data-role="datebox" type="date" data-options='{"mode": "calbox"}' >-->
-                    <input name="data_trab" id="data_trab" value="" >
-                    <div id="data_trabalhada_div" style="display: none;">
-                        <input name="data_trabalhada" id="data_trabalhada" value="" >
-                    </div>
+                    <input name="data_trabalhada" id="data_trabalhada" value="" >
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <label for="search_cliente">
@@ -281,9 +278,9 @@
                     </label>
                     <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
                     <!--<input name="hora_inicial" id="hora_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}'>-->
-                    <input name="hora_ini" id="hora_ini" >
+                    <input class="click_datetime" name="hora_ini" id="hora_ini" readonly="readonly">
                     <div id="hora_inicial_div" style="display:none;">
-                        <input name="hora_inicial" id="hora_inicial">
+                        <input type="hidden" name="hora_inicial" id="hora_inicial">
                     </div>
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
@@ -292,7 +289,10 @@
                     </label>
                     <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
                     <!--<input name="hora_final" id="hora_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
-                    <input name="hora_final" id="hora_final" >
+                    <input class="click_datetime" name="hora_fim" id="hora_fim" readonly="readonly">
+                    <div id="hora_final_div" style="display:none;">
+                        <input type="hidden" name="hora_final" id="hora_final">
+                    </div>                    
                 </div>
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <div id="monstrarIntervalo" style="width: -moz-max-content">
@@ -308,7 +308,10 @@
                         </label>
                         <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
                         <!--<input name="intervalo_hr_inicial" id="intervalo_hr_inicial" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
-                        <input name="intervalo_hr_inicial" id="intervalo_hr_inicial" >                        
+                        <input class="click_datetime" name="intervalo_hr_ini" id="intervalo_hr_ini" readonly="readonly">
+                        <div id="intervalo_hr_inicial_div" style="display:none;">
+                            <input type="hidden" name="intervalo_hr_inicial" id="intervalo_hr_inicial">
+                        </div>
                     </div>
                     <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                         <label>
@@ -316,11 +319,12 @@
                         </label>
                         <!-- Andre Renovato - 13/01/2016 -componente antigo de data -->
                         <!--<input name="intervalo_hr_final" id="intervalo_hr_final" type="date" data-role="datebox" data-options='{"mode": "timebox"}' >-->
-                        <input name="intervalo_hr_final" id="intervalo_hr_final" >                          
+                        <input class="click_datetime" name="intervalo_hr_fim" id="intervalo_hr_fim" readonly="readonly">
+                        <div id="intervalo_hr_final_div" style="display:none;">
+                            <input type="hidden" name="intervalo_hr_final" id="intervalo_hr_final">
+                        </div>
                     </div>
                 </div>
-                
-                
                 
                 <div data-role="fieldcontain" data-controltype="textarea" class="box_form">
                     <label for="narrativa_principal">
@@ -340,7 +344,8 @@
                     <label for="filtro_data_trabalhada">
                         Filtro de Data
                     </label>
-                    <input name="filtro_data_trabalhada" id="filtro_data_trabalhada" data-role="datebox" type="date" data-options='{"mode": "calbox"}' >
+                    <!--<input name="filtro_data_trabalhada" id="filtro_data_trabalhada" data-role="datebox" type="date" data-options='{"mode": "calbox"}' >-->
+                    <input class="click_datetime" name="filtro_data_trabalhada" id="filtro_data_trabalhada" readonly="readonly">
                 </div>
             </div>
             <div data-role="content" style="padding: 0px">
