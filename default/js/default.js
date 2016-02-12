@@ -1,10 +1,10 @@
 //Este evento serve para exibir qualquer erro de javascript.
-/*window.onerror = function(errorMsg, url, lineNumber, column, errorObj) {
+window.onerror = function(errorMsg, url, lineNumber, column, errorObj) {
     if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1){
         return;
     }
     alert("Desculpe, um erro ocorreu: \n"+errorMsg + "\n" + url + "\n" + lineNumber + "\n");
-}*/
+}
 
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
@@ -1035,10 +1035,12 @@ function salvar_despesa()
 }
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
-    if (data) {
+    //if (data) {
         var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
         loading('show');
-        data = dateFormatDisplayToTimestamp(data);
+        if (data) {
+            data = dateFormatDisplayToTimestamp(data);
+        }
         $.ajax({
             type: 'POST',
             url: ajax_file,
@@ -1052,10 +1054,11 @@ function buscar_despesa(data) {
         }).then(function(data)
         {
             $("#list_despesa").html(data);
-            $("#list_despesa").listview("refresh");
+            //$("#list_despesa").listview("refresh");
+            $("#list_despesa").listview().listview('refresh');
             loading('hide');
         });
-    }
+    //}
 }
 
 dados_servicos = new Object();
@@ -1364,9 +1367,11 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
 
 //Buscar timesheet conforme as datas
 function buscar_timesheet(data) {
-    if (data) {
+    //if (data) {
         loading('show');
-        data = dateFormatDisplayToTimestamp(data);
+        if (data) {
+            data = dateFormatDisplayToTimestamp(data);
+        }
         var ajax_file = COMMON_URL_MOBILE + '/busca_timesheet.php';
         $.ajax({
             type: 'POST',
@@ -1381,10 +1386,11 @@ function buscar_timesheet(data) {
         }).then(function(data)
         {
             $("#list").html(data);
-            $("#list").listview("refresh");
+            //$("#list").listview("refresh");
+            $('#list').listview().listview('refresh');
             loading('hide');
         });
-    }
+    //}
 }
 
 
@@ -1959,7 +1965,6 @@ $(document).ready(function() {
     $(".name_powered").html('Powered by MultidadosTI &copy; ' + vs_mobile);
 
     $(document).on("pageinit", function() {
-
         // Inacio 30/09/2015
         // Agora é só na página index.html     
         //$resposta = verifica_logado();
@@ -1973,9 +1978,10 @@ $(document).ready(function() {
             $("#dateinput2").val(data_hoje);
         }
 
-        buscar_timesheet($("#filtro_data_trabalhada").val());
-        buscar_despesa($("#dateinput2").val());
+        //buscar_timesheet($("#filtro_data_trabalhada").val());
+        //buscar_despesa($("#dateinput2").val());
     });
+    
     $("#botao_entrar").click(function()
     {
         mobile_login();
@@ -2148,7 +2154,8 @@ $(document).ready(function() {
             $ul.html("");
             if (value && value.length > 0) {
                 $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-                $ul.listview("refresh");
+                //$ul.listview("refresh");
+                $ul.listview().listview('refresh');
                 $.ajax({
                     //url: "http://gd.geobytes.com/AutoCompleteCity",
                     url: COMMON_URL_MOBILE + '/search.php',
@@ -2167,7 +2174,8 @@ $(document).ready(function() {
                             $("#page_despesa_clientes").html('');
                             $("#page_despesa_projetos").html('');
                             $ul.html(response);
-                            $ul.listview("refresh");
+                            //$ul.listview("refresh");
+                            $ul.listview().listview('refresh');
                             $ul.trigger("updatelayout");
                         });
             }
@@ -2258,7 +2266,8 @@ $(document).ready(function() {
             $ul.html("");
             if (value && value.length > 0) {
                 $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
-                $ul.listview("refresh");
+                //$ul.listview("refresh");
+                $ul.listview().listview('refresh');
                 $.ajax({
                     //url: "http://gd.geobytes.com/AutoCompleteCity",
                     url: COMMON_URL_MOBILE + '/search.php',
@@ -2277,7 +2286,8 @@ $(document).ready(function() {
                     $("#page_timesheet_clientes").html('');
                     $("#page_timesheet_projetos").html('');
                     $ul.html(response);
-                    $ul.listview("refresh");
+                    //$ul.listview("refresh");
+                    $ul.listview().listview('refresh');
                     $ul.trigger("updatelayout");
                 });
             }
@@ -2299,7 +2309,36 @@ $(document).ready(function() {
             yearText: 'Ano',
             cancelText: 'Cancelar',
             setText: 'Selecionar'
-        });        
+        });
+        
+        var x = $("#filtro_data_trabalhada").mobiscroll('getValues');
+        $("#filtro_data_trabalhada").val(x[0].value);        
+
+        buscar_timesheet($("#filtro_data_trabalhada").val());
+        //buscar_despesa($("#dateinput2").val());
+    });
+    
+    $(document).on("pageinit", "#relatorio_despesa", function() {
+        $('#dateinput2').mobiscroll().date({
+            //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
+            //theme: 'android-ics',
+            display: 'top',
+            minDate: new Date(2012, 1, 1),
+            maxDate: new Date(2030, 1, 1),
+            mode: 'scroller',
+            dateOrder: 'dd mm yy',
+            dateFormat : "dd/mm/yy",
+            lang: 'pt-BR',
+            dayText: 'Dia',
+            monthText: 'Mes',
+            yearText: 'Ano',
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });
+
+        var x = $("#dateinput2").mobiscroll('getValues');
+        $("#dateinput2").val(x[0].value);
+        buscar_despesa($("#dateinput2").val());
     });
 
 
