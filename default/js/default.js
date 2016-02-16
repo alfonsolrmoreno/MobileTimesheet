@@ -11,6 +11,8 @@ var vs_mobile = 'v.3.0.0';
 var debug_mode = false;
 var debug_js_errors = false;
 
+var StatusMobiscroll = false;
+
 var Objeto_real = localStorage['mobile_login'];
 
 var arrayDia = new construirArray(7);
@@ -273,8 +275,7 @@ function dateFormatTimestampToDisplay(date, cfg) {
 }
 //################# FORMATAR VALOR ############################################
 VR_DECIMAIS = 2;
-function unformatNumberNoParse(n, num_grp_sep, dec_sep)
-{
+function unformatNumberNoParse(n, num_grp_sep, dec_sep){
     if (typeof num_grp_sep == 'undefined' || typeof dec_sep == 'undefined')
         return n;
     n = n.toString();
@@ -286,8 +287,7 @@ function unformatNumberNoParse(n, num_grp_sep, dec_sep)
     return '';
 }
 //retirado do sugar_3.js, forms.js (utilizado em get_Form_lanctos,  ajax_funcs.js):
-RegExp.escape = function(text)
-{
+RegExp.escape = function(text){
     if (!arguments.callee.sRE)
     {
         var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];
@@ -296,8 +296,7 @@ RegExp.escape = function(text)
     return text.replace(arguments.callee.sRE, '\\$1');
 }
 
-function formatNumber(n, dec_sep, round, precision)
-{
+function formatNumber(n, dec_sep, round, precision){
     precision = Math.round(VR_DECIMAIS);
     if (typeof dec_sep == 'undefined')
         return n;
@@ -625,17 +624,6 @@ function mobile_logout() {
     });
 }
 
-function mobile_logout_OLD() {
-    var url = window.location;
-    var urlString = url.toString();
-    var urlArray = urlString.split("/");
-
-    var urlLogin = urlArray[0] + '//' + urlArray[2] + '/' + urlArray[3] + '/' + urlArray[4] + '/pages.html';
-
-    localStorage.clear();
-    window.location.href = 'pages.html#page_login';
-}
-
 function setSaudacao() {
     var saudacao = '';
     var saudacao_data = '';
@@ -721,7 +709,6 @@ function verifica_logado() {
 
         return redirecting ? false : true;
     }
-
 }
 
 //####################### FIM LOGIN ###########################################
@@ -902,8 +889,7 @@ function salvar_timesheet()
     });
 }
 
-function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto)
-{
+function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto){
     //$(".ui-body-" + tipo).val(valor);
 
     if (tipo == 'c')
@@ -954,9 +940,6 @@ function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto)
     $("ul").empty();
 }
 
-
-
-
 //############# DESPESA #####################################################
 //###########################################################################
 function upload() {
@@ -986,8 +969,7 @@ function upload() {
 }
 
 //Salva dados dA DESPESA
-function salvar_despesa()
-{
+function salvar_despesa(){
     var dados = new Object();
     loading('show');
     dados['idvendedor'] = Objeto_json.usuario_id;
@@ -1033,6 +1015,7 @@ function salvar_despesa()
         }
     });
 }
+
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
     //if (data) {
@@ -1122,6 +1105,7 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
 
     });
 });
+
 $(document).on("pagecreate", function() {
     $(".photopopup").on({
         popupbeforeposition: function() {
@@ -1407,8 +1391,7 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         data: {
             idtimecard: idtimecard
         }
-    }).then(function(data)
-    {
+    }).then(function(data){
         loading('show');
         codigo_atividade = data.idatividade_utbms;
         if (data.idtimecard != '') {
@@ -1442,13 +1425,38 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         $("#page_timesheet #selecione_projeto .ui-btn-text").text(data.nome_projeto);
         hora_inicial = (data.dt_hr_inicial.substr(11, 5));
         hora_final = (data.dt_hr_final.substr(11, 5));
+        $("#hora_ini").val(hora_inicial);
         $("#hora_inicial").val(hora_inicial);
         $("#hora_final").val(hora_final);
+        $("#hora_fim").val(hora_final);
         
-        $("#intervalo_hr_inicial").val(data.intervalo_hr_inicial);
-        $("#intervalo_hr_final").val(data.intervalo_hr_final);
+        intervalo_hr_inicial = (data.intervalo_hr_inicial.substr(0, 5));
+        intervalo_hr_final = (data.intervalo_hr_final.substr(0, 5));        
+        $("#intervalo_hr_inicial").val(intervalo_hr_inicial);
+        $("#intervalo_hr_ini").val(intervalo_hr_inicial);
+        $("#intervalo_hr_final").val(intervalo_hr_final);
+        $("#intervalo_hr_fim").val(intervalo_hr_final);
         
         $("#narrativa_principal").val(data.narrativa_principal);
+ 
+    
+        //Carrega componente de Horas
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('destroy');
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
+            //theme: 'mobiscroll',
+            mode: 'scroller',
+            display: 'inline',
+            timeFormat: 'HH:ii',
+            timeWheels: 'HHii',
+            hourText: 'Horas',
+            minuteText: 'Minutos',
+            headerText: false,
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });     
+        
+        //remove valor para caso clique em novo timecard, o componente de horas seja iniciado normalmente
+        parent.document.getElementById('StatusMobiscroll').value = '';
     });
 });
 //Lista clientes no timesheet
@@ -1647,8 +1655,6 @@ function seleciona_porcentagem_conclusao(item_selected) {
                 loading('hide');
             });
 }
-
-
 
 function seleciona_atividade(selecionado)
 {
@@ -1855,28 +1861,27 @@ function onCapturePhoto(fileURI) {
 
 function capturePhoto(sourceType) {
     alert('CAPTUREPHOTO EM DEFAULT JS');
-    if(!navigator.camera){
+    if(!parent.document.navigator.camera){
         alert('Ooops, nao foi possivel usar a camera!');
     }else{
         loading('show', 'Enviando foto, aguarde...');
         
         if (!sourceType){
-            sourceType = Camera.PictureSourceType.CAMERA;
+            sourceType = parent.document.Camera.PictureSourceType.CAMERA;
         }
 
-        navigator.camera.getPicture(onCapturePhoto, onFail, {
+        parent.document.navigator.camera.getPicture(onCapturePhoto, onFail, {
             //quality: 100,
             //destinationType: destinationType.DATA_URL,
             quality: 90,
             //destinationType:Camera.DestinationType.DATA_URL,
-            destinationType: navigator.camera.DestinationType.FILE_URI,
+            destinationType: parent.document.navigator.camera.DestinationType.FILE_URI,
             targetWidth: 550,
             targetHeight: 550,
             saveToPhotoAlbum: true,
             sourceType: sourceType
         });
     }
-    alert(2);
 }
 
 function onFail(message) {
@@ -2181,83 +2186,10 @@ $(document).ready(function() {
             }
         });
     });
+
+    
     
     $(document).on("pageinit", "#page_timesheet", function() {
-        $('#data_trabalhada').mobiscroll().date({
-            //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
-            //theme: 'android-ics',
-            display: 'top',
-            minDate: new Date(2012, 1, 1),
-            maxDate: new Date(2030, 1, 1),
-            mode: 'scroller',
-            dateOrder: 'dd mm yy',
-            dateFormat : "dd/mm/yy",
-            lang: 'pt-BR',
-            dayText: 'Dia',
-            monthText: 'Mes',
-            yearText: 'Ano',
-            cancelText: 'Cancelar',
-            setText: 'Selecionar'
-        });
-        
-        /* PROPRIEDADE display:
-        'modal' - The component appears as a popup at the center of the viewport.
-        'inline' - If called on div element, the component is placed inside the div (overwriting existing content), otherwise is placed after the original element.
-        'bubble' - The component appears as a bubble positioned to the element defined by the 'anchor' setting. By default the anchor is the original element.
-        'top' - The component appears docked to the top of the viewport.
-        'bottom' - The component appears docked to the bottom of the viewport.
-        */        
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
-            //theme: 'mobiscroll',
-            mode: 'scroller',
-            display: 'inline',
-            timeFormat: 'HH:ii',
-            timeWheels: 'HHii',
-            hourText: 'Horas',
-            minuteText: 'Minutos',
-            headerText: false,
-            cancelText: 'Cancelar',
-            setText: 'Selecionar'
-        });
-
-        $(this.id).click(function(){
-          alert(this.id);  
-        })
-        $('.click_datetime').click(function(){
-            var id_campo;
-            var id_campo_div;
-            switch(this.id) {
-                case 'hora_ini':
-                    id_campo = '#hora_inicial';
-                    id_campo_div = '#hora_inicial_div';
-                    break;
-                case 'hora_fim':
-                    id_campo = '#hora_final';
-                    id_campo_div = '#hora_final_div';
-                    break;
-                case 'intervalo_hr_ini':
-                    id_campo = '#intervalo_hr_inicial';
-                    id_campo_div = '#intervalo_hr_inicial_div';
-                    break;
-                case 'intervalo_hr_fim':
-                    id_campo = '#intervalo_hr_final';
-                    id_campo_div = '#intervalo_hr_final_div';
-                    break;
-            };
-            
-            //alert("campo: "+id_campo+" - div: "+id_campo_div+ " clicado: "+ this.id);
-            
-            if($(id_campo_div).css('display') == 'none'){
-                $(id_campo_div).css('display','block');
-            }else{
-                //$(id_campo_div).css('display','none');
-                $(id_campo_div).slideUp();
-                var x = $(id_campo).mobiscroll('getValues');
-                $("#"+this.id).val(x[0].value);
-            }            
-        })
-     
-
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
             $input = $(data.input),
@@ -2292,7 +2224,60 @@ $(document).ready(function() {
                 });
             }
         });
+        
+        $('#data_trabalhada').mobiscroll().date({
+            //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
+            //theme: 'android-ics',
+            display: 'top',
+            minDate: new Date(2012, 1, 1),
+            maxDate: new Date(2030, 1, 1),
+            mode: 'scroller',
+            dateOrder: 'dd mm yy',
+            dateFormat : "dd/mm/yy",
+            lang: 'pt-BR',
+            dayText: 'Dia',
+            monthText: 'Mes',
+            yearText: 'Ano',
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });
+        
+        LoadMobiScroll();
+        
+
+        $('.click_datetime').click(function(){
+            var id_campo;
+            var id_campo_div;
+            switch(this.id) {
+                case 'hora_ini':
+                    id_campo = '#hora_inicial';
+                    id_campo_div = '#hora_inicial_div';
+                    break;
+                case 'hora_fim':
+                    id_campo = '#hora_final';
+                    id_campo_div = '#hora_final_div';
+                    break;
+                case 'intervalo_hr_ini':
+                    id_campo = '#intervalo_hr_inicial';
+                    id_campo_div = '#intervalo_hr_inicial_div';
+                    break;
+                case 'intervalo_hr_fim':
+                    id_campo = '#intervalo_hr_final';
+                    id_campo_div = '#intervalo_hr_final_div';
+                    break;
+            };
+            
+            if($(id_campo_div).css('display') == 'none'){
+                $(id_campo_div).css('display','block');
+            }else{
+                //$(id_campo_div).css('display','none');
+                $(id_campo_div).slideUp();
+                var x = $(id_campo).mobiscroll('getValues');
+                $("#"+this.id).val(x[0].value);
+            }            
+        })        
     });
+    
     $(document).on("pageinit", "#page_relatorio", function() {
         $('#filtro_data_trabalhada').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
@@ -2315,9 +2300,10 @@ $(document).ready(function() {
         $("#filtro_data_trabalhada").val(x[0].value);        
 
         buscar_timesheet($("#filtro_data_trabalhada").val());
-        //buscar_despesa($("#dateinput2").val());
+        parent.document.getElementById('StatusMobiscroll').value = 'editar';
     });
     
+    //Em pagina lista depesas
     $(document).on("pageinit", "#relatorio_despesa", function() {
         $('#dateinput2').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
@@ -2341,8 +2327,6 @@ $(document).ready(function() {
         buscar_despesa($("#dateinput2").val());
     });
 
-
-
     //Verifica se existe user logado    
     /*if (!objIsEmpty(Objeto_json)) {
         //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
@@ -2354,3 +2338,32 @@ $(document).ready(function() {
     }*/
     
 });//fim doc ready
+
+function LoadMobiScroll(){
+    //valida se campo hidden nao e editar, para nao iniciar o componente de horas 2 vezes.
+    //assim que abre a tela de lista timecard, setamos a variavel hidden como editar, e o componente de horas
+    //e iniciado na propria chamada de editar e depois esta funcao e chamada novamente mas nao sera executada.
+    //apos setar os valores nos inputs da tela timecard e iniciarmos o componente de horas, limpamos este campo hidden.
+    if( parent.document.getElementById('StatusMobiscroll').value != 'editar'){
+        /* PROPRIEDADE display:
+        'modal' - The component appears as a popup at the center of the viewport.
+        'inline' - If called on div element, the component is placed inside the div (overwriting existing content), otherwise is placed after the original element.
+        'bubble' - The component appears as a bubble positioned to the element defined by the 'anchor' setting. By default the anchor is the original element.
+        'top' - The component appears docked to the top of the viewport.
+        'bottom' - The component appears docked to the bottom of the viewport.
+        */        
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('destroy');
+        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
+            //theme: 'mobiscroll',
+            mode: 'scroller',
+            display: 'inline',
+            timeFormat: 'HH:ii',
+            timeWheels: 'HHii',
+            hourText: 'Horas',
+            minuteText: 'Minutos',
+            headerText: false,
+            cancelText: 'Cancelar',
+            setText: 'Selecionar'
+        });
+    }
+}
