@@ -1438,25 +1438,8 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         $("#intervalo_hr_fim").val(intervalo_hr_final);
         
         $("#narrativa_principal").val(data.narrativa_principal);
- 
-    
-        //Carrega componente de Horas
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('destroy');
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
-            //theme: 'mobiscroll',
-            mode: 'scroller',
-            display: 'inline',
-            timeFormat: 'HH:ii',
-            timeWheels: 'HHii',
-            hourText: 'Horas',
-            minuteText: 'Minutos',
-            headerText: false,
-            cancelText: 'Cancelar',
-            setText: 'Selecionar'
-        });     
-        
-        //remove valor para caso clique em novo timecard, o componente de horas seja iniciado normalmente
-        parent.document.getElementById('StatusMobiscroll').value = '';
+
+        LoadMobiScroll();
     });
 });
 //Lista clientes no timesheet
@@ -2187,8 +2170,6 @@ $(document).ready(function() {
         });
     });
 
-    
-    
     $(document).on("pageinit", "#page_timesheet", function() {
         $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
             var $ul = $(this),
@@ -2244,7 +2225,6 @@ $(document).ready(function() {
         
         LoadMobiScroll();
         
-
         $('.click_datetime').click(function(){
             var id_campo;
             var id_campo_div;
@@ -2274,8 +2254,8 @@ $(document).ready(function() {
                 $(id_campo_div).slideUp();
                 var x = $(id_campo).mobiscroll('getValues');
                 $("#"+this.id).val(x[0].value);
-            }            
-        })        
+            }
+        })
     });
     
     $(document).on("pageinit", "#page_relatorio", function() {
@@ -2300,7 +2280,6 @@ $(document).ready(function() {
         $("#filtro_data_trabalhada").val(x[0].value);        
 
         buscar_timesheet($("#filtro_data_trabalhada").val());
-        parent.document.getElementById('StatusMobiscroll').value = 'editar';
     });
     
     //Em pagina lista depesas
@@ -2344,7 +2323,8 @@ function LoadMobiScroll(){
     //assim que abre a tela de lista timecard, setamos a variavel hidden como editar, e o componente de horas
     //e iniciado na propria chamada de editar e depois esta funcao e chamada novamente mas nao sera executada.
     //apos setar os valores nos inputs da tela timecard e iniciarmos o componente de horas, limpamos este campo hidden.
-    if( parent.document.getElementById('StatusMobiscroll').value != 'editar'){
+    
+    //if( parent.document.getElementById('StatusMobiscroll').value != 'editar'){
         /* PROPRIEDADE display:
         'modal' - The component appears as a popup at the center of the viewport.
         'inline' - If called on div element, the component is placed inside the div (overwriting existing content), otherwise is placed after the original element.
@@ -2365,5 +2345,5 @@ function LoadMobiScroll(){
             cancelText: 'Cancelar',
             setText: 'Selecionar'
         });
-    }
+    //}
 }
