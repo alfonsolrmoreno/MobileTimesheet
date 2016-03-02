@@ -510,11 +510,22 @@
                 </div>                
  
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
-                    <div id="uploadArquivo" style="">
-                        <a href="#" class="btn_default" onclick="" data-role="button">Anexo</a>                        
-                    </div>
+                    <label for="arq_despesa">
+                        Documento Fiscal
+                    </label>
+
+                    <form method="post" id="form_arquivo" action="#" enctype="multipart/form-data">
+                        <!--<div id="uploadArquivo" style="">
+                            <a href="#" class="btn_default" onclick="" data-role="button">Anexo</a>                        
+                        </div>   -->                     
+                        
+                        <div id="upload_arquivos" >
+                            <input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">
+                        </div>
+                        <div id="popup_imagem"> </div>
+                    </form>                    
                 </div>
- 
+
                 <!--<div data-role="fieldcontain" data-controltype="textinput" class="box_form" id="upload_despesa" >
                     <div id="uploadArquivo" style="">
                         <img data-transition="slide" title="Fotografar documento" src="img/blue_cam2.png" width="32" height="32"/>

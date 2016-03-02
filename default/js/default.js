@@ -970,16 +970,16 @@ function upload() {
         processData: false,
         crossdomain: true
     })
-            .then(function (data) {
-                if (data == "Arquivo inválido!" || data == "Erro no arquivo") {
-                    $("#arquivo_md5").val('');
-                    $().toastmessage('showErrorToast', data);
-                } else {
-                    $("#arquivo_md5").val(data);
-                }
+    .then(function (data) {
+        if (data == "Arquivo inválido!" || data == "Erro no arquivo") {
+            $("#arquivo_md5").val('');
+            $().toastmessage('showErrorToast', data);
+        } else {
+            $("#arquivo_md5").val(data);
+        }
 
-                loading('hide');
-            });
+        loading('hide');
+    });
 }
 
 //Salva dados dA DESPESA
@@ -1104,6 +1104,11 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function () {
                         var imagem = '<div><img width="25%" src="' + filename + '"></div>';
                         var apagar = '<a href="javascript:;" onclick="deletaArquivo();" id="del_arquivo" data-icon="delete"  data-role="button" data-iconpos="notext" data-inline="true" ></a>';
                         $("#popup_imagem").html('<br>' + imagem + apagar + arquivo_edit);
+                        if(filename){
+                            //ocultando input de upload
+                            $("#upload_arquivos").css('display','none');
+                        }
+                        
                         $("#page_despesa").trigger('create');
                     }
                     geraDespesa(data.idclienteprojeto, data.idservicos);
@@ -1130,6 +1135,7 @@ $(document).on("pagecreate", function () {
 });
 //Deletar Arquivo
 function deletaArquivo() {
+    //ok = confirm('Ao confirmar, o arquivo ser&aacute exclu&iacutedo e desvinculado da despesa. Deseja realmente apagar esse arquivo?');
     ok = confirm('Deseja realmente apagar esse arquivo?');
     if (ok == true) {
         var ajax_file = COMMON_URL_MOBILE + '/arquivo_despesa.php';
@@ -1146,12 +1152,10 @@ function deletaArquivo() {
         }).then(function (data)
         {
             $("#arquivo_md5").val('');
+            $("#popup_imagem").html('');
+            $("#upload_arquivos").css('display','block');
+            //$("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
         });
-        $("#arquivo_md5").val('');
-        //$("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-
-        //novo
-        $("#popup_imagem").html('');
     }
 }
 
@@ -2081,7 +2085,7 @@ $(document).ready(function () {
     $("#novo_despesa_top").click(function () {
         clearInputs();
         $("#arquivo_md5").val('');
-        $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
+        //$("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
         $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
             loading('hide');
         });
