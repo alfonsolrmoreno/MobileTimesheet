@@ -52,10 +52,16 @@
                                 <i class="fa fa-th-list"></i>
                                 <div>Consultar</div>
                             </a>
-							<a class="icon-btn linkHome" link="?display=portal&m=servicedesk&a=ocorrencias&nomenu=1" id="portal_ocorrencia">
+
+							<a class="icon-btn linkHome" link="?display=portal&m=servicedesk&a=consultar_ocs_portal&nomenu=1&modal=false&nofilter=1&pendentes=1" id="listar_ocorrencia_p">
+                                <i class="fa fa-th-list"></i>
+                                <div>Pendentes</div>
+                                <span class="badge badge-warning larger-badge" id='count_oco_pendentes'></span>
+                            </a>                        
+							<!--<a class="icon-btn linkHome" link="?display=portal&m=servicedesk&a=ocorrencias&nomenu=1" id="portal_ocorrencia">
                                 <i class="fa fa-desktop"></i>
                                 <div>Portal</div>
-                            </a>
+                            </a>-->
 							<a class="icon-btn linkHome" link="?display=portal&m=servicedesk&a=aprovacoes_ocs_portal&nomenu=1" id="aprovar_ocorrencia">
                                 <i class="fa fa-check-square-o"></i>
                                 <div>Aprovar Ocs</div>
@@ -138,6 +144,12 @@
                     $('.logo-multidados').attr('src', Objeto_json['url_logo_cliente']);
                     
                     permissaoMenu(); //recupera permissao de menu e atalhos
+                    
+                    //Andre Renovato - 24/02/2016
+                    //setando contador de ocorrencias pendentes no botao de atalho 
+                    if(Objeto_json['count_oco_pendentes'] > 0){
+                        $("#count_oco_pendentes").html('<b>'+Objeto_json['count_oco_pendentes']+'</b>');
+                    }
                 });
             }
         </script>

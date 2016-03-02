@@ -1,18 +1,16 @@
 //Este evento serve para exibir qualquer erro de javascript.
-window.onerror = function(errorMsg, url, lineNumber, column, errorObj) {
-    if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1){
+/*window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+    if (typeof errorMsg != 'undefined' && typeof errorMsg.indexOf == 'function' && errorMsg.indexOf('StatusBar') !== -1) {
         return;
     }
-    alert("Desculpe, um erro ocorreu: \n"+errorMsg + "\n" + url + "\n" + lineNumber + "\n");
-}
+    alert("Desculpe, um erro ocorreu: \n" + errorMsg + "\n" + url + "\n" + lineNumber + "\n");
+}*/
 
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
 var debug_mode = false;
 var debug_js_errors = false;
-
 var StatusMobiscroll = false;
-
 var Objeto_real = localStorage['mobile_login'];
 
 var arrayDia = new construirArray(7);
@@ -45,11 +43,21 @@ if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
     var COMMON_URL = Objeto_json.url;
 
     //definindo pagina padrao Home
-    if(Objeto_json.page_home && Objeto_json.page_home != 'undefined'){
+    if (Objeto_json.page_home && Objeto_json.page_home != 'undefined') {
         var pageHome = Objeto_json.page_home + '.html';
-    }else{
+    } else {
         var pageHome = "mobile_home.html";
     }
+    
+    //Andre Renovato - 26-02-2016
+    //Mantendo dados no formulario de login
+    $(function(){
+        $("#url").val(COMMON_URL);
+        $("#usuario").val(Objeto_json.user_bd);
+        if(typeof Objeto_json.senha != 'undefined'){
+            $("#senha").val(Objeto_json.senha);
+        }
+    })    
 } else {
     if (typeof getUrlVal() != 'undefined') {
         var COMMON_URL_MOBILE = getUrlVal() + '/mobile/';
@@ -64,10 +72,10 @@ if (typeof Objeto_real != 'undefined' && Objeto_real != '' && Objeto_real) {
 function irPara_mobile() {
     var numero = $("#numero").val().trim();
     var url = COMMON_URL + '/?display=portal&m=servicedesk/ocorrencias&a=oco_detalhes&modal=false&numero=' + numero;
-    
+
     //Andre Renovato - 25/11/2015
     //caso nao tenha permissao visualizar ocorrencias, retorna para sem acesso ao modulo
-    if(Objeto_json['perms_menu']['Ocorrencias']['pesquisa_go'] == 'F'){
+    if (Objeto_json['perms_menu']['Ocorrencias']['pesquisa_go'] == 'F') {
         var link = Objeto_json['url'] + '/timesheet/multidados/module/';
         window.location.href = link;
     }
@@ -198,7 +206,7 @@ function getDiaExtenso(dia) {
 pesq_autocomplete = '';
 
 function clearInputs() {
-    $(":input").each(function() {
+    $(":input").each(function () {
         $(this).val('');
     });
 
@@ -275,7 +283,7 @@ function dateFormatTimestampToDisplay(date, cfg) {
 }
 //################# FORMATAR VALOR ############################################
 VR_DECIMAIS = 2;
-function unformatNumberNoParse(n, num_grp_sep, dec_sep){
+function unformatNumberNoParse(n, num_grp_sep, dec_sep) {
     if (typeof num_grp_sep == 'undefined' || typeof dec_sep == 'undefined')
         return n;
     n = n.toString();
@@ -287,7 +295,7 @@ function unformatNumberNoParse(n, num_grp_sep, dec_sep){
     return '';
 }
 //retirado do sugar_3.js, forms.js (utilizado em get_Form_lanctos,  ajax_funcs.js):
-RegExp.escape = function(text){
+RegExp.escape = function (text) {
     if (!arguments.callee.sRE)
     {
         var specials = ['/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\'];
@@ -296,7 +304,7 @@ RegExp.escape = function(text){
     return text.replace(arguments.callee.sRE, '\\$1');
 }
 
-function formatNumber(n, dec_sep, round, precision){
+function formatNumber(n, dec_sep, round, precision) {
     precision = Math.round(VR_DECIMAIS);
     if (typeof dec_sep == 'undefined')
         return n;
@@ -365,30 +373,15 @@ function notNull(valor) {
 function mobile_login(obj) {
     loading('show');
 
-    if (debug_mode)
-        alert('mobile_login');
-
     var dados = new Object();
-
-    if (debug_mode)
-        alert('dados new Object');
 
     //Retorno do object no valida login
     if (obj) {
-        if (debug_mode) {
-            alert('Tempo Obj');
-            alert(obj);
-        }
-
         var dadosArray = JSON.parse(obj);
         dados['USUARIO'] = dadosArray.user_bd;
         dados['SENHA'] = dadosArray.senha;
         dados['URL'] = dadosArray.url;
     } else {
-
-        if (debug_mode)
-            alert('sem Obj');
-
         dados['USUARIO'] = $("#usuario").val();
         dados['SENHA'] = $("#senha").val();
         dados['URL'] = getUrlVal();
@@ -471,7 +464,7 @@ function mobile_login(obj) {
             data: {
                 url: COMMON_URL_MOBILE
             },
-            error: function() {
+            error: function () {
 
                 if (debug_mode) {
                     alert('ERROR MOBILE');
@@ -480,7 +473,7 @@ function mobile_login(obj) {
                 loading('hide');
                 $().toastmessage('showErrorToast', 'Falha de comunica&ccedil;&atilde;o com o servidor. Verifique sua conex&atilde;o e se a URL est&aacute; correta');
             },
-            success: function(data) {
+            success: function (data) {
 
                 if (debug_mode) {
                     alert('SUCCESS');
@@ -497,7 +490,7 @@ function mobile_login(obj) {
                         senha: dados['SENHA'],
                         url: dados['URL']
                     },
-                    error: function(jqXHR, statusText, error) {
+                    error: function (jqXHR, statusText, error) {
                         loading('hide');
                         $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
 
@@ -513,10 +506,11 @@ function mobile_login(obj) {
 
                         window.location.href = 'pages.html#page_login';
                     },
-                    success: function(data) {
+                    success: function (data) {
                         if (data['erro']) {
                             loading('hide');
                             $().toastmessage('showErrorToast', data['erro']);
+                            window.location.href = 'pages.html#page_login';
                         } else {
                             var Objeto = {
                                 'db': data['db'],
@@ -532,9 +526,11 @@ function mobile_login(obj) {
                                 'url_logo_cliente': data['url_logo_cliente'],
                                 'cnpj': data['cnpj'],
                                 'perms_menu': data['perms_menu'],
-                                'page_home': data['page_home']};
+                                'page_home': data['page_home'],
+                                'count_oco_pendentes': data['count_oco_pendentes']};
                             localStorage.setItem('mobile_login', JSON.stringify(Objeto));
-                            var Objeto_real = localStorage['mobile_login'];
+                            //var Objeto_real = localStorage['mobile_login'];
+                            var Objeto_real = localStorage.getItem('mobile_login')
                             var Objeto_json = JSON.parse(Objeto_real);
 
                             loading('hide');
@@ -552,6 +548,16 @@ function mobile_login(obj) {
             }
         });
     }
+}
+
+function Storagelogout(){
+    if(localStorage.getItem('mobile_login')){
+        var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+        if(typeof Objeto_json.senha != 'undefined')
+            delete Objeto_json.senha;
+
+        localStorage.setItem('mobile_login',JSON.stringify(Objeto_json));
+    }    
 }
 
 function ajusteUrl(url) {
@@ -591,7 +597,6 @@ function ajusteUrl(url) {
 }
 
 function mobile_logout() {
-
     if (debug_mode)
         alert('mobile_logout');
 
@@ -609,15 +614,17 @@ function mobile_logout() {
             senha: dados['SENHA'],
             url: dados['URL']
         },
-        error: function() {
+        error: function () {
             loading('hide');
             //caso servidor nao esteja disponivel vamos apenas limpar os dados de conexao e redirecionar para pagina de login
-            localStorage.clear();
+            //localStorage.clear();
+            Storagelogout();
             window.location.href = 'pages.html#page_login';
         },
-        success: function(data) {
+        success: function (data) {
             if (data) {
-                localStorage.clear();
+                //localStorage.clear();
+                Storagelogout();
                 window.location.href = 'pages.html#page_login';
             }
         }
@@ -673,6 +680,10 @@ function verifica_logado() {
         window.location.href = 'pages.html#page_login';
         return false;
     } else {
+        mobile_login(Objeto_real);       
+        return true;
+        
+        /*
         if (debug_mode)
             alert('tem Objeto real');
 
@@ -688,7 +699,7 @@ function verifica_logado() {
             timeout: 1000,
             crossDomain: true,
             async: false,
-            error: function() {
+            error: function () {
                 if (debug_mode)
                     alert('erro no verifica_logado');
 
@@ -696,7 +707,7 @@ function verifica_logado() {
                 window.location.href = 'pages.html#page_login';
                 redirecting = true;
             },
-            success: function(data) {
+            success: function (data) {
 
                 if (debug_mode)
                     alert('success no verifica_logado idvendedor:' + data.idvendedor);
@@ -708,6 +719,7 @@ function verifica_logado() {
         });
 
         return redirecting ? false : true;
+        */
     }
 }
 
@@ -730,10 +742,10 @@ function popMenuDash() {
             data: {
                 tipo: 'menu'
             }
-        }).then(function(data) {
+        }).then(function (data) {
             if (data['erro']) {
-                $("#menu_dashboards").attr("onclick","alert('"+data['erro']+"')");
-            }else{
+                $("#menu_dashboards").attr("onclick", "alert('" + data['erro'] + "')");
+            } else {
                 $("#lista_dashboard").html(data);
             }
         });
@@ -747,7 +759,7 @@ function attrSrcIframe(url) {
 //Andre Renovato - 11/11/2015
 //Funcao que valida cada item do menu de acordo com o perfil de usuario. Caso nao tenha acesso
 //ao item de menu, vamos abrir uma pagina generica com a msg "SEM ACESSO AO MODULO"
-function permissaoMenu(){
+function permissaoMenu() {
     Obj = JSON.parse(Objeto_real)
     var permMenu = Obj['perms_menu'];
 
@@ -755,77 +767,80 @@ function permissaoMenu(){
     //console.dir(Obj['perms_menu']);
 
     //============ TIMESHEET ===============//
-    if(permMenu['Timesheet']['novo'] == 'F'){
+    if (permMenu['Timesheet']['novo'] == 'F') {
         $("#page_timesheet").removeAttr("mobile");
-        $("#page_timesheet").attr("id","sem_acesso");
+        $("#page_timesheet").attr("id", "sem_acesso");
     }
 
-    if(permMenu['Timesheet']['listar'] == 'F'){
+    if (permMenu['Timesheet']['listar'] == 'F') {
         $("#page_relatorio").removeAttr("mobile");
-        $("#page_relatorio").attr("id","sem_acesso");
-    }
-    
-    if(permMenu['Timesheet']['aprovacao'] == 'F'){        
-        $("#aprovar_horas").removeAttr("mobile");
-        $("#aprovar_horas").attr("id","sem_acesso");
+        $("#page_relatorio").attr("id", "sem_acesso");
     }
 
-    if(permMenu['Timesheet']['portal'] == 'F'){
+    if (permMenu['Timesheet']['aprovacao'] == 'F') {
+        $("#aprovar_horas").removeAttr("mobile");
+        $("#aprovar_horas").attr("id", "sem_acesso");
+    }
+
+    if (permMenu['Timesheet']['portal'] == 'F') {
         $("#portal_horas").removeAttr("mobile");
-        $("#portal_horas").attr("id","sem_acesso");
+        $("#portal_horas").attr("id", "sem_acesso");
     }
     //=============== FIM TIMESHEET ===============//
 
     //============ DESPESAS ===============//
-    if(permMenu['Despesas']['novo'] == 'F'){
+    if (permMenu['Despesas']['novo'] == 'F') {
         $("#page_despesa").removeAttr("mobile");
-        $("#page_despesa").attr("id","sem_acesso");
+        $("#page_despesa").attr("id", "sem_acesso");
     }
 
-    if(permMenu['Despesas']['listar'] == 'F'){
+    if (permMenu['Despesas']['listar'] == 'F') {
         $("#relatorio_despesa").removeAttr("mobile");
-        $("#relatorio_despesa").attr("id","sem_acesso");
-    }
-    
-    if(permMenu['Despesas']['aprovacao'] == 'F'){        
-        $("#aprovar_despesas").removeAttr("mobile");
-        $("#aprovar_despesas").attr("id","sem_acesso");
+        $("#relatorio_despesa").attr("id", "sem_acesso");
     }
 
-    if(permMenu['Despesas']['portal'] == 'F'){
+    if (permMenu['Despesas']['aprovacao'] == 'F') {
+        $("#aprovar_despesas").removeAttr("mobile");
+        $("#aprovar_despesas").attr("id", "sem_acesso");
+    }
+
+    if (permMenu['Despesas']['portal'] == 'F') {
         $("#portal_despesas").removeAttr("mobile");
-        $("#portal_despesas").attr("id","sem_acesso");
+        $("#portal_despesas").attr("id", "sem_acesso");
     }
     //=============== FIM DESPESAS ===============//
 
     //============ OCORRENCIA ===============//
-    if(permMenu['Ocorrencias']['novo'] == 'F'){
+    if (permMenu['Ocorrencias']['novo'] == 'F') {
         $("#add_ocorrencia").removeAttr("mobile");
-        $("#add_ocorrencia").attr("id","sem_acesso");
+        $("#add_ocorrencia").attr("id", "sem_acesso");
     }
 
-    if(permMenu['Ocorrencias']['listar'] == 'F'){
+    if (permMenu['Ocorrencias']['listar'] == 'F') {
         $("#listar_ocorrencia").removeAttr("mobile");
-        $("#listar_ocorrencia").attr("id","sem_acesso");
-    }
-    
-    if(permMenu['Ocorrencias']['aprovacao'] == 'F'){        
-        $("#aprovar_ocorrencia").removeAttr("mobile");
-        $("#aprovar_ocorrencia").attr("id","sem_acesso");
+        $("#listar_ocorrencia").attr("id", "sem_acesso");
+
+        $("#listar_ocorrencia_p").removeAttr("mobile");
+        $("#listar_ocorrencia_p").attr("id", "sem_acesso");
     }
 
-    if(permMenu['Ocorrencias']['portal'] == 'F'){
-        $("#portal_ocorrencia").removeAttr("mobile");
-        $("#portal_ocorrencia").attr("id","sem_acesso");
+    if (permMenu['Ocorrencias']['aprovacao'] == 'F') {
+        $("#aprovar_ocorrencia").removeAttr("mobile");
+        $("#aprovar_ocorrencia").attr("id", "sem_acesso");
     }
-    
+
+    if (permMenu['Ocorrencias']['portal'] == 'F') {
+        $("#portal_ocorrencia").removeAttr("mobile");
+        $("#portal_ocorrencia").attr("id", "sem_acesso");
+    }
+
     //Verifica se possui dashboard padrao definido, marca sem acesso ou o link do dash
-    if(permMenu['Ocorrencias']['dashboard_padrao'] == 'F' || permMenu['Ocorrencias']['dashboard_padrao'] == undefined){
-        $("#dashboard_padrao").attr("id","sem_acesso");
-    }else{
+    if (permMenu['Ocorrencias']['dashboard_padrao'] == 'F' || permMenu['Ocorrencias']['dashboard_padrao'] == undefined) {
+        $("#dashboard_padrao").attr("id", "sem_acesso");
+    } else {
         var idDash = permMenu['Ocorrencias']['dashboard_padrao'];
-        var lnk = "?display=portal&m=dashboards&a=view_dashboard_portal&iddashboards="+idDash+"&nomenu=1&menuItem=1";
-        $("#dashboard_padrao").attr("link",lnk);
+        var lnk = "?display=portal&m=dashboards&a=view_dashboard_portal&iddashboards=" + idDash + "&nomenu=1&menuItem=1";
+        $("#dashboard_padrao").attr("link", lnk);
     }
     //=============== FIM OCORRENCIA ===============//
 }
@@ -837,8 +852,7 @@ function permissaoMenu(){
 //#############################################################################
 
 //Salva dados do timesheet
-function salvar_timesheet()
-{
+function salvar_timesheet(){
     loading('show');
     var dados = new Object();
     dados['idvendedor'] = Objeto_json.usuario_id;
@@ -854,7 +868,7 @@ function salvar_timesheet()
     dados['hora'] = $("#hora_inicial").val();
     dados['hora_fim'] = $("#hora_final").val();
     dados['intervalo_ini'] = $("#intervalo_hr_inicial").val();
-    dados['intervalo_fim'] = $("#intervalo_hr_final").val();    
+    dados['intervalo_fim'] = $("#intervalo_hr_final").val();
     dados['idtarefa_utbms'] = $("#codigo_fase").val();
     dados['idatividade_utbms'] = $("#codigo_atividade").val();
     dados['idtask_parent'] = $("#task_parent").val();
@@ -872,7 +886,7 @@ function salvar_timesheet()
             dados: dados,
             tipo: 'timesheet'
         }
-    }).then(function(data)
+    }).then(function (data)
     {
 
         loading('hide');
@@ -889,7 +903,7 @@ function salvar_timesheet()
     });
 }
 
-function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto){
+function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto) {
     //$(".ui-body-" + tipo).val(valor);
 
     if (tipo == 'c')
@@ -956,7 +970,7 @@ function upload() {
         processData: false,
         crossdomain: true
     })
-            .then(function(data) {
+            .then(function (data) {
                 if (data == "Arquivo inválido!" || data == "Erro no arquivo") {
                     $("#arquivo_md5").val('');
                     $().toastmessage('showErrorToast', data);
@@ -969,7 +983,7 @@ function upload() {
 }
 
 //Salva dados dA DESPESA
-function salvar_despesa(){
+function salvar_despesa() {
     var dados = new Object();
     loading('show');
     dados['idvendedor'] = Objeto_json.usuario_id;
@@ -1001,7 +1015,7 @@ function salvar_despesa(){
             tipo: 'despesa',
             idsenha: Objeto_json.usuario_id
         }
-    }).then(function(data)
+    }).then(function (data)
     {
         loading('hide');
         if (data == 'T') {
@@ -1019,36 +1033,36 @@ function salvar_despesa(){
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
     //if (data) {
-        var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
-        loading('show');
-        if (data) {
-            data = dateFormatDisplayToTimestamp(data);
+    var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
+    loading('show');
+    if (data) {
+        data = dateFormatDisplayToTimestamp(data);
+    }
+    $.ajax({
+        type: 'POST',
+        url: ajax_file,
+        dataType: "jsonp",
+        crossDomain: true,
+        data: {
+            data: data,
+            idsenha: Objeto_json.usuario_id,
+            idempresa_vendedor: Objeto_json.idempresa_vendedor
         }
-        $.ajax({
-            type: 'POST',
-            url: ajax_file,
-            dataType: "jsonp",
-            crossDomain: true,
-            data: {
-                data: data,
-                idsenha: Objeto_json.usuario_id,
-                idempresa_vendedor: Objeto_json.idempresa_vendedor
-            }
-        }).then(function(data)
-        {
-            $("#list_despesa").html(data);
-            //$("#list_despesa").listview("refresh");
-            $("#list_despesa").listview().listview('refresh');
-            loading('hide');
-        });
+    }).then(function (data)
+    {
+        $("#list_despesa").html(data);
+        //$("#list_despesa").listview("refresh");
+        $("#list_despesa").listview().listview('refresh');
+        loading('hide');
+    });
     //}
 }
 
 dados_servicos = new Object();
 //Pega valores para editar despesa
-$(document).delegate('#list_despesa .btn-despesa', 'click', function() {
-    $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
-        loading('show');        
+$(document).delegate('#list_despesa .btn-despesa', 'click', function () {
+    $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
+        loading('show');
     });
 
     //zerando campo de foto anterior
@@ -1063,9 +1077,9 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                 dataType: "jsonp",
                 crossDomain: true,
                 async: false,
-                afterSend: function() {
+                afterSend: function () {
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.idlctodespesa != '') {
                         $("#idlctodespesa").val(data.idlctodespesa);
                     }
@@ -1093,22 +1107,22 @@ $(document).delegate('#list_despesa .btn-despesa', 'click', function() {
                         $("#page_despesa").trigger('create');
                     }
                     geraDespesa(data.idclienteprojeto, data.idservicos);
-                    $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
-                        loading('hide');            
+                    $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
+                        loading('hide');
                     });
                 },
                 data: {
                     idlctosdespesa: idlctosdespesa,
                     tipo: 'despesa'
                 }
-            })).then(function() {
+            })).then(function () {
 
     });
 });
 
-$(document).on("pagecreate", function() {
+$(document).on("pagecreate", function () {
     $(".photopopup").on({
-        popupbeforeposition: function() {
+        popupbeforeposition: function () {
             var maxHeight = $(window).height() - 60 + "px";
             $(".photopopup img").css("max-height", maxHeight);
         }
@@ -1129,7 +1143,7 @@ function deletaArquivo() {
                 idarquivo: idarquivo,
                 tipo: 'deletar'
             }
-        }).then(function(data)
+        }).then(function (data)
         {
             $("#arquivo_md5").val('');
         });
@@ -1160,14 +1174,14 @@ function geraDespesa(idclienteprojeto, selecionado) {
             idclienteprojeto: idclienteprojeto,
             tipo: 'despesaServico'
         }
-    }).then(function(data)
+    }).then(function (data)
     {
         //console.dir(data);
 
         dados_servicos = data.data;
         var options = '<option value="" ' + selected_first + '>Selecione uma despesa</option>';
         $("#idtabpreco").val(data['idtabpreco']);
-        jQuery.each(data.select, function(i, val) {
+        jQuery.each(data.select, function (i, val) {
             selected = '';
             if (i == selecionado)
                 selected = 'selected="selected"';
@@ -1176,9 +1190,9 @@ function geraDespesa(idclienteprojeto, selecionado) {
         $("#codigo_despesa").html(options);
         loading('hide');
         //$("#codigo_despesa").selectmenu("refresh");
-        $(document).bind('pageinit', function() {
+        $(document).bind('pageinit', function () {
             $('#codigo_despesa').selectmenu('refresh');
-        });        
+        });
     });
 }
 
@@ -1190,7 +1204,7 @@ function calcula_total_despesa() {
 }
 
 //Pega dados do  que foi clicado e deleta apaga
-$(document).delegate('#list_despesa .delete_despesa', 'click', function() {
+$(document).delegate('#list_despesa .delete_despesa', 'click', function () {
     idlctodespesa = $(this).attr('id');
     loading('show');
     if (confirm('Deseja excluir esta despesa?')) {
@@ -1205,7 +1219,7 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function() {
                 tipo: 'despesa_excluir',
                 idsenha: Objeto_json.usuario_id
             }
-        }).then(function(data)
+        }).then(function (data)
         {
             if (data == 'T') {
                 $().toastmessage('showSuccessToast', 'Despesa inativada com sucesso!');
@@ -1246,7 +1260,7 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 }
 
 //Lista clientes despesa
-$(document).delegate('#page_despesa #selecione_cliente', 'click', function() {
+$(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
     $("#page_despesa_sub").hide();
     $("#save_despesa_top").hide();
 
@@ -1273,17 +1287,17 @@ $(document).delegate('#page_despesa #selecione_cliente', 'click', function() {
 
     });
     $("#page_despesa #voltar_despesa").attr("href", "javascript:;");
-    $('#page_despesa #voltar_despesa').click(function()
+    $('#page_despesa #voltar_despesa').click(function ()
     {
         $("#page_despesa_clientes").html('');
-        $("#page_despesa_sub").show(function() {
+        $("#page_despesa_sub").show(function () {
             $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
             $("#divautocomplete_despesa").hide();
         });
     });
 });
 //pega click ao listar clientes despesa
-$(document).delegate("#page_despesa [id^='idcliente_']", 'click', function() {
+$(document).delegate("#page_despesa [id^='idcliente_']", 'click', function () {
 //$("#page_despesa > [id^='idcliente_']").on('click', function() {
     $("#divautocomplete_despesa").hide();
     $("#voltar_despesa").attr("href", "#relatorio_despesa");
@@ -1294,7 +1308,7 @@ $(document).delegate("#page_despesa [id^='idcliente_']", 'click', function() {
     $("#page_despesa_sub").show();
 });
 //LISTA PROJETOS DESPESA
-$(document).delegate('#page_despesa #selecione_projeto', 'click', function() {
+$(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
     pesq_autocomplete = 'p';
     $("#divautocomplete_despesa").show();
     $('input[data-type="search"]').val('');
@@ -1319,17 +1333,17 @@ $(document).delegate('#page_despesa #selecione_projeto', 'click', function() {
         idsenha: Objeto_json.usuario_id
     });
     $("#page_despesa #voltar_despesa").attr("href", "javascript:;");
-    $('#page_despesa #voltar_despesa').click(function()
+    $('#page_despesa #voltar_despesa').click(function ()
     {
         $("#page_despesa_projetos").html('');
-        $("#page_despesa_sub").show(function() {
+        $("#page_despesa_sub").show(function () {
             $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
             $("#divautocomplete_despesa").hide();
         });
     });
 });
 //pega click ao listar projetos
-$(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
+$(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
     $("#divautocomplete_despesa").hide();
     $("#page_despesa #voltar_despesa").attr("href", "#relatorio_despesa");
     var id = $(this).attr('id');
@@ -1352,34 +1366,34 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
 //Buscar timesheet conforme as datas
 function buscar_timesheet(data) {
     //if (data) {
-        loading('show');
-        if (data) {
-            data = dateFormatDisplayToTimestamp(data);
+    loading('show');
+    if (data) {
+        data = dateFormatDisplayToTimestamp(data);
+    }
+    var ajax_file = COMMON_URL_MOBILE + '/busca_timesheet.php';
+    $.ajax({
+        type: 'POST',
+        url: ajax_file,
+        dataType: "jsonp",
+        crossDomain: true,
+        data: {
+            data: data,
+            idsenha: Objeto_json.usuario_id,
+            idempresa_vendedor: Objeto_json.idempresa_vendedor
         }
-        var ajax_file = COMMON_URL_MOBILE + '/busca_timesheet.php';
-        $.ajax({
-            type: 'POST',
-            url: ajax_file,
-            dataType: "jsonp",
-            crossDomain: true,
-            data: {
-                data: data,
-                idsenha: Objeto_json.usuario_id,
-                idempresa_vendedor: Objeto_json.idempresa_vendedor
-            }
-        }).then(function(data)
-        {
-            $("#list").html(data);
-            //$("#list").listview("refresh");
-            $('#list').listview().listview('refresh');
-            loading('hide');
-        });
+    }).then(function (data)
+    {
+        $("#list").html(data);
+        //$("#list").listview("refresh");
+        $('#list').listview().listview('refresh');
+        loading('hide');
+    });
     //}
 }
 
 
 //Editar: Pega dados do idtimecard que foi clicado na lista faz select e envia pra outra página
-$(document).delegate('#list .btn-timesheet', 'click', function() {
+$(document).delegate('#list .btn-timesheet', 'click', function () {
     idtimecard = $(this).attr('id');
     //var args = {cm: 'Timesheet->getTimecard', idtimecard: idtimecard};
     var ajax_file = COMMON_URL_MOBILE + '/retorna_timecard.php';
@@ -1391,7 +1405,7 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         data: {
             idtimecard: idtimecard
         }
-    }).then(function(data){
+    }).then(function (data) {
         loading('show');
         codigo_atividade = data.idatividade_utbms;
         if (data.idtimecard != '') {
@@ -1405,9 +1419,9 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
             //NOVO USANDO SELECTBOX
             $("#porc_conclusao_atividade").val();
             //$("select#porc_conclusao_atividade").selectmenu("refresh");
-            $(document).bind('pageinit', function() {
+            $(document).bind('pageinit', function () {
                 $('select#porc_conclusao_atividade').selectmenu('refresh');
-            });               
+            });
 
             //ANTIGO USANDO SLIDER
             //$(".porc_conclusao_atividade").val(Math.round(data.porc_conclusao_atividade));
@@ -1429,21 +1443,21 @@ $(document).delegate('#list .btn-timesheet', 'click', function() {
         $("#hora_inicial").val(hora_inicial);
         $("#hora_final").val(hora_final);
         $("#hora_fim").val(hora_final);
-        
+
         intervalo_hr_inicial = (data.intervalo_hr_inicial.substr(0, 5));
-        intervalo_hr_final = (data.intervalo_hr_final.substr(0, 5));        
+        intervalo_hr_final = (data.intervalo_hr_final.substr(0, 5));
         $("#intervalo_hr_inicial").val(intervalo_hr_inicial);
         $("#intervalo_hr_ini").val(intervalo_hr_inicial);
         $("#intervalo_hr_final").val(intervalo_hr_final);
         $("#intervalo_hr_fim").val(intervalo_hr_final);
-        
+
         $("#narrativa_principal").val(data.narrativa_principal);
 
         LoadMobiScroll();
     });
 });
 //Lista clientes no timesheet
-$(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
+$(document).delegate('#page_timesheet #selecione_cliente', 'click', function () {
     pesq_autocomplete = 'c';
     $("#divautocomplete_timecard").show();
     $('input[data-type="search"]').val('');
@@ -1468,17 +1482,17 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function() {
         idsenha: Objeto_json.usuario_id
     });
     $("#page_timesheet #voltar_timesheet").attr("href", "javascript:;");
-    $('#page_timesheet #voltar_timesheet').click(function()
+    $('#page_timesheet #voltar_timesheet').click(function ()
     {
         $("#page_timesheet_clientes").html('');
-        $("#page_timesheet_sub").show(function() {
+        $("#page_timesheet_sub").show(function () {
             $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
             $("#divautocomplete_timecard").hide();
         });
     });
 });
 //pega click ao listar clientes
-$(document).delegate("[id^='idcliente_']", 'click', function() {
+$(document).delegate("[id^='idcliente_']", 'click', function () {
     $("#divautocomplete_timecard").hide();
     var id = $(this).attr('id');
     var idcliente = id.split('_');
@@ -1489,7 +1503,7 @@ $(document).delegate("[id^='idcliente_']", 'click', function() {
     $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
 });
 //Seleciona o projeto
-$(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
+$(document).delegate('#page_timesheet #selecione_projeto', 'click', function () {
     pesq_autocomplete = 'p';
     $("#divautocomplete_timecard").show();
     $('input[data-type="search"]').val('');
@@ -1513,17 +1527,17 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function() {
         idsenha: Objeto_json.usuario_id
     });
     $("#page_timesheet #voltar_timesheet").attr("href", "javascript:;");
-    $('#page_timesheet #voltar_timesheet').click(function()
+    $('#page_timesheet #voltar_timesheet').click(function ()
     {
         $("#page_timesheet_projetos").html('');
-        $("#page_timesheet_sub").show(function() {
+        $("#page_timesheet_sub").show(function () {
             $("#page_timesheet #voltar_timesheet").attr("href", "#page_relatorio");
             $("#divautocomplete_timecard").hide();
         });
     });
 });
 //pega click ao listar projetos
-$(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
+$(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
     $("#divautocomplete_timecard").hide();
     var id = $(this).attr('id');
     var idclienteprojeto = id.split('_');
@@ -1544,7 +1558,7 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function() {
 });
 
 //Pega dados do idtimecard que foi clicado e deleta
-$(document).delegate('#list .delete_timesheet', 'click', function() {
+$(document).delegate('#list .delete_timesheet', 'click', function () {
     idtimecard = $(this).attr('id');
     if (confirm('Deseja apagar esse Timecard ?')) {
         var ajax_file = COMMON_URL_MOBILE + '/save_lanctos.php';
@@ -1558,7 +1572,7 @@ $(document).delegate('#list .delete_timesheet', 'click', function() {
                 tipo: 'timesheet_excluir',
                 idsenha: Objeto_json.usuario_id
             }
-        }).then(function(data)
+        }).then(function (data)
         {
             if (data == 'T') {
                 $().toastmessage('showSuccessToast', 'Timecard exclu&iacute;do com sucesso!');
@@ -1587,25 +1601,25 @@ function seleciona_fase(idcliente, idprojeto, selecionado_fase, selecionado_ativ
         dataType: "jsonp",
         crossDomain: true
     })
-    .then(function(response)
-    {
-        if (selecionado_fase == 0 || typeof selecionado_fase == 'undefined') {
-            selecionado_fase = "";
-            var selected_first = "selected='selected'";
-        }
-        var options = '<option value="" ' + selected_first + '>Selecione uma fase</option>';
-        $.each(response, function(key, val) {
-            selected = '';
-            if (val.idutbms == selecionado_fase)
-                selected = 'selected="selected"';
-            options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
-        });
-        $("#codigo_fase").html(options);
-        $('select#codigo_fase').selectmenu('refresh');
-        loading('hide');
-        if (selecionado_atividade != 0)
-            seleciona_atividade(selecionado_atividade);
-    });
+            .then(function (response)
+            {
+                if (selecionado_fase == 0 || typeof selecionado_fase == 'undefined') {
+                    selecionado_fase = "";
+                    var selected_first = "selected='selected'";
+                }
+                var options = '<option value="" ' + selected_first + '>Selecione uma fase</option>';
+                $.each(response, function (key, val) {
+                    selected = '';
+                    if (val.idutbms == selecionado_fase)
+                        selected = 'selected="selected"';
+                    options += '<option value="' + val.idutbms + '" ' + selected + '>' + val.utbms_nome + '</option>';
+                });
+                $("#codigo_fase").html(options);
+                $('select#codigo_fase').selectmenu('refresh');
+                loading('hide');
+                if (selecionado_atividade != 0)
+                    seleciona_atividade(selecionado_atividade);
+            });
 }
 
 //Andre Renovato - 26/06/2014 - oc:13190
@@ -1620,9 +1634,9 @@ function seleciona_porcentagem_conclusao(item_selected) {
         crossDomain: true
     })
 
-            .then(function(response) {
+            .then(function (response) {
                 var options = '';
-                $.each(response, function(key, val) {
+                $.each(response, function (key, val) {
                     selected = item_selected ? item_selected : '';
 
                     selected = val == selected ? 'selected="selected"' : '';
@@ -1632,9 +1646,9 @@ function seleciona_porcentagem_conclusao(item_selected) {
 
                 $("#porc_conclusao_atividade").html(options);
                 //$("select#porc_conclusao_atividade").selectmenu("refresh");
-                $(document).bind('pageinit', function() {
+                $(document).bind('pageinit', function () {
                     $('select#porc_conclusao_atividade').selectmenu('refresh');
-                });                 
+                });
                 loading('hide');
             });
 }
@@ -1659,11 +1673,11 @@ function seleciona_atividade(selecionado)
             dataType: "jsonp",
             crossDomain: true
         })
-                .then(function(response)
+                .then(function (response)
                 {
                     var items = [];
                     var options = '<option value="">Escolha uma atividade</option>';
-                    $.each(response, function(key, val) {
+                    $.each(response, function (key, val) {
                         selected = '';
                         if (selecionado == val.idutbms) {
                             selected = "selected='selected'";
@@ -1687,7 +1701,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
         dataType: "jsonp",
         crossDomain: true
     })
-            .then(function(response)
+            .then(function (response)
             {
                 selecionado_parent = response.selecionado;
 
@@ -1699,7 +1713,7 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                     var selected_first = "selected='selected'";
                 }
                 var options = '<option value="" ' + selected_first + ' >Selecione uma tarefa</option>';
-                $.each(response.select_tarefas, function(key, val) {
+                $.each(response.select_tarefas, function (key, val) {
                     selected = '';
                     if (selecionado_parent == key) {
                         selected = "selected='selected'";
@@ -1717,9 +1731,9 @@ function seleciona_task_parent(idcliente, idprojeto, selecionado) {
                 }
                 $('#codigo_fase').val(response.select_tarefas_hidden);
                 //$("select#task_parent").selectmenu("refresh");
-                $(document).bind('pageinit', function() {
+                $(document).bind('pageinit', function () {
                     $('select#task_parent').selectmenu('refresh');
-                });                   
+                });
                 loading('hide');
 
                 if (selecionado != '')
@@ -1736,14 +1750,14 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
         dataType: "jsonp",
         crossDomain: true
     })
-            .then(function(response)
+            .then(function (response)
             {
                 if (selecionado == 0 || typeof selecionado == 'undefined') {
                     selecionado = "";
                     var selected_first = "selected='selected'";
                 }
                 var options = '<option value="" ' + selected_first + '>Selecione uma atividade</option>';
-                $.each(response.select_atividades, function(key, val) {
+                $.each(response.select_atividades, function (key, val) {
                     selected = '';
                     if (selecionado == key) {
                         selected = "selected='selected'";
@@ -1761,16 +1775,16 @@ function seleciona_task(idcliente, idprojeto, idtarefa_principal, selecionado) {
                 }
                 $('#codigo_atividade').val(response.select_atividades_hidden);
                 //$("select#task").selectmenu("refresh");
-                $(document).bind('pageinit', function() {
+                $(document).bind('pageinit', function () {
                     $('select#task').selectmenu('refresh');
-                });                      
+                });
                 loading('hide');
             });
 }
 
 
 //ACOES DE CLIQUE E LOADING
-$(document).delegate('#task_parent', 'change', function() {
+$(document).delegate('#task_parent', 'change', function () {
     seleciona_task($('#codigo_auxiliar').val(), $('#codigo').val(), $('#task_parent').val());
 });
 
@@ -1790,13 +1804,13 @@ function cam_clearCache() {
 }
 
 var sendpic_win = function (r) {
-    if(r.response.length > 0){
-        var result = eval('('+r.response+')'); //transformando a string em objeto para acessar cada objeto
-        
+    if (r.response.length > 0) {
+        var result = eval('(' + r.response + ')'); //transformando a string em objeto para acessar cada objeto
+
         $("#arquivo_md5").val(r.response);
         localStorage.setItem('foto', result.nome_arquivo_temp);
-        var visu = '<div data-mini="true" data-role="controlgroup" data-type="horizontal"><img width="25%" src="' + COMMON_URL_MOBILE+'/temp_mobile/'+result.nome_arquivo_temp + '"></div>';
-        $("#popup_imagem").empty().append('<br>'+visu);       
+        var visu = '<div data-mini="true" data-role="controlgroup" data-type="horizontal"><img width="25%" src="' + COMMON_URL_MOBILE + '/temp_mobile/' + result.nome_arquivo_temp + '"></div>';
+        $("#popup_imagem").empty().append('<br>' + visu);
 
         loading('hide');
         $("#optionsUpload").toggle();
@@ -1809,7 +1823,7 @@ function showfoto() {
     $('#popup_imagem').html('');
     var foto = localStorage.getItem('foto');
     //alert('nome da foto:::> '+foto);
-    if (foto) { 
+    if (foto) {
         var picurl = COMMON_URL_MOBILE + 'view_anexo.php?foto=' + foto;
         //alert('caminhoURL: >> '+picurl);
         $('#popup_imagem').html('Anexo:<br><img width="50%" src="' + picurl + '">');
@@ -1839,26 +1853,25 @@ function onCapturePhoto(fileURI) {
     options.mimeType = "image/jpeg";
     options.params = {}; // if we need to send parameters to the server request
     var ft = new FileTransfer();
-    ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE+'/upload.php'), sendpic_win, sendpic_fail, options);
+    ft.upload(fileURI, encodeURI(COMMON_URL_MOBILE + '/upload.php'), sendpic_win, sendpic_fail, options);
 }
 
 function capturePhoto(sourceType) {
-    alert('CAPTUREPHOTO EM DEFAULT JS');
-    if(!parent.document.navigator.camera){
+    if (!navigator.camera) {
         alert('Ooops, nao foi possivel usar a camera!');
-    }else{
+    } else {
         loading('show', 'Enviando foto, aguarde...');
-        
-        if (!sourceType){
-            sourceType = parent.document.Camera.PictureSourceType.CAMERA;
+
+        if (!sourceType) {
+            sourceType = Camera.PictureSourceType.CAMERA;
         }
 
-        parent.document.navigator.camera.getPicture(onCapturePhoto, onFail, {
+        navigator.camera.getPicture(onCapturePhoto, onFail, {
             //quality: 100,
             //destinationType: destinationType.DATA_URL,
             quality: 90,
             //destinationType:Camera.DestinationType.DATA_URL,
-            destinationType: parent.document.navigator.camera.DestinationType.FILE_URI,
+            destinationType: navigator.camera.DestinationType.FILE_URI,
             targetWidth: 550,
             targetHeight: 550,
             saveToPhotoAlbum: true,
@@ -1873,18 +1886,18 @@ function onFail(message) {
 }
 
 //TODA ACAO COMUM EM JAVASCRIPT DEVE SER TRATADA AQUI
-$(document).ready(function() {
+$(document).ready(function () {
     //exibe campos de intervalo para apontar horas
     $("#div_intervalo").hide()
-    $("#monstrarIntervalo").click(function() {
+    $("#monstrarIntervalo").click(function () {
         $("#div_intervalo").toggle();
-     }); 
-     
+    });
+
     var link = '';
     //Acao do click dos botoes de atalho na home(mobile_home.html / mobile_crm_home.html), onde encaminha para pagina correta.
-    $('.linkHome').click(function() {
-        //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
-        if($(this).attr('id') == 'sem_acesso'){
+    $('.linkHome').click(function () {
+        //valida se e uma page do index mobile antigo, tela do portal ou nova pagina
+        if ($(this).attr('id') == 'sem_acesso') {
             link = Objeto_json['url'] + '/timesheet/multidados/module/';
             window.location.href = link;
         } else {
@@ -1903,15 +1916,15 @@ $(document).ready(function() {
                 window.location.href = link;
             }
         }
-    })  
+    })
 
     //Acao do click no menu, onde encaminha para pagina correta.
-    $('.link').click(function() {
+    $('.link').click(function () {
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
         //if ($(this).attr('id') == 'mobile_home.html') {
         if ($(this).attr('id') == 'page_home') {
             link = pageHome;
-        } else if($(this).attr('id') == 'sem_acesso'){
+        } else if ($(this).attr('id') == 'sem_acesso') {
             link = COMMON_URL + '/timesheet/multidados/module/';
         } else {
             if ($(this).attr('mobile') == 'true') {
@@ -1952,7 +1965,7 @@ $(document).ready(function() {
     //Define footer para todas as páginas
     $(".name_powered").html('Powered by MultidadosTI &copy; ' + vs_mobile);
 
-    $(document).on("pageinit", function() {
+    $(document).on("pageinit", function () {
         // Inacio 30/09/2015
         // Agora é só na página index.html     
         //$resposta = verifica_logado();
@@ -1969,40 +1982,40 @@ $(document).ready(function() {
         //buscar_timesheet($("#filtro_data_trabalhada").val());
         //buscar_despesa($("#dateinput2").val());
     });
-    
-    $("#botao_entrar").click(function()
+
+    $("#botao_entrar").click(function ()
     {
         mobile_login();
     });
-    $("#icon_sair").click(function()
+    $("#icon_sair").click(function ()
     {
         mobile_logout();
     });
-    $("#save_timecard_top").click(function()
+    $("#save_timecard_top").click(function ()
     {
         salvar_timesheet();
     });
-    $("#save_timecard_bottom").click(function()
+    $("#save_timecard_bottom").click(function ()
     {
         salvar_timesheet();
     });
-    $("#save_despesa_top").click(function()
+    $("#save_despesa_top").click(function ()
     {
         salvar_despesa();
     });
-    $("#save_despesa_bottom").click(function()
+    $("#save_despesa_bottom").click(function ()
     {
         salvar_despesa();
     });
     ua = navigator.userAgent.toLowerCase();
     //verifica se é ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
-        $("#filtro_data_trabalhada").change(function()
+        $("#filtro_data_trabalhada").change(function ()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
     } else {
-        $("#filtro_data_trabalhada").change(function()
+        $("#filtro_data_trabalhada").change(function ()
         {
             buscar_timesheet($("#filtro_data_trabalhada").val());
         });
@@ -2028,21 +2041,21 @@ $(document).ready(function() {
          $("#barra_status_ios").css("background", "#EAEAEA");
          */
 
-        $("#dateinput2").change(function()
+        $("#dateinput2").change(function ()
         {
             buscar_despesa($("#dateinput2").val());
         });
     } else {
-        $("#dateinput2").change(function()
+        $("#dateinput2").change(function ()
         {
             buscar_despesa($("#dateinput2").val());
         });
     }
 
-    $(document).delegate('#codigo_fase', 'change', function() {
+    $(document).delegate('#codigo_fase', 'change', function () {
         seleciona_atividade(0);
     });
-    $("#vlr_unitario").blur(function()
+    $("#vlr_unitario").blur(function ()
     {
         if ($("#vlr_unitario").val() != '') {
             if ($("#qtde_despesa").val() == 0 || $("#qtde_despesa").val() == '') {
@@ -2054,22 +2067,22 @@ $(document).ready(function() {
             $("#vlr_unitario").val(valor_unitario);
         }
     });
-    $("#qtde_despesa").blur(function()
+    $("#qtde_despesa").blur(function ()
     {
         calcula_total_despesa();
     });
-    $("#novo_timecard_top").click(function()
+    $("#novo_timecard_top").click(function ()
     {
         clearInputs();
         $("#page_timesheet #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_trabalhada").val(data_hoje);
     });
-    $("#novo_despesa_top").click(function() {
+    $("#novo_despesa_top").click(function () {
         clearInputs();
         $("#arquivo_md5").val('');
         $("#upload_arquivos").html('<input type="file" onchange="upload();" accept="image/*" name="arq_despesa" id="arq_despesa" class="ui-input-text ui-body-c">');
-        $(document).on("pageshow", "#page_despesa", function() { //Loading de página despesa
+        $(document).on("pageshow", "#page_despesa", function () { //Loading de página despesa
             loading('hide');
         });
         $("#page_despesa #selecione_cliente .ui-btn-text").text('Buscar Cliente');
@@ -2077,13 +2090,13 @@ $(document).ready(function() {
         $("#data_lcto").val(data_hoje);
     });
 
-    $("#icon_timesheet").click(function()
+    $("#icon_timesheet").click(function ()
     {
         $('#filtro_data_trabalhada').val(data_hoje);
         $('#filtro_data_trabalhada').trigger('change');
     })
 
-    $("#icon_despesa").click(function()
+    $("#icon_despesa").click(function ()
     {
         $('#dateinput2').val(data_hoje);
         $('#dateinput2').trigger('change');
@@ -2091,7 +2104,7 @@ $(document).ready(function() {
 
 
     //DESPESA: pega dados do idserviço conforme selecionado
-    $("#codigo_despesa").change(function() {
+    $("#codigo_despesa").change(function () {
         idservico = $("#codigo_despesa option:selected").val();
         var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
         dados_despesa = (dados_servicos[idservico]);
@@ -2115,17 +2128,17 @@ $(document).ready(function() {
     $("#divautocomplete_timecard").hide();
     $("#divautocomplete_despesa").hide();
     //ajax de pesquisa cliente/projeto
-    $(document).on("pageinit", "#page_despesa", function() {
+    $(document).on("pageinit", "#page_despesa", function () {
         $('#data_lcto').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
             //theme: 'android-ics',
             //display: 'inline',
             minDate: new Date(2012, 1, 1),
-            maxDate: new Date(2030, 1, 1),            
+            maxDate: new Date(2030, 1, 1),
             display: 'top',
             mode: 'scroller',
             dateOrder: 'dd mm yy',
-            dateFormat : "dd/mm/yy",
+            dateFormat: "dd/mm/yy",
             lang: 'pt-BR',
             dayText: 'Dia',
             monthText: 'Mes',
@@ -2133,12 +2146,12 @@ $(document).ready(function() {
             cancelText: 'Cancelar',
             setText: 'Selecionar'
         });
-        
-        $("#autocomplete_cli").on("listviewbeforefilter", function(e, data) {
+
+        $("#autocomplete_cli").on("listviewbeforefilter", function (e, data) {
             var $ul = $(this),
-            $input = $(data.input),
-            value = $input.val(),
-            html = "";
+                    $input = $(data.input),
+                    value = $input.val(),
+                    html = "";
             $ul.html("");
             if (value && value.length > 0) {
                 $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
@@ -2158,7 +2171,7 @@ $(document).ready(function() {
                         mode: 'ajax'
                     }
                 })
-                        .then(function(response) {
+                        .then(function (response) {
                             $("#page_despesa_clientes").html('');
                             $("#page_despesa_projetos").html('');
                             $ul.html(response);
@@ -2170,12 +2183,12 @@ $(document).ready(function() {
         });
     });
 
-    $(document).on("pageinit", "#page_timesheet", function() {
-        $("#autocomplete_prj").on("listviewbeforefilter", function(e, data) {
+    $(document).on("pageinit", "#page_timesheet", function () {
+        $("#autocomplete_prj").on("listviewbeforefilter", function (e, data) {
             var $ul = $(this),
-            $input = $(data.input),
-            value = $input.val(),
-            html = "";
+                    $input = $(data.input),
+                    value = $input.val(),
+                    html = "";
             $ul.html("");
             if (value && value.length > 0) {
                 $ul.html("<li><div class='ui-loader'><span class='ui-icon ui-icon-loading'></span></div></li>");
@@ -2195,17 +2208,17 @@ $(document).ready(function() {
                         mode: 'ajax'
                     }
                 })
-                .then(function(response) {
-                    $("#page_timesheet_clientes").html('');
-                    $("#page_timesheet_projetos").html('');
-                    $ul.html(response);
-                    //$ul.listview("refresh");
-                    $ul.listview().listview('refresh');
-                    $ul.trigger("updatelayout");
-                });
+                        .then(function (response) {
+                            $("#page_timesheet_clientes").html('');
+                            $("#page_timesheet_projetos").html('');
+                            $ul.html(response);
+                            //$ul.listview("refresh");
+                            $ul.listview().listview('refresh');
+                            $ul.trigger("updatelayout");
+                        });
             }
         });
-        
+
         $('#data_trabalhada').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
             //theme: 'android-ics',
@@ -2214,7 +2227,7 @@ $(document).ready(function() {
             maxDate: new Date(2030, 1, 1),
             mode: 'scroller',
             dateOrder: 'dd mm yy',
-            dateFormat : "dd/mm/yy",
+            dateFormat: "dd/mm/yy",
             lang: 'pt-BR',
             dayText: 'Dia',
             monthText: 'Mes',
@@ -2222,13 +2235,13 @@ $(document).ready(function() {
             cancelText: 'Cancelar',
             setText: 'Selecionar'
         });
-        
+
         LoadMobiScroll();
-        
-        $('.click_datetime').click(function(){
+
+        $('.click_datetime').click(function () {
             var id_campo;
             var id_campo_div;
-            switch(this.id) {
+            switch (this.id) {
                 case 'hora_ini':
                     id_campo = '#hora_inicial';
                     id_campo_div = '#hora_inicial_div';
@@ -2245,20 +2258,21 @@ $(document).ready(function() {
                     id_campo = '#intervalo_hr_final';
                     id_campo_div = '#intervalo_hr_final_div';
                     break;
-            };
-            
-            if($(id_campo_div).css('display') == 'none'){
-                $(id_campo_div).css('display','block');
-            }else{
+            }
+            ;
+
+            if ($(id_campo_div).css('display') == 'none') {
+                $(id_campo_div).css('display', 'block');
+            } else {
                 //$(id_campo_div).css('display','none');
                 $(id_campo_div).slideUp();
                 var x = $(id_campo).mobiscroll('getValues');
-                $("#"+this.id).val(x[0].value);
+                $("#" + this.id).val(x[0].value);
             }
         })
     });
-    
-    $(document).on("pageinit", "#page_relatorio", function() {
+
+    $(document).on("pageinit", "#page_relatorio", function () {
         $('#filtro_data_trabalhada').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
             //theme: 'android-ics',
@@ -2267,7 +2281,7 @@ $(document).ready(function() {
             maxDate: new Date(2030, 1, 1),
             mode: 'scroller',
             dateOrder: 'dd mm yy',
-            dateFormat : "dd/mm/yy",
+            dateFormat: "dd/mm/yy",
             lang: 'pt-BR',
             dayText: 'Dia',
             monthText: 'Mes',
@@ -2275,15 +2289,15 @@ $(document).ready(function() {
             cancelText: 'Cancelar',
             setText: 'Selecionar'
         });
-        
+
         var x = $("#filtro_data_trabalhada").mobiscroll('getValues');
-        $("#filtro_data_trabalhada").val(x[0].value);        
+        $("#filtro_data_trabalhada").val(x[0].value);
 
         buscar_timesheet($("#filtro_data_trabalhada").val());
     });
-    
+
     //Em pagina lista depesas
-    $(document).on("pageinit", "#relatorio_despesa", function() {
+    $(document).on("pageinit", "#relatorio_despesa", function () {
         $('#dateinput2').mobiscroll().date({
             //invalid: { daysOfWeek: [0, 6], daysOfMonth: ['5/1', '12/24', '12/25'] },
             //theme: 'android-ics',
@@ -2292,7 +2306,7 @@ $(document).ready(function() {
             maxDate: new Date(2030, 1, 1),
             mode: 'scroller',
             dateOrder: 'dd mm yy',
-            dateFormat : "dd/mm/yy",
+            dateFormat: "dd/mm/yy",
             lang: 'pt-BR',
             dayText: 'Dia',
             monthText: 'Mes',
@@ -2308,42 +2322,35 @@ $(document).ready(function() {
 
     //Verifica se existe user logado    
     /*if (!objIsEmpty(Objeto_json)) {
-        //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
-        var rand = Math.ceil(Math.random() * 999999999999999) + 1;
-        var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
-        var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
+     //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
+     var rand = Math.ceil(Math.random() * 999999999999999) + 1;
+     var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
+     var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
+     
+     $('head').append(scriptAppend);
+     }*/
 
-        $('head').append(scriptAppend);
-    }*/
-    
 });//fim doc ready
 
-function LoadMobiScroll(){
-    //valida se campo hidden nao e editar, para nao iniciar o componente de horas 2 vezes.
-    //assim que abre a tela de lista timecard, setamos a variavel hidden como editar, e o componente de horas
-    //e iniciado na propria chamada de editar e depois esta funcao e chamada novamente mas nao sera executada.
-    //apos setar os valores nos inputs da tela timecard e iniciarmos o componente de horas, limpamos este campo hidden.
-    
-    //if( parent.document.getElementById('StatusMobiscroll').value != 'editar'){
-        /* PROPRIEDADE display:
-        'modal' - The component appears as a popup at the center of the viewport.
-        'inline' - If called on div element, the component is placed inside the div (overwriting existing content), otherwise is placed after the original element.
-        'bubble' - The component appears as a bubble positioned to the element defined by the 'anchor' setting. By default the anchor is the original element.
-        'top' - The component appears docked to the top of the viewport.
-        'bottom' - The component appears docked to the bottom of the viewport.
-        */        
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('destroy');
-        $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
-            //theme: 'mobiscroll',
-            mode: 'scroller',
-            display: 'inline',
-            timeFormat: 'HH:ii',
-            timeWheels: 'HHii',
-            hourText: 'Horas',
-            minuteText: 'Minutos',
-            headerText: false,
-            cancelText: 'Cancelar',
-            setText: 'Selecionar'
-        });
-    //}
+function LoadMobiScroll() {
+    /* PROPRIEDADE display:
+     'modal' - The component appears as a popup at the center of the viewport.
+     'inline' - If called on div element, the component is placed inside the div (overwriting existing content), otherwise is placed after the original element.
+     'bubble' - The component appears as a bubble positioned to the element defined by the 'anchor' setting. By default the anchor is the original element.
+     'top' - The component appears docked to the top of the viewport.
+     'bottom' - The component appears docked to the bottom of the viewport.
+     */
+    $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll('destroy');
+    $('#hora_inicial, #hora_final, #intervalo_hr_inicial, #intervalo_hr_final').mobiscroll().time({
+        //theme: 'mobiscroll',
+        mode: 'scroller',
+        display: 'inline',
+        timeFormat: 'HH:ii',
+        timeWheels: 'HHii',
+        hourText: 'Horas',
+        minuteText: 'Minutos',
+        headerText: false,
+        cancelText: 'Cancelar',
+        setText: 'Selecionar'
+    });
 }

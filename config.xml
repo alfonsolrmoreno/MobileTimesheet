@@ -6,7 +6,7 @@
         version   = "3.0.1"
         versionCode="301"
 >
-    
+
     <!-- rudi 07/10/2015 a versao mais nova (5.2) do cordova crashava no android em qqer tentativa de carregar recursos externos (js, etc)-->
     <!-- forçando versao antiga -->
     <!-- rudi 13/10/2015 : <preference name='phonegap-version' value='cli-5.2.0' /> -->
@@ -34,10 +34,10 @@
     <allow-navigation href="data:*" />
     <allow-intent href="*" />
     
+    <preference name="orientation" value="portrait" />
     <!--<gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="org.apache.cordova.geolocation" />
     
-    <preference name="orientation" value="portrait" />
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
 
@@ -52,11 +52,6 @@
     <gap:plugin name="org.apache.cordova.console" />-->
     <!-- ANDRE RENOVATO - COMENTADO ESTA LINHA PQ ESTAVA DANDO ERRO PARA COMPILAR ANDROID-->
     <!--    <gap:plugin name="org.apache.cordova.file-transfer" version="0.4.6" />-->
-    
-    <!-- MODO DEBUG -->
-    <gap:config-file platform="android" parent="/manifest">
-         <application android:debuggable="true" />
-    </gap:config-file>    
     
     <plugin name="com.adobe.plugins.gaplugin" source="pgb" />
     <plugin name="com.phonegap.plugin.statusbar" source="pgb" />
