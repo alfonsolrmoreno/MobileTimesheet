@@ -1269,7 +1269,6 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 //Lista clientes despesa
 $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
     var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
-    alert(localStorage.getItem('mobile_login'));
     $("#page_despesa_sub").hide();
     $("#save_despesa_top").hide();
 
@@ -1918,7 +1917,8 @@ $(document).ready(function () {
         } else {
             if ($(this).attr('mobile') == 'true') {
                 //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
-                link = Objeto_json['url'] + '/mobile/pages.html#' + $(this).attr('id');
+                //link = Objeto_json['url'] + '/mobile/pages.html#' + $(this).attr('id');
+                link = 'pages.html#' + $(this).attr('id');
                 window.location.href = link;
             } else {
                 //setar url do sistema, pois o portal é chamado atraves da url
@@ -1927,7 +1927,8 @@ $(document).ready(function () {
                 //por causa dos caracteres "?#=". Neste caso no menu os links externos vamos remover a url que ficava no id e jogar para o novo paramentro link, 
                 //e o id vai ficar com o nome da acao menu. Ex. Aprovar Horas (id="aprov_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1")                
                 //link = COMMON_URL + $(this).attr('id');
-                link = Objeto_json['url'] + '/' + $(this).attr('link');
+                //link = Objeto_json['url'] + '/' + $(this).attr('link');
+                link = $(this).attr('link');
                 window.location.href = link;
             }
         }
