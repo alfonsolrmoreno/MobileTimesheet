@@ -959,7 +959,7 @@ function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto) {
 
 //############# DESPESA #####################################################
 //###########################################################################
-function upload() {
+function upload_OLD() {
     var data = new FormData();
     var files = $('#arq_despesa')[0].files;
     data.append('arquivo', files[0]);
@@ -2336,14 +2336,14 @@ $(document).ready(function () {
     });
 
     //Verifica se existe user logado    
-    /*if (!objIsEmpty(Objeto_json)) {
-     //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
-     var rand = Math.ceil(Math.random() * 999999999999999) + 1;
-     var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
-     var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
-     
-     $('head').append(scriptAppend);
-     }*/
+    if (!objIsEmpty(Objeto_json)) {
+        //Inclui js manipula upload camera. Incluimos um get randomico para n?o correr o risco do arquivo n?o ser instanciado
+        var rand = Math.ceil(Math.random() * 999999999999999) + 1;
+        var x = COMMON_URL_MOBILE + '/js/upload-despesa.js?v=' + rand;
+        var scriptAppend = '<script type="text/javascript" src="' + x + '"></script>';
+
+        $('head').append(scriptAppend);
+     }
 
 });//fim doc ready
 

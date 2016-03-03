@@ -1,4 +1,4 @@
-$(document).ready(function () {
+//$(document).ready(function () {
     //default div botoes upload fechados
     /*$("#optionsUpload").hide()
     $("#uploadArquivo").click(function() {
@@ -10,7 +10,7 @@ $(document).ready(function () {
      $("#cancel_upload").click(function() {
         $("#optionsUpload").toggle();
      });*/
-})
+//})
 /*
 var retries = 0;
 
@@ -102,3 +102,30 @@ function onFail(message) {
     alert('Camera falhou ao tirar a foto: ' + message);
 }
 */
+
+
+function upload() {
+    var data = new FormData();
+    var files = $('#arq_despesa')[0].files;
+    data.append('arquivo', files[0]);
+    //loading('show');
+    $.ajax({
+        type: 'POST',
+        url: COMMON_URL_MOBILE + '/upload.php',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        crossdomain: true
+    })
+    .then(function (data) {
+        if (data == "Arquivo inválido!" || data == "Erro no arquivo") {
+            $("#arquivo_md5").val('');
+            $().toastmessage('showErrorToast', data);
+        } else {
+            $("#arquivo_md5").val(data);
+        }
+
+        //loading('hide');
+    });
+}
