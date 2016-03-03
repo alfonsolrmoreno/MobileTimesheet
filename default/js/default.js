@@ -492,6 +492,9 @@ function mobile_login(obj) {
                     },
                     error: function (jqXHR, statusText, error) {
                         loading('hide');
+                        //Andre Renovato - 03/03/2016
+                        //Tentando identificar pq as vezes nao faz login na primeira tentativa
+                        alert(error);
                         $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
 
                         console.log('mobile_login error : ');
@@ -960,7 +963,7 @@ function upload() {
     var data = new FormData();
     var files = $('#arq_despesa')[0].files;
     data.append('arquivo', files[0]);
-    loading('show');
+    //loading('show');
     $.ajax({
         type: 'POST',
         url: COMMON_URL_MOBILE + '/upload.php',
@@ -978,7 +981,7 @@ function upload() {
             $("#arquivo_md5").val(data);
         }
 
-        loading('hide');
+        //loading('hide');
     });
 }
 
@@ -1265,6 +1268,8 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 
 //Lista clientes despesa
 $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
+    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+    
     $("#page_despesa_sub").hide();
     $("#save_despesa_top").hide();
 
@@ -1313,6 +1318,8 @@ $(document).delegate("#page_despesa [id^='idcliente_']", 'click', function () {
 });
 //LISTA PROJETOS DESPESA
 $(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
+    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));    
+    
     pesq_autocomplete = 'p';
     $("#divautocomplete_despesa").show();
     $('input[data-type="search"]').val('');
@@ -1462,6 +1469,8 @@ $(document).delegate('#list .btn-timesheet', 'click', function () {
 });
 //Lista clientes no timesheet
 $(document).delegate('#page_timesheet #selecione_cliente', 'click', function () {
+    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+    
     pesq_autocomplete = 'c';
     $("#divautocomplete_timecard").show();
     $('input[data-type="search"]').val('');
@@ -1508,6 +1517,8 @@ $(document).delegate("[id^='idcliente_']", 'click', function () {
 });
 //Seleciona o projeto
 $(document).delegate('#page_timesheet #selecione_projeto', 'click', function () {
+    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+    
     pesq_autocomplete = 'p';
     $("#divautocomplete_timecard").show();
     $('input[data-type="search"]').val('');
