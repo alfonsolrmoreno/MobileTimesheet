@@ -1267,7 +1267,7 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2)
 }
 
 //Lista clientes despesa
-$(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
+/*$(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
     var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
     
     $("#page_despesa_sub").hide();
@@ -1304,7 +1304,7 @@ $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
             $("#divautocomplete_despesa").hide();
         });
     });
-});
+});*/
 //pega click ao listar clientes despesa
 $(document).delegate("#page_despesa [id^='idcliente_']", 'click', function () {
 //$("#page_despesa > [id^='idcliente_']").on('click', function() {
