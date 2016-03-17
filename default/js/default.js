@@ -6,6 +6,8 @@
     alert("Desculpe, um erro ocorreu: \n" + errorMsg + "\n" + url + "\n" + lineNumber + "\n");
 }*/
 
+//
+var version_system = '2016.01';
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.0';
 var debug_mode = false;
@@ -209,6 +211,13 @@ function clearInputs() {
     $(":input").each(function () {
         $(this).val('');
     });
+    
+    $("#selecione_cliente .ui-btn-text").text('Buscar Cliente');
+    $("#selecione_projeto .ui-btn-text").text('Buscar Projeto');
+
+    $("#codigo_despesa").html('<option selected="selected" >Selecione uma despesa</option>');
+    $("#codigo_atividade").html('<option selected="selected">Selecione uma atividade</option>');
+    $("#codigo_fase").html('<option selected="selected">Selecione uma fase</option>');
 
     $("#popup_imagem").html('');
 
@@ -494,7 +503,6 @@ function mobile_login(obj) {
                         loading('hide');
                         //Andre Renovato - 03/03/2016
                         //Tentando identificar pq as vezes nao faz login na primeira tentativa
-                        alert(error);
                         $().toastmessage('showErrorToast', 'URL incorreta ou vers&atilde;o incompat&iacute;vel');
 
                         console.log('mobile_login error : ');
@@ -510,7 +518,11 @@ function mobile_login(obj) {
                         window.location.href = 'pages.html#page_login';
                     },
                     success: function (data) {
-                        if (data['erro']) {
+                        if (version_system != data['version']) {
+                            loading('hide');
+                            $().toastmessage('showErrorToast', 'Aplica&ccedil;&atilde;o web incompat&iacute;vel com o Aplicativo. Entre em contato com o suporte!');
+                            window.location.href = 'pages.html#page_login';                            
+                        }else if (data['erro']) {
                             loading('hide');
                             $().toastmessage('showErrorToast', data['erro']);
                             window.location.href = 'pages.html#page_login';
@@ -529,8 +541,9 @@ function mobile_login(obj) {
                                 'url_logo_cliente': data['url_logo_cliente'],
                                 'cnpj': data['cnpj'],
                                 'perms_menu': data['perms_menu'],
-                                'page_home': data['page_home'],
-                                'count_oco_pendentes': data['count_oco_pendentes']};
+                                'version': data['version'],
+                                'page_home': data['page_home']};
+                                //'count_oco_pendentes': data['count_oco_pendentes']};
                             localStorage.setItem('mobile_login', JSON.stringify(Objeto));
                             //var Objeto_real = localStorage['mobile_login'];
                             var Objeto_real = localStorage.getItem('mobile_login')
@@ -550,6 +563,58 @@ function mobile_login(obj) {
                 });
             }
         });
+    }
+}
+
+//rudi 7/10/2015 retornando true tambem, e soh seguindo se for true na index.html
+function verifica_logado() {
+    if (debug_mode)
+        alert('verifica_logado');
+
+    var Objeto_real = localStorage.getItem('mobile_login')
+
+    if (typeof Objeto_real == "undefined" || !Objeto_real || Objeto_real === null) {
+        if (debug_mode)
+            alert('redirecionar para a tela pages.html#page_login');
+
+        window.location.href = 'pages.html#page_login';
+        return false;
+    } else {
+        if (debug_mode)
+            alert('tem Objeto real');
+
+        if (debug_mode)
+            alert('URL Atual = ' + COMMON_URL_MOBILE);
+
+        var redirecting = false;
+
+        $.ajax({
+            type: 'GET',
+            url: COMMON_URL_MOBILE + '/checkServerOnline.php',
+            dataType: "json",
+            timeout: 1000,
+            crossDomain: true,
+            async: false,
+            error: function () {
+                if (debug_mode)
+                    alert('erro no verifica_logado');
+
+                //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
+                window.location.href = 'pages.html#page_login';
+                redirecting = true;
+            },
+            success: function (data) {
+                if (debug_mode)
+                    alert('success no verifica_logado idvendedor:' + data.idvendedor);
+
+                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
+                    mobile_login(Objeto_real);
+                }
+            }
+        });
+
+        return redirecting ? false : true;
+
     }
 }
 
@@ -668,64 +733,6 @@ function setSaudacao() {
 function isArray(o) {
     return(typeof (o.length) == "undefined") ? false : true;
 }
-
-//rudi 7/10/2015 retornando true tambem, e soh seguindo se for true na index.html
-function verifica_logado() {
-    if (debug_mode)
-        alert('verifica_logado');
-
-    var Objeto_real = localStorage.getItem('mobile_login')
-
-    if (typeof Objeto_real == "undefined" || !Objeto_real || Objeto_real === null) {
-        if (debug_mode)
-            alert('redirecionar para a tela pages.html#page_login');
-
-        window.location.href = 'pages.html#page_login';
-        return false;
-    } else {
-        mobile_login(Objeto_real);       
-        return true;
-        
-        /*
-        if (debug_mode)
-            alert('tem Objeto real');
-
-        if (debug_mode)
-            alert('URL Atual = ' + COMMON_URL_MOBILE);
-
-        var redirecting = false;
-
-        $.ajax({
-            type: 'GET',
-            url: COMMON_URL_MOBILE + '/checkServerOnline.php',
-            dataType: "json",
-            timeout: 1000,
-            crossDomain: true,
-            async: false,
-            error: function () {
-                if (debug_mode)
-                    alert('erro no verifica_logado');
-
-                //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
-                window.location.href = 'pages.html#page_login';
-                redirecting = true;
-            },
-            success: function (data) {
-
-                if (debug_mode)
-                    alert('success no verifica_logado idvendedor:' + data.idvendedor);
-
-                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
-                    mobile_login(Objeto_real);
-                }
-            }
-        });
-
-        return redirecting ? false : true;
-        */
-    }
-}
-
 //####################### FIM LOGIN ###########################################
 //#############################################################################
 
@@ -1035,6 +1042,7 @@ function salvar_despesa() {
 
 //Buscar DESPESA conforme as datas
 function buscar_despesa(data) {
+    clearInputs();
     //if (data) {
     var ajax_file = COMMON_URL_MOBILE + '/busca_despesa.php';
     loading('show');
@@ -1238,9 +1246,8 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function () {
         });
     }
 });
-function selecionaValorDespesa(valor, tipo, id, id2, nome2)
-{
 
+function selecionaValorDespesa(valor, tipo, id, id2, nome2){
     if (tipo == 'c')
     {
         $("#page_despesa #selecione_cliente .ui-btn-text").text(valor);
@@ -1375,6 +1382,7 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
 
 //Buscar timesheet conforme as datas
 function buscar_timesheet(data) {
+    clearInputs();
     //if (data) {
     loading('show');
     if (data) {
@@ -1910,6 +1918,7 @@ $(document).ready(function () {
     var link = '';
     //Acao do click dos botoes de atalho na home(mobile_home.html / mobile_crm_home.html), onde encaminha para pagina correta.
     $('.linkHome').click(function () {
+        //alert('VERSAO MOBILE: '+version_system+' - VERSAO APLICAO: ');
         //valida se e uma page do index mobile antigo, tela do portal ou nova pagina
         if ($(this).attr('id') == 'sem_acesso') {
             link = Objeto_json['url'] + '/timesheet/multidados/module/';
@@ -1918,6 +1927,7 @@ $(document).ready(function () {
             if ($(this).attr('mobile') == 'true') {
                 //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
                 //link = Objeto_json['url'] + '/mobile/pages.html#' + $(this).attr('id');
+                clearInputs();
                 link = 'pages.html#' + $(this).attr('id');
                 window.location.href = link;
             } else {
@@ -1927,8 +1937,7 @@ $(document).ready(function () {
                 //por causa dos caracteres "?#=". Neste caso no menu os links externos vamos remover a url que ficava no id e jogar para o novo paramentro link, 
                 //e o id vai ficar com o nome da acao menu. Ex. Aprovar Horas (id="aprov_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1")                
                 //link = COMMON_URL + $(this).attr('id');
-                //link = Objeto_json['url'] + '/' + $(this).attr('link');
-                link = $(this).attr('link');
+                link = Objeto_json['url'] + '/' + $(this).attr('link');
                 window.location.href = link;
             }
         }
@@ -1936,6 +1945,7 @@ $(document).ready(function () {
 
     //Acao do click no menu, onde encaminha para pagina correta.
     $('.link').click(function () {
+        //alert('VERSAO MOBILE: '+version_system+' - VERSAO APLICAO: ');
         //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
         //if ($(this).attr('id') == 'mobile_home.html') {
         if ($(this).attr('id') == 'page_home') {

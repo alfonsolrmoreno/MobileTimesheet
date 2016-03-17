@@ -146,10 +146,25 @@
                     permissaoMenu(); //recupera permissao de menu e atalhos
                     
                     //Andre Renovato - 24/02/2016
-                    //setando contador de ocorrencias pendentes no botao de atalho 
-                    if(Objeto_json['count_oco_pendentes'] > 0){
-                        $("#count_oco_pendentes").html('<b>'+Objeto_json['count_oco_pendentes']+'</b>');
-                    }
+                    //setando contador de ocorrencias pendentes no botao de atalho
+                    $.ajax({
+                        type: 'POST',
+                        url: COMMON_URL+'/ajax_bootstrap.php',
+                        dataType: "json",
+                        timeout: 1000,
+                        crossDomain: true,
+                        data: {
+                            cm: 'UsuarioPaineis->getOcorrenciasPendentes',
+                            returnCount: true
+                        },
+                        success: function (data) {
+                            if(data > 0){
+                                $("#count_oco_pendentes").html(data);
+                            }
+                        }
+                    });                    
+                    
+                    
                 });
             }
         </script>

@@ -248,7 +248,7 @@
                         Fase
                     </label>
                     <select id="codigo_fase" name="codigo_fase" data-theme="c">
-                        <option value="">
+                        <option value=''>
                             Selecione uma fase
                         </option>
                     </select>
@@ -258,7 +258,7 @@
                         Atividade
                     </label>
                     <select id="codigo_atividade" name="codigo_atividade" data-theme="c">
-                        <option value="">
+                        <option value=''>
                             Selecione uma atividade
                         </option>
                     </select>
@@ -494,17 +494,17 @@
                 
                 <div data-role="fieldcontain" data-controltype="textinput" class="box_form">
                     <fieldset class="ui-grid-a">
-                        <div class="ui-block-a">
-                            <label for="local_despesa">
-                                Local Despesa
-                            </label>
-                            <input name="local_despesa" id="local_despesa" placeholder="" value="" type="text">
-                        </div>
                         <div class="ui-block-b">
                             <label for="num_documento">
                                 Nº documento
                             </label>
                             <input name="num_documento" id="num_documento" placeholder="" value="" type="text">
+                        </div>                        
+                        <div class="ui-block-a">
+                            <label for="local_despesa">
+                                Local Despesa
+                            </label>
+                            <input name="local_despesa" id="local_despesa" placeholder="" value="" type="text">
                         </div>	   
                     </fieldset>     
                 </div>                
@@ -556,6 +556,12 @@
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
              id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat">
             <script type="text/javascript">
+                $(document).on("pageshow",function () {
+                    res = window.location.hash.split('?');
+                    if(res[1] == 'novo'){
+                        clearInputs();
+                    }
+                });
                 /*$(function() {
                     var transEndEventNames = {
                         'WebkitTransition': 'webkitTransitionEnd',
