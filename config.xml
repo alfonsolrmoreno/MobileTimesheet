@@ -166,7 +166,7 @@
     </feature>
     
     <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#2F71B9" />
+    <preference name="StatusBarBackgroundColor" value="#455A6D" />
     <preference name="stay-in-webview" value="true" />    
 
     <icon src="icon.png" />
