@@ -521,9 +521,10 @@ function mobile_login(obj) {
                         window.location.href = 'pages.html#page_login';
                     },
                     success: function (data) {
+                        //alert(version_system +' - '+ data['version']);
                         if (version_system != data['version']) {
                             loading('hide');
-                            $().toastmessage('showErrorToast', 'Aplica&ccedil;&atilde;o web incompat&iacute;vel com o Aplicativo. Entre em contato com o suporte!');
+                            $().toastmessage('showErrorToast', 'Aplica&ccedil;&atilde;o web incompat&iacute;vel com o Aplicativo. Entre em contato com o suporte!' + version_system + ' -> ' + data['version']);
                             window.location.href = 'pages.html#page_login';                            
                         }else if (data['erro']) {
                             loading('hide');
