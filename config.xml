@@ -159,9 +159,13 @@
     <!-- page, column -->
     <preference value="unpaginated" name="PaginationMode" />
 	
-    <gap:plugin name="com.phonegap.plugin.statusbar" />
+    <plugin name="com.phonegap.plugin.statusbar" spec="1.1.0" source="pgb" />
 	
-    <preference name="StatusBarOverlaysWebView" value="true" />
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>
+    
+    <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="StatusBarBackgroundColor" value="#EAEAEA" />
     <preference name="stay-in-webview" value="true" />    
 

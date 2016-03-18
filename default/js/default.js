@@ -9,7 +9,7 @@
 //
 var version_system = '2016.01';
 //versao do mobile para mostrar no footer
-var vs_mobile = 'v.3.0.0';
+var vs_mobile = 'v.3.0.5';
 var debug_mode = false;
 var debug_js_errors = false;
 var StatusMobiscroll = false;
@@ -524,7 +524,7 @@ function mobile_login(obj) {
                         //alert(version_system +' - '+ data['version']);
                         if (version_system != data['version']) {
                             loading('hide');
-                            $().toastmessage('showErrorToast', 'Aplica&ccedil;&atilde;o web incompat&iacute;vel com o Aplicativo. Entre em contato com o suporte!' + version_system + ' -> ' + data['version']);
+                            $().toastmessage('showErrorToast', 'Aplica&ccedil;&atilde;o web incompat&iacute;vel com o Aplicativo. Entre em contato com o suporte! ' + version_system + ' -> ' + data['version']);
                             window.location.href = 'pages.html#page_login';                            
                         }else if (data['erro']) {
                             loading('hide');
