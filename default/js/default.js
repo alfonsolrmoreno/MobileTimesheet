@@ -215,9 +215,12 @@ function clearInputs() {
     $("#selecione_cliente .ui-btn-text").text('Buscar Cliente');
     $("#selecione_projeto .ui-btn-text").text('Buscar Projeto');
 
-    $("#codigo_despesa").html('<option selected="selected" >Selecione uma despesa</option>');
-    $("#codigo_atividade").html('<option selected="selected">Selecione uma atividade</option>');
-    $("#codigo_fase").html('<option selected="selected">Selecione uma fase</option>');
+
+
+
+    //$("#codigo_despesa").html('<option selected="selected" >Selecione uma despesa</option>');
+    //$("#codigo_atividade").html('<option selected="selected">Selecione uma atividade</option>');
+    //$("#codigo_fase").html('<option selected="selected">Selecione uma fase</option>');
 
     $("#popup_imagem").html('');
 
@@ -777,48 +780,53 @@ function permissaoMenu() {
     //console.dir(Obj['perms_menu']);
 
     //============ TIMESHEET ===============//
-    if (permMenu['Timesheet']['novo'] == 'F') {
-        $("#page_timesheet").removeAttr("mobile");
-        $("#page_timesheet").attr("id", "sem_acesso");
-    }
+    if (Obj['page_home'] == 'mobile_crm_home') {
+        $("#menu_timesheet").css("display", "none");
+        $("#menu_despesas").css("display", "none");
+    }else{
+        if (permMenu['Timesheet']['novo'] == 'F') {
+            $("#page_timesheet").removeAttr("mobile");
+            $("#page_timesheet").attr("id", "sem_acesso");
+        }
 
-    if (permMenu['Timesheet']['listar'] == 'F') {
-        $("#page_relatorio").removeAttr("mobile");
-        $("#page_relatorio").attr("id", "sem_acesso");
-    }
+        if (permMenu['Timesheet']['listar'] == 'F') {
+            $("#page_relatorio").removeAttr("mobile");
+            $("#page_relatorio").attr("id", "sem_acesso");
+        }
 
-    if (permMenu['Timesheet']['aprovacao'] == 'F') {
-        $("#aprovar_horas").removeAttr("mobile");
-        $("#aprovar_horas").attr("id", "sem_acesso");
-    }
+        if (permMenu['Timesheet']['aprovacao'] == 'F') {
+            $("#aprovar_horas").removeAttr("mobile");
+            $("#aprovar_horas").attr("id", "sem_acesso");
+        }
 
-    if (permMenu['Timesheet']['portal'] == 'F') {
-        $("#portal_horas").removeAttr("mobile");
-        $("#portal_horas").attr("id", "sem_acesso");
-    }
-    //=============== FIM TIMESHEET ===============//
+        if (permMenu['Timesheet']['portal'] == 'F') {
+            $("#portal_horas").removeAttr("mobile");
+            $("#portal_horas").attr("id", "sem_acesso");
+        }
+        //=============== FIM TIMESHEET ===============//
 
-    //============ DESPESAS ===============//
-    if (permMenu['Despesas']['novo'] == 'F') {
-        $("#page_despesa").removeAttr("mobile");
-        $("#page_despesa").attr("id", "sem_acesso");
-    }
+        //============ DESPESAS ===============//
+        if (permMenu['Despesas']['novo'] == 'F') {
+            $("#page_despesa").removeAttr("mobile");
+            $("#page_despesa").attr("id", "sem_acesso");
+        }
 
-    if (permMenu['Despesas']['listar'] == 'F') {
-        $("#relatorio_despesa").removeAttr("mobile");
-        $("#relatorio_despesa").attr("id", "sem_acesso");
-    }
+        if (permMenu['Despesas']['listar'] == 'F') {
+            $("#relatorio_despesa").removeAttr("mobile");
+            $("#relatorio_despesa").attr("id", "sem_acesso");
+        }
 
-    if (permMenu['Despesas']['aprovacao'] == 'F') {
-        $("#aprovar_despesas").removeAttr("mobile");
-        $("#aprovar_despesas").attr("id", "sem_acesso");
-    }
+        if (permMenu['Despesas']['aprovacao'] == 'F') {
+            $("#aprovar_despesas").removeAttr("mobile");
+            $("#aprovar_despesas").attr("id", "sem_acesso");
+        }
 
-    if (permMenu['Despesas']['portal'] == 'F') {
-        $("#portal_despesas").removeAttr("mobile");
-        $("#portal_despesas").attr("id", "sem_acesso");
+        if (permMenu['Despesas']['portal'] == 'F') {
+            $("#portal_despesas").removeAttr("mobile");
+            $("#portal_despesas").attr("id", "sem_acesso");
+        }
+        //=============== FIM DESPESAS ===============//
     }
-    //=============== FIM DESPESAS ===============//
 
     //============ OCORRENCIA ===============//
     if (permMenu['Ocorrencias']['novo'] == 'F') {
@@ -1144,6 +1152,7 @@ $(document).on("pagecreate", function () {
         }
     });
 });
+
 //Deletar Arquivo
 function deletaArquivo() {
     //ok = confirm('Ao confirmar, o arquivo ser&aacute exclu&iacutedo e desvinculado da despesa. Deseja realmente apagar esse arquivo?');
@@ -1927,7 +1936,6 @@ $(document).ready(function () {
             if ($(this).attr('mobile') == 'true') {
                 //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
                 //link = Objeto_json['url'] + '/mobile/pages.html#' + $(this).attr('id');
-                clearInputs();
                 link = 'pages.html#' + $(this).attr('id');
                 window.location.href = link;
             } else {
@@ -2208,7 +2216,7 @@ $(document).ready(function () {
             }
         });
     });
-
+    
     $(document).on("pageinit", "#page_timesheet", function () {
         $("#autocomplete_prj").on("listviewbeforefilter", function (e, data) {
             var $ul = $(this),
@@ -2345,6 +2353,42 @@ $(document).ready(function () {
         $("#dateinput2").val(x[0].value);
         buscar_despesa($("#dateinput2").val());
     });
+    
+    //Andre Renovato - 17/03/2016
+    //Forcando limpeza dos inputs em timesheet e despesa, dentro da function clearInputs 
+    //nao funcionou por causa do iframe entao verficamos o show da pagina para realizar acao apenas quando for um novo registro
+    $(document).on("pageshow", "#page_timesheet", function () {
+        res = jQuery.mobile.path.get().split('?');
+        if(res[1] == 'novo'){
+            clearInputs();
+            
+            var myselect = $("select#codigo_atividade");
+            myselect[0].selectedIndex = 0;
+            myselect.selectmenu("refresh");
+            
+            var myselect = $("select#codigo_fase");
+            myselect[0].selectedIndex = 0;
+            myselect.selectmenu("refresh");
+            
+            var myselect = $("select#codigo_despesa");
+            myselect[0].selectedIndex = 0;
+            myselect.selectmenu("refresh");
+            
+        }        
+    });
+
+    $(document).on("pageshow", "#page_despesa", function () {
+        res = jQuery.mobile.path.get().split('?');
+        if(res[1] == 'novo'){
+            clearInputs();
+            
+            var myselect = $("select#codigo_despesa");
+            myselect[0].selectedIndex = 0;
+            myselect.selectmenu("refresh");
+            
+        }        
+    });
+    //Fim limpeza inputs 17/03/2016
 
     //Verifica se existe user logado    
     if (!objIsEmpty(Objeto_json)) {
