@@ -314,7 +314,8 @@ Page Footer
     color: #d5dbe0;
 }
 .page-footer-fixed .page-footer {
-    background-color: #adb5b0;
+    background-color: #F1F3FA;
+   /*background-color: #adb5b0;*/
 }
 .page-footer-fixed .page-footer .page-footer-inner {
     color: #121618;
@@ -324,7 +325,8 @@ Page Footer
     color: #121618;
 }
 .page-footer-fixed .page-boxed .page-footer {
-    background-color: #adb5b0;
+    background-color: #F1F3FA;
+   /*background-color: #adb5b0;*/
 }
 
 @media (min-width: 992px) {
