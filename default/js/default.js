@@ -9,7 +9,7 @@
 //
 var version_system = '2016.01';
 //versao do mobile para mostrar no footer
-var vs_mobile = 'v.3.0.5';
+var vs_mobile = 'v.3.0.6';
 var debug_mode = false;
 var debug_js_errors = false;
 var StatusMobiscroll = false;
