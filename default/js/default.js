@@ -7,13 +7,15 @@
 }*/
 
 //
+var app_multi = 'ts'; // isso ser para separar os storage
+//var app_multi = 'crm';
 var version_system = '2016.01';
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.6';
-var debug_mode = false;
-var debug_js_errors = false;
+var debug_mode = true;
+var debug_js_errors = true;
 var StatusMobiscroll = false;
-var Objeto_real = localStorage['mobile_login'];
+var Objeto_real = localStorage[app_multi+'mobile_login'];
 
 var arrayDia = new construirArray(7);
 arrayDia[0] = "Domingo";
@@ -363,10 +365,13 @@ function formatNumber(n, dec_sep, round, precision) {
 
 //############## INICIO LOGIN #################################################
 //#############################################################################
-function loading(showOrHide) {
+function loading(showOrHide,texto) {
+    
+    if(typeof texto == 'undefined') texto = 'Carregando...';
+    
     if (typeof $.mobile != 'undefined' && typeof $.mobile.loading != 'undefined') {
         $.mobile.loading(showOrHide, {
-            text: 'Carregando...',
+            text: texto,
             textVisible: true,
             theme: 'b'
         });
@@ -407,6 +412,9 @@ function mobile_login(obj) {
     }
 
     if (dados['URL'] != "") {
+        
+        loading('show','Verificando a URL');
+        
         var ajax_file_url = 'verifica_url.php';
         //Trata URL sem http://
         if ((dados['URL'].substr(0, 7)) != 'http://') {
@@ -441,7 +449,7 @@ function mobile_login(obj) {
 
             dados['URL'] = 'http://' + url_new;
         }
-
+        
         //VERIFICA SE EXISTE (/) NO FIM DA URL E REMOVE CASO EXISTA
         if ((dados['URL'].substr(dados['URL'].length - 1, 1)) == '/') {
             dados['URL'] = dados['URL'].substr(0, dados['URL'].length - 1);
@@ -464,7 +472,6 @@ function mobile_login(obj) {
             alert('COMMON_URL_MOBILE: ' + COMMON_URL_MOBILE);
             alert(dados['URL'] + '/mobile/' + ajax_file_url);
         }
-
 
         $.ajax({
             type: 'POST',
@@ -489,6 +496,8 @@ function mobile_login(obj) {
                 if (debug_mode) {
                     alert('SUCCESS');
                 }
+                
+                loading('show','Autenticando o Usuario');
 
                 $.ajax({
                     type: 'POST',
@@ -548,9 +557,9 @@ function mobile_login(obj) {
                                 'version': data['version'],
                                 'page_home': data['page_home']};
                                 //'count_oco_pendentes': data['count_oco_pendentes']};
-                            localStorage.setItem('mobile_login', JSON.stringify(Objeto));
+                            localStorage.setItem(app_multi+'mobile_login', JSON.stringify(Objeto));
                             //var Objeto_real = localStorage['mobile_login'];
-                            var Objeto_real = localStorage.getItem('mobile_login')
+                            var Objeto_real = localStorage.getItem(app_multi+'mobile_login')
                             var Objeto_json = JSON.parse(Objeto_real);
 
                             loading('hide');
@@ -575,7 +584,7 @@ function verifica_logado() {
     if (debug_mode)
         alert('verifica_logado');
 
-    var Objeto_real = localStorage.getItem('mobile_login')
+    var Objeto_real = localStorage.getItem(app_multi+'mobile_login')
 
     if (typeof Objeto_real == "undefined" || !Objeto_real || Objeto_real === null) {
         if (debug_mode)
@@ -623,13 +632,22 @@ function verifica_logado() {
 }
 
 function Storagelogout(){
-    if(localStorage.getItem('mobile_login')){
-        var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
-        if(typeof Objeto_json.senha != 'undefined')
-            delete Objeto_json.senha;
+    if(localStorage.getItem(app_multi+'mobile_login')){
+        var Objeto_json = JSON.parse(localStorage.getItem(app_multi+'mobile_login'));
+        
+        // inacio 04-05-2016
+        // limpa todos caches e só deixa a URL e o nome usuario
+        url_cache = Objeto_json.url;
+        user_bd_cache = Objeto_json.usuario_nome;
 
-        localStorage.setItem('mobile_login',JSON.stringify(Objeto_json));
-    }    
+        localStorage.clear();
+        
+        var Objeto = {
+            'url': url_cache,
+            'user_bd': user_bd_cache};
+        
+        localStorage.setItem(app_multi+'mobile_login', JSON.stringify(Objeto));
+    }
 }
 
 function ajusteUrl(url) {
@@ -707,7 +725,7 @@ function setSaudacao() {
     var saudacao = '';
     var saudacao_data = '';
 
-    var dados = JSON.parse(localStorage['mobile_login']);
+    var dados = JSON.parse(localStorage[app_multi+'mobile_login']);
     var nome_user = dados['nome_senha'];
 
     var d = new Date();
@@ -1240,7 +1258,7 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function () {
         }).then(function (data)
         {
             if (data == 'T') {
-                $().toastmessage('showSuccessToast', 'Despesa inativada com sucesso!');
+                $().toastmessage('showSuccessToast', 'Despesa excluída com sucesso!');
                 $("#despesa_" + idlctodespesa).hide(500);
             } else {
                 $().toastmessage('showErrorToast', data);
@@ -1278,7 +1296,7 @@ function selecionaValorDespesa(valor, tipo, id, id2, nome2){
 
 //Lista clientes despesa
 $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
-    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+    var Objeto_json = JSON.parse(localStorage.getItem(app_multi+'mobile_login'));
     $("#page_despesa_sub").hide();
     $("#save_despesa_top").hide();
 
@@ -1327,7 +1345,7 @@ $(document).delegate("#page_despesa [id^='idcliente_']", 'click', function () {
 });
 //LISTA PROJETOS DESPESA
 $(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
-    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));    
+    var Objeto_json = JSON.parse(localStorage.getItem(app_multi+'mobile_login'));    
     
     pesq_autocomplete = 'p';
     $("#divautocomplete_despesa").show();
@@ -1479,7 +1497,7 @@ $(document).delegate('#list .btn-timesheet', 'click', function () {
 });
 //Lista clientes no timesheet
 $(document).delegate('#page_timesheet #selecione_cliente', 'click', function () {
-    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+    var Objeto_json = JSON.parse(localStorage.getItem(app_multi+'mobile_login'));
     
     pesq_autocomplete = 'c';
     $("#divautocomplete_timecard").show();
@@ -1527,7 +1545,7 @@ $(document).delegate("[id^='idcliente_']", 'click', function () {
 });
 //Seleciona o projeto
 $(document).delegate('#page_timesheet #selecione_projeto', 'click', function () {
-    var Objeto_json = JSON.parse(localStorage.getItem('mobile_login'));
+    var Objeto_json = JSON.parse(localStorage.getItem(app_multi+'mobile_login'));
     
     pesq_autocomplete = 'p';
     $("#divautocomplete_timecard").show();
@@ -1912,6 +1930,7 @@ function onFail(message) {
 
 //TODA ACAO COMUM EM JAVASCRIPT DEVE SER TRATADA AQUI
 $(document).ready(function () {
+    
     //exibe campos de intervalo para apontar horas
     $("#div_intervalo").hide()
     $("#monstrarIntervalo").click(function () {
@@ -2387,8 +2406,8 @@ $(document).ready(function () {
     });
     //Fim limpeza inputs 17/03/2016
 
-    //Verifica se existe user logado    
-    if (!objIsEmpty(Objeto_json)) {
+    //Verifica se existe user logado
+    if (!objIsEmpty(Objeto_json) && Objeto_json.usuario_id) {
         //Inclui js externo. Incluimos um get randomico para nao correr o risco do arquivo nao ser instanciado apos alguma modificado
         var rand = Math.ceil(Math.random() * 999999999999999) + 1;
         var x = COMMON_URL_MOBILE + 'js/upload-despesa.js?v=' + rand;

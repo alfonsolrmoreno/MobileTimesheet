@@ -61,11 +61,52 @@
 
             @media (max-width: 767px){
                 .page-content-wrapper .page-content {
-                    padding: 5px 5px 0px 5px !important;
+                    padding: 0px !important;
                 }
             }
 
         </style>
+        
+        <script>
+            var conexao_ativa = true;
+            var verificacao_rapida = false;
+            var tempo_verificacao = 30000;  // a cada 30 segundos verifica a conexao
+            
+            function checkNetConnection() {
+
+                    var d = new Date();
+                    console.log('verifica: ' + d.toLocaleString() );
+
+                    var scriptElem = document.createElement('script');
+                    scriptElem.type = 'text/javascript';
+
+                    scriptElem.onerror = function () { 
+                             
+                            if(conexao_ativa) {
+                                loading('show',"Sem conexão com a Internet. Favor verificar o sinal."); 
+                            }
+                            
+                            conexao_ativa = false;
+                            if(verificacao_rapida == false) {
+                                    verificacao_rapida = setInterval(checkNetConnection, 1000); // a cada 2 segundos verifica a conexao, para ser mais rápido
+                            }
+                    };
+
+                    scriptElem.src = COMMON_URL_MOBILE+'/checkConexaoCliente.php';
+                    document.getElementsByTagName("body")[0].appendChild(scriptElem);
+
+                    if(conexao_ativa && verificacao_rapida) {
+                            console.log('Limpar: ' + d.toLocaleString() + '('+verificacao_rapida+')');
+
+                            clearInterval(verificacao_rapida);
+                            verificacao_rapida = false;
+                    }
+
+                    conexao_ativa = true;
+                    loading('hide');	
+            }
+        </script>
+        
     </head>
     <!-- END HEAD -->
     <!-- BEGIN BODY -->
@@ -712,9 +753,12 @@
 				$('.wrapper').css('position', 'relative');
 				$('.wrapper').css('top', $('.page-top').height());
 			}
-			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-top').height() - $('.page-footer').height());
+			$('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-footer').height());
+			//$('.h_iframe iframe').css('border', 'solid 2px red');
 
         });
+        
+        setInterval(checkNetConnection,tempo_verificacao);
     </script>
     <!-- END BODY -->
 </html>
