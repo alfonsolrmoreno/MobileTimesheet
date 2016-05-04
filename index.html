@@ -105,6 +105,7 @@
                     conexao_ativa = true;
                     loading('hide');	
             }
+            
         </script>
         
     </head>
@@ -711,12 +712,31 @@
         <script src="js/jquery.toastmessage.js"></script>
         <script src="default/js/default.js"></script>
         <!-- END JAVASCRIPTS -->
-    </body>
+        <script>
+            
+            function preloadIframe() {
+                $('.h_iframe').css('display', 'none');
+                loading('show','Aguarde, carregando o conteudo');
+
+                $(document).ready(function() {
+                    $('iframe').load(function() {
+                        $('.h_iframe').css('display', 'block');
+                        loading('hide');
+                    });
+                });
+            }
+            
+            </script>
+        
     <script>
         $(function () {
             //Andre Renovato - 16/11/2015
             //Carregando home padrao
             $("#conteudo").attr("src", pageHome);
+            
+            // apagar cookies
+            $.removeCookie('VmultiWEB', { path: '/' });
+            $.removeCookie('MultidadosLoginCodigoDb', { path: '/' });
             
             if (verifica_logado()) {
                 popMenuDash(); //recupera menu dashboards
@@ -760,5 +780,6 @@
         
         setInterval(checkNetConnection,tempo_verificacao);
     </script>
+    </body>
     <!-- END BODY -->
 </html>
