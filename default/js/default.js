@@ -12,8 +12,8 @@ var app_multi = 'ts'; // isso ser para separar os storage
 var version_system = '2016.01';
 //versao do mobile para mostrar no footer
 var vs_mobile = 'v.3.0.6';
-var debug_mode = true;
-var debug_js_errors = true;
+var debug_mode = false;
+var debug_js_errors = false;
 var StatusMobiscroll = false;
 var Objeto_real = localStorage[app_multi+'mobile_login'];
 
@@ -530,7 +530,6 @@ function mobile_login(obj) {
                         window.location.href = 'pages.html#page_login';
                     },
                     success: function (data) {
-                        //alert(version_system +' - '+ data['version']);
                         if (data['erro']) {
                             loading('hide');
                             $().toastmessage('showErrorToast', data['erro']);
@@ -558,19 +557,17 @@ function mobile_login(obj) {
                                 'page_home': data['page_home']};
                                 //'count_oco_pendentes': data['count_oco_pendentes']};
                             localStorage.setItem(app_multi+'mobile_login', JSON.stringify(Objeto));
-                            //var Objeto_real = localStorage['mobile_login'];
+
                             var Objeto_real = localStorage.getItem(app_multi+'mobile_login')
                             var Objeto_json = JSON.parse(Objeto_real);
 
                             loading('hide');
-                            popMenuDash();
-
+                            
                             if (obj) {
                                 $().toastmessage('showSuccessToast', 'Login realizado com sucesso');
                             } else {
                                 window.location.href = 'index.html';
                             }
-
                         }
                     }
                 });
@@ -579,8 +576,37 @@ function mobile_login(obj) {
     }
 }
 
+
+//inacio 5/5/2016 so para saber se a sessao no server esta OK
+function verifica_sessao() {
+    
+    
+        $.ajax({
+            type: 'GET',
+            url: COMMON_URL_MOBILE + '/session.php',
+            dataType: "jsonp",
+            timeout: 1000,
+            crossDomain: true,
+            async: false,
+            error: function () {
+                    alert('erro');
+
+            },
+            success: function (data) {
+                
+                 console.log(data);
+                
+            }
+        });
+    
+}
+    
+    
+
+
 //rudi 7/10/2015 retornando true tambem, e soh seguindo se for true na index.html
 function verifica_logado() {
+    
     if (debug_mode)
         alert('verifica_logado');
 
@@ -603,31 +629,44 @@ function verifica_logado() {
 
         $.ajax({
             type: 'GET',
-            url: COMMON_URL_MOBILE + '/checkServerOnline.php',
-            dataType: "json",
+            url: COMMON_URL_MOBILE + 'checkServerOnlineNew.php',
+            dataType: "jsonp", // aqui estava json e isso não pega a sessão corretamente. //inacio 06-05-2016
             timeout: 1000,
             crossDomain: true,
-            async: false,
+            //async: false, // comentei isso, pois se a URL estivesse incorreta nao caia no error simplesmente trava. //inacio 06-05-2016
+            success: function (data) {
+                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
+                    mobile_login(Objeto_real);
+                }
+            
+                $("#conteudo").attr("src", pageHome); //Carregando home padrao
+                setSaudacao(); //inclui saudacao (nome user, dia ano e mes)  
+                popMenuDash(); //recupera menu dashboards
+                
+                //Andre Renovato - 11/11/2015
+                //Incluindo nome do banco e user no menu desconectar
+                var namedb = Objeto_json['db'];
+                var nomeuser = Objeto_json['user_bd'];
+                $('.banco-nome').html(namedb.toLowerCase());
+                $('.exibe_user').html(nomeuser.toLowerCase());
+                
+                permissaoMenu(); //recupera permissao de menu e atalhos
+                
+            },
             error: function () {
                 if (debug_mode)
                     alert('erro no verifica_logado');
 
                 //CASO A URL ESTEJA INATIVA RETORNA PARA TELA DE LOGIN
+                window.location.href = 'pages.html#page_login';                
+                return false;
+            }/*,
+            jsonpCallback: function () {
+                alert('Erro inesperado, endereco de checagem do servidor incorreto');
                 window.location.href = 'pages.html#page_login';
-                redirecting = true;
-            },
-            success: function (data) {
-                if (debug_mode)
-                    alert('success no verifica_logado idvendedor:' + data.idvendedor);
-
-                if (typeof data.idvendedor == 'undefined' || data.idvendedor == '') {
-                    mobile_login(Objeto_real);
-                }
-            }
+                return false;
+            }*/
         });
-
-        return redirecting ? false : true;
-
     }
 }
 
@@ -785,6 +824,7 @@ function popMenuDash() {
 }
 
 function attrSrcIframe(url) {
+    preloadIframe();
     $("#conteudo").attr("src", COMMON_URL + url);
 }
 
@@ -1940,6 +1980,9 @@ $(document).ready(function () {
     var link = '';
     //Acao do click dos botoes de atalho na home(mobile_home.html / mobile_crm_home.html), onde encaminha para pagina correta.
     $('.linkHome').click(function () {
+        
+        parent.preloadIframe();
+        
         //alert('VERSAO MOBILE: '+version_system+' - VERSAO APLICAO: ');
         //valida se e uma page do index mobile antigo, tela do portal ou nova pagina
         if ($(this).attr('id') == 'sem_acesso') {
@@ -1964,33 +2007,6 @@ $(document).ready(function () {
         }
     })
 
-    //Acao do click no menu, onde encaminha para pagina correta.
-    $('.link').click(function () {
-        //alert('VERSAO MOBILE: '+version_system+' - VERSAO APLICAO: ');
-        //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
-        //if ($(this).attr('id') == 'mobile_home.html') {
-        if ($(this).attr('id') == 'page_home') {
-            link = pageHome;
-        } else if ($(this).attr('id') == 'sem_acesso') {
-            link = COMMON_URL + '/timesheet/multidados/module/';
-        } else {
-            if ($(this).attr('mobile') == 'true') {
-                //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
-                link = 'pages.html#' + $(this).attr('id');
-            } else {
-                //setar url do sistema, pois o portal é chamado atraves da url
-                //Andre Renovato - 12/11/2015
-                //nao estamos mais tratando pelo id porque o jquery apresentava problema ao tentar setar o id para fazer alguma ação, provavelmente
-                //por causa dos caracteres "?#=". Neste caso no menu os links externos vamos remover a url que ficava no id e jogar para o novo paramentro link, 
-                //e o id vai ficar com o nome da acao menu. Ex. Aprovar Horas (id="aprov_horas" link="?display=portal&m=timesheet&a=timesheet_aprovacoes_portal&nomenu=1")                
-                //link = COMMON_URL + $(this).attr('id');
-                link = COMMON_URL + $(this).attr('link');
-            }
-        }
-
-        //Andre Renovato - 16/11/2015
-        $("#conteudo").attr("src", link);
-    })
 
     //Pega data do dia ########################################################
     var data = new Date();
@@ -2009,14 +2025,11 @@ $(document).ready(function () {
         position: 'middle-center',
         type: 'success'
     });
+    
     //Define footer para todas as páginas
     $(".name_powered").html('Powered by MultidadosTI &copy; ' + vs_mobile);
 
     $(document).on("pageinit", function () {
-        // Inacio 30/09/2015
-        // Agora é só na página index.html     
-        //$resposta = verifica_logado();
-
         $("#data_lcto").val(data_hoje);
         $("#data_trabalhada").val(data_hoje);
         if ($("#filtro_data_trabalhada").val() == '') {
@@ -2025,19 +2038,9 @@ $(document).ready(function () {
         if ($("#dateinput2").val() == '') {
             $("#dateinput2").val(data_hoje);
         }
-
-        //buscar_timesheet($("#filtro_data_trabalhada").val());
-        //buscar_despesa($("#dateinput2").val());
     });
 
-    $("#botao_entrar").click(function ()
-    {
-        mobile_login();
-    });
-    $("#icon_sair").click(function ()
-    {
-        mobile_logout();
-    });
+    
     $("#save_timecard_top").click(function ()
     {
         salvar_timesheet();
@@ -2054,6 +2057,7 @@ $(document).ready(function () {
     {
         salvar_despesa();
     });
+    
     ua = navigator.userAgent.toLowerCase();
     //verifica se é ios
     if (ua.indexOf('iphone') != -1 || ua.indexOf('ipod') != -1) {
@@ -2417,7 +2421,6 @@ $(document).ready(function () {
 
         $('head').append(scriptAppend);
      }
-
 });//fim doc ready
 
 function LoadMobiScroll() {

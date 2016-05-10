@@ -556,6 +556,11 @@
         <div data-role="page" class="class_page pagina" data-control-title="P&aacute;gina em constru&ccedil;&atilde;o" data-theme="b"
              id="page_scheduler" style="background: url('img/bg_app_new.jpg') no-repeat">
             <script type="text/javascript">
+                $("#botao_entrar").click(function ()
+                {
+                    mobile_login();
+                });
+                
                 /*$(function() {
                     var transEndEventNames = {
                         'WebkitTransition': 'webkitTransitionEnd',

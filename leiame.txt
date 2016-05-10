@@ -1,0 +1,20 @@
+Colocar no topo do index.html
+
+  <!-- configuracoes Multidados -->
+  <link href="default/css/css.css" rel="stylesheet">
+  <script src="default/js/default.js"></script>
+  <!-- fim configuracoes Multidados -->
+
+ <a id="botao_entrar" data-role="button" href="javascript:" data-icon="arrow-r"
+          data-iconpos="right" class="box_btentrar">
+
+
+  CLIENTE
+              <div style="margin: 15px 5px">
+              <ul id="autocomplete_cliente" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o cliente..." data-filter-theme="c"></ul>
+    		<input type="hidden" name="codigo_auxiliar" id="codigo_auxiliar" /></div>
+
+  PROJETO
+				<div style="margin: 15px 5px">
+				<ul id="autocomplete_projeto" data-role="listview" data-inset="true" data-filter="true" data-filter-placeholder="Busque o projeto..." data-filter-theme="p"></ul>
+				<input type="hidden" name="codigo" id="codigo" /></div>
