@@ -741,8 +741,6 @@
             //Acao do click no menu, onde encaminha para pagina correta.
             $('.link').click(function () {
 
-                preloadIframe();
-
                 //alert('VERSAO MOBILE: '+version_system+' - VERSAO APLICAO: ');
                 //valida se e uma page do index mobile antigou, tela do portal ou nova pagina
                 //if ($(this).attr('id') == 'mobile_home.html') {
@@ -755,6 +753,7 @@
                         //setar o caminho absoluto, para o aplicativo ler a pagina da sua raiz
                         link = 'pages.html#' + $(this).attr('id');
                     } else {
+                        preloadIframe();
                         //setar url do sistema, pois o portal é chamado atraves da url
                         //Andre Renovato - 12/11/2015
                         //nao estamos mais tratando pelo id porque o jquery apresentava problema ao tentar setar o id para fazer alguma ação, provavelmente

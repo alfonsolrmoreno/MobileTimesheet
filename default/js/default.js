@@ -209,24 +209,24 @@ function getDiaExtenso(dia) {
 
 pesq_autocomplete = '';
 
-function clearInputs() {
+function clearInputs(op) {
     $(":input").each(function () {
-        $(this).val('');
+        value = '';
+        if(this.name == 'data_trabalhada' || this.name == 'data_lcto') {
+            value = data_hoje;
+        }
+        
+        $(this).val(value);
     });
     
     $("#selecione_cliente .ui-btn-text").text('Buscar Cliente');
     $("#selecione_projeto .ui-btn-text").text('Buscar Projeto');
 
-
-
-
-    //$("#codigo_despesa").html('<option selected="selected" >Selecione uma despesa</option>');
-    //$("#codigo_atividade").html('<option selected="selected">Selecione uma atividade</option>');
-    //$("#codigo_fase").html('<option selected="selected">Selecione uma fase</option>');
-
     $("#popup_imagem").html('');
 
-    geraDespesa(0, 0);
+    if(typeof op == 'undefined' || op != 'ts') {
+        geraDespesa(0, 0);
+    }
 }
 
 //Verifica se suporta web storage
@@ -994,7 +994,6 @@ function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto) {
     }
     else if (tipo == 'p')
     {
-
         $("#codigo").val(id);
         $("#page_timesheet #selecione_projeto .ui-btn-text").text(valor);
         //$('#busca_projeto_timesheet').show();
@@ -1002,20 +1001,22 @@ function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto) {
         if ($("#codigo_auxiliar").val() == '')
         {
             $("#codigo_auxiliar").val(id2);
-            //$(".ui-body-c").val(nome2);
             $("#page_timesheet #selecione_cliente .ui-btn-text").text(nome2);
-            //$('#busca_cliente_timesheet').show();
-            //$("#busca_cliente_timesheet").val(nome2);
-            if (tipo_projeto == 'P') {
-                seleciona_task_parent($("#codigo_auxiliar").val(), id, 0);
-            } else {
-                seleciona_fase($("#codigo_auxiliar").val(), id, 0, 0);
+
+            if($(location).attr('hash') == '#page_timesheet') {
+                if (tipo_projeto == 'P') {
+                    seleciona_task_parent($("#codigo_auxiliar").val(), id, 0);
+                } else {
+                    seleciona_fase($("#codigo_auxiliar").val(), id, 0, 0);
+                }
             }
         } else {
-            if (tipo_projeto == 'P') {
-                seleciona_task_parent($("#codigo_auxiliar").val(), id, 0);
-            } else {
-                seleciona_fase($("#codigo_auxiliar").val(), id, 0, 0);
+            if($(location).attr('hash') == '#page_timesheet') {
+                if (tipo_projeto == 'P') {
+                    seleciona_task_parent($("#codigo_auxiliar").val(), id, 0);
+                } else {
+                    seleciona_fase($("#codigo_auxiliar").val(), id, 0, 0);
+                }
             }
         }
     }
@@ -1272,8 +1273,9 @@ function geraDespesa(idclienteprojeto, selecionado) {
         });
         $("#codigo_despesa").html(options);
         loading('hide');
-        //$("#codigo_despesa").selectmenu("refresh");
-        $(document).bind('pageinit', function () {
+        
+        $(document).on("pageinit", "#page_despesa", function () {
+        //$(document).bind('pageinit', function () {
             $('#codigo_despesa').selectmenu('refresh');
         });
     });
@@ -1298,7 +1300,7 @@ $(document).delegate('#list_despesa .delete_despesa', 'click', function () {
         }).then(function (data)
         {
             if (data == 'T') {
-                $().toastmessage('showSuccessToast', 'Despesa excluída com sucesso!');
+                $().toastmessage('showSuccessToast', 'Despesa exclu&iacute;da com sucesso!');
                 $("#despesa_" + idlctodespesa).hide(500);
             } else {
                 $().toastmessage('showErrorToast', data);
@@ -1353,7 +1355,7 @@ $(document).delegate('#page_despesa #selecione_cliente', 'click', function () {
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
-        scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
+        scroll: false, // tirando por estar influenciando na tela de lancamento qdo rola a barra // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_cliente_despesa').val(),
         idempresa: Objeto_json.idempresa_vendedor,
@@ -1401,7 +1403,7 @@ $(document).delegate('#page_despesa #selecione_projeto', 'click', function () {
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
-        scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
+        scroll: false, // tirando por estar influenciando na tela de lancamento qdo rola a barra // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_projeto_despesa').val(),
         url: COMMON_URL_MOBILE + '/search.php',
@@ -1443,8 +1445,6 @@ $(document).delegate("[id^='idclienteprojeto_']", 'click', function () {
 
 //Buscar timesheet conforme as datas
 function buscar_timesheet(data) {
-    //clearInputs();
-    //if (data) {
     loading('show');
     if (data) {
         data = dateFormatDisplayToTimestamp(data);
@@ -1463,11 +1463,9 @@ function buscar_timesheet(data) {
     }).then(function (data)
     {
         $("#list").html(data);
-        //$("#list").listview("refresh");
         $('#list').listview().listview('refresh');
         loading('hide');
     });
-    //}
 }
 
 
@@ -1554,7 +1552,7 @@ $(document).delegate('#page_timesheet #selecione_cliente', 'click', function () 
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
-        scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
+        scroll: false, // tirando por estar influenciando na tela de lancamento qdo rola a barra // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_cliente_timesheet').val(),
         url: COMMON_URL_MOBILE + '/search.php',
@@ -1600,7 +1598,7 @@ $(document).delegate('#page_timesheet #selecione_projeto', 'click', function () 
         // displayed. You can change this if you want.
         delay: 500, // When you scroll down the posts will load after a delayed amount of time.
         // This is mainly for usability concerns. You can alter this as you see fit
-        scroll: true, // The main bit, if set to false posts will not load as the user scrolls.
+        scroll: false, // tirando por estar influenciando na tela de lancamento qdo rola a barra // The main bit, if set to false posts will not load as the user scrolls.
         // but will still load if the user clicks.
         q: $('#busca_projeto_timesheet').val(),
         url: COMMON_URL_MOBILE + '/search.php',
@@ -2126,7 +2124,7 @@ $(document).ready(function () {
     });
     
     $("#novo_timecard_top").click(function (){
-        clearInputs();
+        clearInputs('ts');
         $("#page_timesheet #selecione_cliente .ui-btn-text").text('Buscar Cliente');
         $("#page_timesheet #selecione_projeto .ui-btn-text").text('Buscar Projeto');
         $("#data_trabalhada").val(data_hoje);
@@ -2390,10 +2388,6 @@ $(document).ready(function () {
             myselect[0].selectedIndex = 0;
             myselect.selectmenu("refresh");
             
-            var myselect = $("select#codigo_despesa");
-            myselect[0].selectedIndex = 0;
-            myselect.selectmenu("refresh");
-            
         }        
     });
 
@@ -2405,7 +2399,6 @@ $(document).ready(function () {
             var myselect = $("select#codigo_despesa");
             myselect[0].selectedIndex = 0;
             myselect.selectmenu("refresh");
-            
         }        
     });
     //Fim limpeza inputs 17/03/2016
