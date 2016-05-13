@@ -3,8 +3,8 @@
         xmlns:gap = "http://phonegap.com/ns/1.0"
         xmlns:android = "http://schemas.android.com/apk/res/android"
         id        = "br.com.multidadosti.mobile"
-        version   = "3.0.7"
-        versionCode="307"
+        version   = "3.0.6"
+        versionCode="306"
 >
 
     <!-- rudi 07/10/2015 a versao mais nova (5.2) do cordova crashava no android em qqer tentativa de carregar recursos externos (js, etc)-->
@@ -146,7 +146,7 @@
     <preference value="false" name="DisallowOverscroll" />
     <preference value="false" name="EnableViewportScale" />
     <preference value="true" name="FadeSplashScreen" />
-    <preference value="2" name="FadeSplashScreenDuration" />
+    <preference value=".25" name="FadeSplashScreenDuration" />
     <preference value="false" name="HideKeyboardFormAccessoryBar" />
     <preference value="true" name="KeyboardDisplayRequiresUserAction" />
     <preference value="false" name="KeyboardShrinksView" />
