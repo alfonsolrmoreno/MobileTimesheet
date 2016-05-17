@@ -93,7 +93,9 @@
                         if(data.session_ativa == false) {					
 							console.log('Sessao false, logando novamente');
 							mobile_login(localStorage.getItem(app_multi+'mobile_login'));
-                        }
+                        } else {
+							setDadosIniciais();
+						}
                     },
                     error: function () {
                         window.location.href = 'pages.html#page_login';                
