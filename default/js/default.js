@@ -583,7 +583,7 @@ function verifica_sessao() {
             type: 'GET',
             url: COMMON_URL_MOBILE + '/session.php',
             dataType: "jsonp",
-            timeout: 1000,
+            timeout: 30000,
             crossDomain: true,
             async: false,
             error: function () {
@@ -728,7 +728,7 @@ function mobile_logout() {
         type: 'POST',
         url: ajax_file,
         dataType: "jsonp",
-        timeout: 5000,
+        timeout: 10000,
         crossDomain: true,
         data: {
             usuario: Objeto_json.user_bd,
