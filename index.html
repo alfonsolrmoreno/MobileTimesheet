@@ -74,7 +74,7 @@
             
             // no aplicativo toda vez fecha e abre de novo uma nova sessao é criada.
             // aqui vamos ficar checando de 30s em 30s se a sessao existe, caso contrario retorna uma nova sessao.
-            function checkSession() {
+            function checkSession(primeira) {
                 
                 var session_id_ativa = Objeto_json['session_id'];
                 console.log('Verifica sessao aberta: ' + session_id_ativa);
@@ -93,7 +93,7 @@
                         if(data.session_ativa == false) {					
 							console.log('Sessao false, logando novamente');
 							mobile_login(localStorage.getItem(app_multi+'mobile_login'));
-                        } else {
+                        } else if(primeira) {
 							setDadosIniciais();
 						}
                     },
@@ -823,7 +823,7 @@
             $('.h_iframe iframe').css('height', $('.page-content').height() - $('.page-footer').height());            
         });
         
-        checkSession();
+        checkSession(true);
         
         setInterval(checkNetConnection,tempo_verificacao);
         setInterval(checkSession,10000);

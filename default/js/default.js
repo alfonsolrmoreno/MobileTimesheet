@@ -560,7 +560,7 @@ function mobile_login(obj) {
                             
                             if (obj) {
                                 $().toastmessage('showSuccessToast', 'Login realizado com sucesso');
-								setDadosIniciais();
+                                setDadosIniciais();
                             } else {
                                 window.location.href = 'index.html';
                             }                            
