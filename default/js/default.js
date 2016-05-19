@@ -994,7 +994,7 @@ function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto) {
             $("#codigo_auxiliar").val(id2);
             $("#page_timesheet #selecione_cliente .ui-btn-text").text(nome2);
 
-            if($(location).attr('hash') == '#page_timesheet') {
+            if($(location).attr('hash') == '#page_timesheet' || $(location).attr('hash') == '#page_timesheet?novo') {
                 if (tipo_projeto == 'P') {
                     seleciona_task_parent($("#codigo_auxiliar").val(), id, 0);
                 } else {
@@ -1002,7 +1002,7 @@ function selecionaValor(valor, tipo, id, id2, nome2, tipo_projeto) {
                 }
             }
         } else {
-            if($(location).attr('hash') == '#page_timesheet') {
+            if($(location).attr('hash') == '#page_timesheet' || $(location).attr('hash') == '#page_timesheet?novo') {
                 if (tipo_projeto == 'P') {
                     seleciona_task_parent($("#codigo_auxiliar").val(), id, 0);
                 } else {
@@ -2360,7 +2360,7 @@ $(document).ready(function () {
     $(document).on("pageshow", "#page_timesheet", function () {
         res = jQuery.mobile.path.get().split('?');
         if(res[1] == 'novo'){
-            clearInputs();
+            clearInputs('ts');
             
             var myselect = $("select#codigo_atividade");
             myselect[0].selectedIndex = 0;
