@@ -2007,7 +2007,7 @@ $(document).ready(function () {
     });
     
     //Define footer para todas as páginas
-    $(".name_powered").html('Powered by MultidadosTI &copy; ' + vs_mobile);
+    $(".name_powered").html('Powered by MultidadosTI &copy; - ' + vs_mobile);
 
     $(document).on("pageinit", function () {
         $("#data_lcto").val(data_hoje);
