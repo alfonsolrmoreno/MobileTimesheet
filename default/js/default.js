@@ -2,7 +2,7 @@ var app_multi = 'ts'; // isso ser para separar os storage
 //var app_multi = 'crm';
 var version_system = '2016.01';
 //versao do mobile para mostrar no footer
-var vs_mobile = 'v.3.0.7';
+var vs_mobile = 'v.3.0.8';
 var debug_mode = false;
 var debug_js_errors = false;
 var StatusMobiscroll = false;
@@ -1232,9 +1232,7 @@ function deletaArquivo() {
 
 //Lista Serviços da Despesa
 function geraDespesa(idclienteprojeto, selecionado) {
-    /*if (selecionado == 0 && idclienteprojeto == 0) {
-     return false;
-     }*/
+
     var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
     if (selecionado == 0 || typeof selecionado == 'undefined') {
         selecionado = "";
@@ -1256,19 +1254,24 @@ function geraDespesa(idclienteprojeto, selecionado) {
         dados_servicos = data.data;
         var options = '<option value="" ' + selected_first + '>Selecione uma despesa</option>';
         $("#idtabpreco").val(data['idtabpreco']);
-        jQuery.each(data.select, function (i, val) {
-            selected = '';
-            if (i == selecionado)
-                selected = 'selected="selected"';
-            options += '<option value="' + i + '" ' + selected + '>' + val + '</option>';
-        });
-        $("#codigo_despesa").html(options);
+        
+        if(typeof data.select != 'undefined') {
+            jQuery.each(data.select, function (i, val) {
+                selected = '';
+                if (i == selecionado)
+                    selected = 'selected="selected"';
+                options += '<option value="' + i + '" ' + selected + '>' + val + '</option>';
+            });
+
+            $("#codigo_despesa").html(options);
+        }
         loading('hide');
         
-        $(document).on("pageinit", "#page_despesa", function () {
-        //$(document).bind('pageinit', function () {
+        // inacio 23-05-2016 
+        // comentei isso para exibir o nome da despesa gravada no selectbox no momento da edicao
+        //$(document).on("pageinit", "#page_despesa", function () {
             $('#codigo_despesa').selectmenu('refresh');
-        });
+        //});
     });
 }
 
@@ -2139,6 +2142,7 @@ $(document).ready(function () {
 
     //DESPESA: pega dados do idserviço conforme selecionado
     $("#codigo_despesa").change(function () {
+        
         idservico = $("#codigo_despesa option:selected").val();
         var ajax_file = COMMON_URL_MOBILE + '/retorna_despesa.php';
         dados_despesa = (dados_servicos[idservico]);
@@ -2149,9 +2153,7 @@ $(document).ready(function () {
             document.getElementById('vlr_unitario').readOnly = true;
             $('#vlr_unitario').trigger('blur');
         } else {
-            if ($('#vlr_unitario').val() == '') {
-                $('#vlr_unitario').val(valor_despesa_digitado);
-            }
+            $('#vlr_unitario').val(valor_despesa_digitado);
             document.getElementById('vlr_unitario').style.backgroundColor = '';
             document.getElementById('vlr_unitario').readOnly = false;
             $('#vlr_unitario').trigger('blur');
